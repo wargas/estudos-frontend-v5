@@ -40,7 +40,7 @@ export function ModalProvider({ children }: any) {
   );
 }
 
-export function useModal(): { openModal: (path:string, cb: callback) => void, closeModal: (data?:any) => void} {
+export function useModal(): { openModal: (path:string, cb?: callback) => void, closeModal: (data?:any) => void} {
   const ctx = useContext(ModalContext);
 
   function openModal(path: string, cb?: callback) {
