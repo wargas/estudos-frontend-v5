@@ -59,13 +59,14 @@ export default function Layout() {
     setLoading(false);
   }
 
-  if (loading) return <PageLoading />;
+  
 
   return (
     <div className=" text-gray-700 bg-gray-50 h-screen">
       <Header />
       <Sidebar />
-      <main className="pl-0 laptop:pl-[280px] desktop:pl-[350px] transition-all pt-16 h-screen overflow-y-auto">
+      <main id="main" className="pl-0 laptop:pl-[280px] desktop:pl-[350px] transition-all pt-16 h-screen overflow-y-auto">
+        <PageLoading show={loading} />
         <Outlet />
       </main>
     </div>

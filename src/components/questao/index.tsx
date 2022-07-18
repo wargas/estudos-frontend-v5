@@ -6,8 +6,9 @@ import Api from "../../libs/Api";
 import alternativaButtonClass from "../../utils/alternativaButtonClass";
 import { useModal } from "../../providers/modal";
 
-export default function QuestaoItem({ questao, index, caderno_id }: any) {
+export default function QuestaoItem({ questao: initQuestao, index, caderno_id }: any) {
   const [selectedLetra, setSelectedLetra] = useState("");
+  const [questao, setQuestao] = useState(initQuestao);
 
   const {openModal} = useModal()
 
@@ -31,6 +32,11 @@ export default function QuestaoItem({ questao, index, caderno_id }: any) {
     }
   })
 
+  function handlerCloseEdit(data:any) {
+    if(data) {
+      setQuestao((old: any) => ({...old, ...data}))
+    }
+  }
 
 
   return (
@@ -88,7 +94,7 @@ export default function QuestaoItem({ questao, index, caderno_id }: any) {
           </button>
         </div>
         <div className="flex gap-5">
-          <button onClick={() => openModal(`/form-questao/${questao.id}`)} className="flex items-center gap-2 bg-stone-600 text-white px-2 h-10 rounded">
+          <button onClick={() => openModal(`/form-questao/${questao.id}`, handlerCloseEdit)} className="flex items-center gap-2 bg-stone-600 text-white px-2 h-10 rounded">
             <MdEdit /> Editar
           </button>
           <button className="flex items-center gap-2 bg-stone-600 text-white px-2 h-10 rounded">

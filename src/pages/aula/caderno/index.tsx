@@ -1,4 +1,5 @@
 import { parse } from "query-string";
+import { FaArrowUp } from "react-icons/fa";
 import {
   MdCheck,
   MdChevronLeft,
@@ -43,19 +44,44 @@ export default function CadernoPage() {
   );
 
   return (
-    <div className="mb-10">
-      <div className="fixed bottom-10 right-10 border flex justify-between items-center gap-5 bg-white rounded p-5 shadow-lg">
+    <div className="mb-36">
+      <button
+        onClick={() => {
+          const main = document?.getElementById("main");
+          if (main) {
+            main.scrollTo({ top: 0, behavior: "smooth" });
+          }
+        }}
+        className="fixed w-12 h-12 flex items-center justify-center rounded-full bottom-0 right-0 m-10 bg-white shadow"
+      >
+        <FaArrowUp />
+      </button>
+      <div className="flex justify-between items-center gap-5 bg-white rounded p-5">
         <div>
           {cadernoQuery.isLoading ? (
             <VscLoading className="animate-spin" />
           ) : (
             cadernoQuery?.data && (
               <div>
-                {/* <p>{cadernoQuery.data?.inicio}</p> */}
+                {cadernoQuery.data.fim ? (
+                  <span className="text-xl text-green-600">Finalizado</span>
+                ) : cadernoQuery.data.inicio ? (
+                  <span className="text-xl">Iniciado</span>
+                ) : (
+                  <span className="text-xl text-yellow-500">Não inciado</span>
+                )}
                 <div className="flex gap-1 font-light">
                   <span>{cadernoQuery.data.total | 0} total</span> &bull;
                   <span>{cadernoQuery.data.acertos | 0} acertos</span> &bull;
-                  <span>{cadernoQuery.data.erros | 0} erros</span>
+                  <span>{cadernoQuery.data.erros | 0} erros</span> &bull;
+                  <span>
+                    {(
+                      (cadernoQuery.data.acertos /
+                        (cadernoQuery.data.acertos + cadernoQuery.data.erros)) *
+                        100 || 0
+                    ).toFixed(1)}
+                    %
+                  </span>
                 </div>
               </div>
             )
@@ -84,7 +110,7 @@ export default function CadernoPage() {
             key={questao.id}
             caderno_id={params.caderno_id}
             questao={questao}
-            index={index}
+            index={(parseInt(page as string) - 1) * 5 + index + 1}
           />
         ))}
       </div>
