@@ -1,0 +1,25 @@
+import AppRoutes from "./AppRoutes";
+import { BrowserRouter, Route, Router } from "react-router-dom";
+import { QueryClientProvider, QueryClient } from "react-query";
+
+import { ToastContainer } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
+import { ModalProvider } from "./providers/modal";
+
+const queryClient = new QueryClient();
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ModalProvider>
+        <BrowserRouter>
+          <AppRoutes />
+          <ToastContainer />
+        </BrowserRouter>
+      </ModalProvider>
+    </QueryClientProvider>
+  );
+}
+
+export default App;

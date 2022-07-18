@@ -1,0 +1,40 @@
+import PageTitle from "../../components/page-title";
+import { useQuery } from "react-query";
+import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
+import Api from "../../libs/Api";
+import { Relogio } from "../../components/relogio";
+
+export default function AulaPage() {
+  const params = useParams();
+  const navigate = useNavigate();
+
+  const queryAula = useQuery(["aula", params?.aula_id], async () => {
+    const { data } = await Api.get(
+      `disciplinas/${params.disciplina_id}/aulas/${params.aula_id}?withDisciplina=true&withMeta=true`
+    );
+
+    return data;
+  });
+
+  return (
+    <div>
+      {queryAula?.data && (
+        <PageTitle
+          backAction={() => navigate(`/disciplinas/${params.disciplina_id}`)}
+          title={queryAula.data.name}
+          subtitle={queryAula.data.disciplina.name}
+        >
+          <div className="flex items-center gap-5">
+            <Link to={"cadernos"}>Cadernos</Link>
+
+            {queryAula?.data && <Relogio aula={queryAula.data} />}
+          </div>
+        </PageTitle>
+      )}
+
+      <div className="desktop:mx-auto mx-5 mt-5 max-w-screen-laptop">
+        <Outlet />
+      </div>
+    </div>
+  );
+}

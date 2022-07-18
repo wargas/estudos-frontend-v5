@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.enunciado table {
+    @apply w-full border divide-y
+}
+
+.enunciado thead tr {
+    @apply bg-gray-100
+}
+
+.enunciado table tbody {
+    @apply border divide-y
+}
+
+.enunciado table td, th {
+    @apply px-3
+}
