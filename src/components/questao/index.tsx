@@ -1,13 +1,15 @@
 import { useState } from "react";
-import { MdCheck, MdComment, MdEdit } from "react-icons/md";
+import { MdCheck, MdClose, MdComment, MdEdit } from "react-icons/md";
 import { useMutation, useQueryClient } from "react-query";
 import { VscLoading } from 'react-icons/vsc'
 import Api from "../../libs/Api";
 import alternativaButtonClass from "../../utils/alternativaButtonClass";
 import { useModal } from "../../providers/modal";
+import { FaTimes } from "react-icons/fa";
 
 export default function QuestaoItem({ questao: initQuestao, index, caderno_id }: any) {
   const [selectedLetra, setSelectedLetra] = useState("");
+  const [riscadas, setRiscadas] = useState<string[]>([])
   const [questao, setQuestao] = useState(initQuestao);
 
   const {openModal} = useModal()
@@ -38,6 +40,14 @@ export default function QuestaoItem({ questao: initQuestao, index, caderno_id }:
     }
   }
 
+  function handlerRiscadas(letra: string) {
+    if(riscadas.includes(letra)) {
+      setRiscadas(old => old.filter(l => l !== letra))
+    } else {
+      setRiscadas(old => [...old, letra])
+    }
+  }
+
 
   return (
     <div className="bg-white rounded shadow-sm">
@@ -58,8 +68,11 @@ export default function QuestaoItem({ questao: initQuestao, index, caderno_id }:
         {questao?.alternativas.map((alternativa: any) => (
           <div
             key={alternativa.letra}
-            className={`px-5 py-3 cursor-pointer flex items-center gap-5`}
+            className={`px-5 py-3 cursor-pointer flex items-center gap-5 group`}
           >
+            <button onClick={() => handlerRiscadas(alternativa.letra)} className="opacity-0 group-hover:opacity-100 transition-opacity">
+              <MdClose />
+            </button>
             <button
               disabled={!!respondida}
               onClick={() =>
@@ -77,7 +90,7 @@ export default function QuestaoItem({ questao: initQuestao, index, caderno_id }:
               {alternativa.letra}
             </button>
             <span
-              className="flex-1"
+              className={`flex-1 opacity-25  ${riscadas.includes(alternativa.letra) ? 'opacity-25 line-through' : 'opacity-100'}`}
               dangerouslySetInnerHTML={{ __html: alternativa.html }}
             />
           </div>
