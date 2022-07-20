@@ -22,7 +22,7 @@ export default function QuestaoItem({
   const queryClient = useQueryClient();
 
   const [respondida, setRespondida] = useState(
-    questao?.respondidas.find(
+    questao?.respondidas?.find(
       (questao: any) => questao.caderno_id === caderno_id
     )
   );
