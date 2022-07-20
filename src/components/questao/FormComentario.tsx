@@ -52,7 +52,7 @@ export default function FormComentario({ questao_id }: Props) {
       <button
         type="submit"
         disabled={isLoading || values.texto.length <= 2}
-        className="absolute disabled:opacity-50 flex items-center bottom-5 right-5 gap-2 rounded-full bg-green-600 text-white px-5"
+        className="absolute disabled:opacity-50 flex items-center bottom-5 right-5 gap-2 rounded-full bg-green-600 text-white h-10 px-5"
       >
         {isLoading ? <SpinnerGap className="animate-spin"  /> : <CheckCircle />} Salvar
       </button>

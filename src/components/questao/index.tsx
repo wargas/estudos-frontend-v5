@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdCheck, MdClose, MdComment, MdEdit } from "react-icons/md";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient, QueryObserver } from "react-query";
 import { VscLoading } from "react-icons/vsc";
 import Api from "../../libs/Api";
 import alternativaButtonClass from "../../utils/alternativaButtonClass";
 import { useModal } from "../../providers/modal";
-import { FaTimes } from "react-icons/fa";
 import TabsQuestao from "./TabsQuestao";
+import { X } from "phosphor-react";
 
 export default function QuestaoItem({
   questao: initQuestao,
@@ -22,7 +22,7 @@ export default function QuestaoItem({
   const queryClient = useQueryClient();
 
   const [respondida, setRespondida] = useState(
-    questao.respondidas.find(
+    questao?.respondidas.find(
       (questao: any) => questao.caderno_id === caderno_id
     )
   );
@@ -40,6 +40,7 @@ export default function QuestaoItem({
     {
       onSuccess: () => {
         queryClient.invalidateQueries("caderno");
+        queryClient.invalidateQueries("respondidas");
       },
     }
   );
@@ -57,6 +58,21 @@ export default function QuestaoItem({
       setRiscadas((old) => [...old, letra]);
     }
   }
+
+  useEffect(() => {
+    const observer = new QueryObserver<any>(queryClient, {
+      queryKey: ["respondidas", questao.id],
+    });
+
+    const unobserver = observer.subscribe(({ data }) => {
+      setQuestao({ ...questao, respondidas: data });
+      setRespondida(
+        data?.find((questao: any) => questao.caderno_id === caderno_id)
+      );
+    });
+
+    return unobserver;
+  }, []);
 
   return (
     <div className="bg-white rounded shadow-sm overflow-hidden">
@@ -80,11 +96,13 @@ export default function QuestaoItem({
             className={`px-5 py-3 cursor-pointer flex items-center gap-5 group`}
           >
             <button
+              disabled={respondida}
               onClick={() => handlerRiscadas(alternativa.letra)}
-              className="opacity-0 group-hover:opacity-100 transition-opacity"
+              className="opacity-0 disabled:group-hover:opacity-0 group-hover:opacity-100 transition-opacity"
             >
-              <MdClose />
+              <X />
             </button>
+
             <button
               disabled={!!respondida}
               onClick={() =>
@@ -102,6 +120,11 @@ export default function QuestaoItem({
               {alternativa.letra}
             </button>
             <span
+              onClick={() =>
+                setSelectedLetra(
+                  alternativa.letra === selectedLetra ? "" : alternativa.letra
+                )
+              }
               className={`flex-1 opacity-25  ${
                 riscadas.includes(alternativa.letra)
                   ? "opacity-25 line-through"
@@ -132,12 +155,15 @@ export default function QuestaoItem({
           </button>
         </div>
         <div className="flex gap-5 p-5">
-          <button onClick={() => openModal(`/form-questao/${questao.id}`, handlerCloseEdit)} 
-            className="flex items-center gap-2 border border-stone-600 text-stone-600 px-2 h-10 rounded-lg">
+          <button
+            onClick={() =>
+              openModal(`/form-questao/${questao.id}`, handlerCloseEdit)
+            }
+            className="flex items-center gap-2 border border-stone-600 text-stone-600 px-2 h-10 rounded-lg"
+          >
             <MdEdit /> Editar
           </button>
         </div>
-        
       </div>
       <TabsQuestao id={questao.id} />
     </div>
