@@ -1,56 +1,65 @@
 import { useState } from "react";
 import { MdCheck, MdClose, MdComment, MdEdit } from "react-icons/md";
 import { useMutation, useQueryClient } from "react-query";
-import { VscLoading } from 'react-icons/vsc'
+import { VscLoading } from "react-icons/vsc";
 import Api from "../../libs/Api";
 import alternativaButtonClass from "../../utils/alternativaButtonClass";
 import { useModal } from "../../providers/modal";
 import { FaTimes } from "react-icons/fa";
+import TabsQuestao from "./TabsQuestao";
 
-export default function QuestaoItem({ questao: initQuestao, index, caderno_id }: any) {
+export default function QuestaoItem({
+  questao: initQuestao,
+  index,
+  caderno_id,
+}: any) {
   const [selectedLetra, setSelectedLetra] = useState("");
-  const [riscadas, setRiscadas] = useState<string[]>([])
+  const [riscadas, setRiscadas] = useState<string[]>([]);
   const [questao, setQuestao] = useState(initQuestao);
 
-  const {openModal} = useModal()
+  const { openModal } = useModal();
 
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
-  const [respondida, setRespondida] = useState(questao.respondidas.find(
-    (questao: any) => questao.caderno_id === caderno_id
-  ))
+  const [respondida, setRespondida] = useState(
+    questao.respondidas.find(
+      (questao: any) => questao.caderno_id === caderno_id
+    )
+  );
 
-  const mutationResponder = useMutation(async () => {
-    const { data } = await Api.post(`questoes/responder`, {
-      questao_id: questao.id,
-      caderno_id,
-      resposta: selectedLetra
-    })
+  const mutationResponder = useMutation(
+    async () => {
+      const { data } = await Api.post(`questoes/responder`, {
+        questao_id: questao.id,
+        caderno_id,
+        resposta: selectedLetra,
+      });
 
-    setRespondida(data)
-  }, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('caderno')
+      setRespondida(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("caderno");
+      },
     }
-  })
+  );
 
-  function handlerCloseEdit(data:any) {
-    if(data) {
-      setQuestao((old: any) => ({...old, ...data}))
+  function handlerCloseEdit(data: any) {
+    if (data) {
+      setQuestao((old: any) => ({ ...old, ...data }));
     }
   }
 
   function handlerRiscadas(letra: string) {
-    if(riscadas.includes(letra)) {
-      setRiscadas(old => old.filter(l => l !== letra))
+    if (riscadas.includes(letra)) {
+      setRiscadas((old) => old.filter((l) => l !== letra));
     } else {
-      setRiscadas(old => [...old, letra])
+      setRiscadas((old) => [...old, letra]);
     }
   }
 
-
   return (
-    <div className="bg-white rounded shadow-sm">
+    <div className="bg-white rounded shadow-sm overflow-hidden">
       <div className="p-5 border-b gap-2 border-gray-100 flex items-center">
         <div>
           <img className="w-8 h-8" src={questao?.banca?.image_url} />
@@ -70,7 +79,10 @@ export default function QuestaoItem({ questao: initQuestao, index, caderno_id }:
             key={alternativa.letra}
             className={`px-5 py-3 cursor-pointer flex items-center gap-5 group`}
           >
-            <button onClick={() => handlerRiscadas(alternativa.letra)} className="opacity-0 group-hover:opacity-100 transition-opacity">
+            <button
+              onClick={() => handlerRiscadas(alternativa.letra)}
+              className="opacity-0 group-hover:opacity-100 transition-opacity"
+            >
               <MdClose />
             </button>
             <button
@@ -90,31 +102,44 @@ export default function QuestaoItem({ questao: initQuestao, index, caderno_id }:
               {alternativa.letra}
             </button>
             <span
-              className={`flex-1 opacity-25  ${riscadas.includes(alternativa.letra) ? 'opacity-25 line-through' : 'opacity-100'}`}
+              className={`flex-1 opacity-25  ${
+                riscadas.includes(alternativa.letra)
+                  ? "opacity-25 line-through"
+                  : "opacity-100"
+              }`}
               dangerouslySetInnerHTML={{ __html: alternativa.html }}
             />
           </div>
         ))}
       </div>
-      <div className="p-5 border-t flex items-center border-gray-100 justify-between">
-        <div className="">
+      <div className="border-t flex border-gray-100 justify-between">
+        <div className="p-5">
           <button
             onClick={() => mutationResponder.mutate()}
-            disabled={selectedLetra === "" || !!respondida || mutationResponder.isLoading}
-            className="bg-stone-500 disabled:opacity-30 flex items-center gap-2 h-10 rounded px-5 text-white"
+            disabled={
+              selectedLetra === "" ||
+              !!respondida ||
+              mutationResponder.isLoading
+            }
+            className="bg-stone-500 disabled:opacity-30 flex items-center gap-2 h-10 rounded-lg px-5 text-white"
           >
-           {mutationResponder.isLoading  ? <VscLoading className="animate-spin" /> : <MdCheck />}  <span>Responder</span>
+            {mutationResponder.isLoading ? (
+              <VscLoading className="animate-spin" />
+            ) : (
+              <MdCheck />
+            )}{" "}
+            <span>Responder</span>
           </button>
         </div>
-        <div className="flex gap-5">
-          <button onClick={() => openModal(`/form-questao/${questao.id}`, handlerCloseEdit)} className="flex items-center gap-2 bg-stone-600 text-white px-2 h-10 rounded">
+        <div className="flex gap-5 p-5">
+          <button onClick={() => openModal(`/form-questao/${questao.id}`, handlerCloseEdit)} 
+            className="flex items-center gap-2 border border-stone-600 text-stone-600 px-2 h-10 rounded-lg">
             <MdEdit /> Editar
           </button>
-          <button className="flex items-center gap-2 bg-stone-600 text-white px-2 h-10 rounded">
-            <MdComment /> Comentários
-          </button>
         </div>
+        
       </div>
+      <TabsQuestao id={questao.id} />
     </div>
   );
 }
