@@ -3,7 +3,7 @@ import { AUTH_TOKEN_KEY } from "../constants";
 
 const Api = axios.create({
     // baseURL: 'https://app-estudos.herokuapp.com/api'
-    baseURL: 'http://localhost:3333/api'
+    baseURL: import.meta.env.VITE_API_URL
 })
 
 Api.interceptors.request.use((config) => {
