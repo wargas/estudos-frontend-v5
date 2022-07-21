@@ -28,9 +28,7 @@ export default function Layout() {
       
       return value
     }, error => {
-      console.log(error)
-      
-      return Error(error)
+      return Promise.reject(error)
     })
 
     verifyLogin();

@@ -1,6 +1,8 @@
 import { useFormik } from "formik";
+import { CircleNotch } from "phosphor-react";
 
 import React, { ChangeEvent, ChangeEventHandler, useRef } from "react";
+import { useMutation } from "react-query";
 import { useParams } from "react-router-dom";
 import Api from "../../../libs/Api";
 
@@ -8,25 +10,29 @@ type Props = {
   onChange: (data: any) => void;
 };
 
-function Prepare({onChange}: Props) {
-    const {aula_id = ''} = useParams()
+function Prepare({ onChange }: Props) {
+  const { aula_id = "" } = useParams();
+
+  const mutation = useMutation(async ({ texto }: any) => {
+    const data = new Blob([texto], { type: "text/plain" });
+    const file = new File([data], "texto");
+
+    const formData = new FormData();
+
+    formData.append("file", file);
+    formData.append("aula_id", aula_id);
+
+    const { data: _data } = await Api.post(`questoes/prepare`, formData);
+    setValues({ texto: "" });
+    onChange(_data);
+  });
+
   const { handleSubmit, handleChange, values, setValues } = useFormik({
     initialValues: {
       texto: "",
     },
-    onSubmit: async ({texto}) => {
-        const data = new Blob([texto], {type: 'text/plain'})
-        const file = new File([data], 'texto')
-
-        const formData = new FormData()
-
-        formData.append('file', file)
-        formData.append('aula_id', aula_id)
-
-
-        const {data: _data} = await Api.post(`questoes/prepare`, formData)
-        setValues({texto: ''})
-        onChange(_data)
+    onSubmit: () => {
+      mutation.mutate(values);
     },
   });
 
@@ -37,8 +43,8 @@ function Prepare({onChange}: Props) {
 
     read.onload = () => {
       setValues({
-        texto: `${read.result}`
-      })
+        texto: `${read.result}`,
+      });
     };
 
     if (files && files.length > 0) {
@@ -72,11 +78,11 @@ function Prepare({onChange}: Props) {
           Importar arquivo
         </button>
         <button
-        disabled={values.texto === ''}
+          disabled={values.texto === "" || mutation.isLoading}
           type="submit"
-          className="text-primary-500 disabled:opacity-25 font-bold uppercase text-base"
+          className="text-primary-500 flex items-center gap-2 disabled:opacity-25 font-bold uppercase text-base"
         >
-          Preparar questões
+        {mutation.isLoading && <CircleNotch className="animate-spin" />  }  <span> Preparar questões</span>
         </button>
       </div>
     </form>

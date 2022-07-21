@@ -1,4 +1,4 @@
-import { CheckCircle, Spinner, SpinnerGap } from "phosphor-react";
+import { CheckCircle, Spinner, SpinnerGap, WarningCircle } from "phosphor-react";
 import React, { useState } from "react";
 import { useMutation } from "react-query";
 import Api from "../../../libs/Api";
@@ -10,6 +10,7 @@ type Props = {
 function Importar({ questoes }: Props) {
   const [loadingList, setLoadingList] = useState<number[]>([]);
   const [doneList, setDoneList] = useState<number[]>([]);
+  const [errorList, setErrorList] = useState<number[]>([]);
 
   async function sendAll() {
     setDoneList([])
@@ -23,16 +24,23 @@ function Importar({ questoes }: Props) {
   });
 
   async function insertQuestao(questao: any) {
-    setLoadingList((old) => [...old, questoes.indexOf(questao)]);
+    const index = questoes.indexOf(questao)
+    setLoadingList((old) => [...old, index]);
     try {
-      const { data } = await Api.post(`aulas/${questao.aula_id}/questoes`, {
+      const { data, status } = await Api.post(`aulas/${questao.aula_id}/questoes`, {
         enunciado: questao.enunciado,
         alternativas: questao.alternativas.map((alt: any) => alt.conteudo),
         gabarito: questao.gabarito,
         modalidade: questao.modalidade,
+        comentario: questao.comentario
       });
-    } catch (error) {}
-    setDoneList(old => [...old, questoes.indexOf(questao)])
+
+      if(status === 200) {
+        setDoneList(old => [...old, index])
+      } else {
+        setErrorList(old => [...old, index])
+      }
+    } catch(error) {}
     setLoadingList([]);
   }
 
@@ -81,6 +89,9 @@ function Importar({ questoes }: Props) {
                   )}
                   {doneList.includes(index) && (
                     <CheckCircle className="text-green-600" />
+                  )}
+                  {errorList.includes(index) && (
+                    <WarningCircle className="text-red-600" />
                   )}
                 </div>
               </td>
