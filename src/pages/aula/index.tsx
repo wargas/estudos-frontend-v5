@@ -21,11 +21,12 @@ export default function AulaPage() {
       {queryAula?.data && (
         <PageTitle
           backAction={() => navigate(`/disciplinas/${params.disciplina_id}`)}
-          title={queryAula.data.name}
+          title={`${String(queryAula.data.ordem).padStart(2, '0')} - ${queryAula.data.name}`}
           subtitle={queryAula.data.disciplina.name}
         >
           <div className="flex items-center gap-5">
             <Link to={"cadernos"}>Cadernos</Link>
+            <Link to={"importar"}>Importar</Link>
 
             {queryAula?.data && <Relogio aula={queryAula.data} />}
           </div>

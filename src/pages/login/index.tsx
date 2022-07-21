@@ -4,6 +4,9 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { AUTH_TOKEN_KEY } from "../../constants";
 import querystring from "query-string";
 import Api from "../../libs/Api";
+import { useMutation } from "react-query";
+import { CircleNotch, SpinnerGap } from "phosphor-react";
+import { VscLoading } from "react-icons/vsc";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -12,22 +15,24 @@ export default function LoginPage() {
     localStorage.removeItem(AUTH_TOKEN_KEY);
   }, []);
 
+  const mutation = useMutation(async (values:any) => {
+    const { data } = await Api.post("auth/login", values);
+
+    if (data.token) {
+      localStorage.setItem(AUTH_TOKEN_KEY, data.token);
+
+      const { dest = "/" } = querystring.parse(location.search);
+
+      navigate(`${dest}`);
+    }
+  })
+
   const { handleSubmit, values, handleBlur, handleChange } = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
-    onSubmit: async (values) => {
-      const { data } = await Api.post("auth/login", values);
-
-      if (data.token) {
-        localStorage.setItem(AUTH_TOKEN_KEY, data.token);
-
-        const { dest = "/" } = querystring.parse(location.search);
-
-        navigate(`${dest}`);
-      }
-    },
+    onSubmit: values => mutation.mutate(values),
   });
 
   return (
@@ -67,9 +72,10 @@ export default function LoginPage() {
         <div className="flex">
           <button
             type="submit"
-            className="w-full h-10 bg-indigo-500 text-white rounded uppercase font-bold"
+            disabled={mutation.isLoading}
+            className="w-full flex justify-center items-center disabled:opacity-50 h-10 bg-indigo-500 text-white rounded uppercase font-bold"
           >
-            Entrar
+            {mutation.isLoading ? <SpinnerGap className="animate-spin" /> : 'Entrar'}
           </button>
         </div>
       </form>

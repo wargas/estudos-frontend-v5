@@ -3,6 +3,7 @@ import Layout from "./components/layout";
 import AulaPage from "./pages/aula";
 import CadernoPage from "./pages/aula/caderno";
 import CadernosPage from "./pages/aula/cadernos";
+import ImportarPage from "./pages/aula/importar";
 import ResumoPage from "./pages/aula/resumo";
 import Disciplina from "./pages/disciplina";
 import DisciplinasPage from "./pages/disciplinas";
@@ -18,6 +19,7 @@ export default function AppRoutes () {
               <Route path='disciplinas/:disciplina_id/aula/:aula_id' element={<AulaPage />}>
                 <Route path='' element={<ResumoPage />} />
                 <Route path='cadernos' element={<CadernosPage />} />
+                <Route path='importar' element={<ImportarPage />} />
                 <Route path='cadernos/:caderno_id' element={<CadernoPage />} />
                 <Route path='cadernos/:caderno_id/questoes' element="Questao Item" />
               </Route>

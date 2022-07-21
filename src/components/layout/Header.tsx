@@ -6,7 +6,7 @@ export default function Header() {
   const user = useAuthStore((state) => state.user);
 
   return (
-    <div className="fixed z-10 shadow px-5 top-0 left-0 right-0 h-16 flex justify-between border-b border-gray-100 bg-gray-700 text-white">
+    <div className="fixed z-10 shadow px-5 top-0 left-0 right-0 h-16 flex justify-between bg-header-bg text-header-text">
       <div></div>
       <div>
         {user && (
