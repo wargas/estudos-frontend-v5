@@ -117,7 +117,7 @@ export default function CadernoPage() {
           </Link>
           <span>
             <select onChange={(ev) => setSearch({perpage: perpage as string, page: ev.target.value})} value={page as string} className="bg-transparent appearance-none">
-              {Array(parseInt(questoesQuery?.data?.meta?.last_page))
+              {Array(parseInt(questoesQuery?.data?.meta?.last_page || 0))
                 .fill("")
                 .map((_, index: number) => (
                   <option key={index} value={index+1}>{index+1}</option>

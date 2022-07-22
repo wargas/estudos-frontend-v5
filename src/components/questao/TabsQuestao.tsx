@@ -61,7 +61,7 @@ export default function TabsQuestao({ id }: Props) {
               {comentarios &&
                 comentarios?.length > 0 &&
                 comentarios?.map((comentario: any) => (
-                  <ComentarioItem comentario={comentario} />
+                  <ComentarioItem key={comentario.id} comentario={comentario} />
                 ))}
             </div>
             <FormComentario questao_id={id} />

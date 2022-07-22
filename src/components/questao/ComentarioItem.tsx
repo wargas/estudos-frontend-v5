@@ -30,7 +30,7 @@ export default function ComentarioItem({ comentario }: Props) {
   return (
     <div key={comentario.id} className="group relative min-h-20">
       <div
-        className="p-5 text-gray-700 text-base"
+        className="p-5 text-gray-700"
         dangerouslySetInnerHTML={{ __html: comentario.html }}
       ></div>
       <div>
