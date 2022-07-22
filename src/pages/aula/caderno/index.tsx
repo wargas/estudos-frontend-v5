@@ -1,22 +1,24 @@
 import { parse } from "query-string";
 import { FaArrowUp } from "react-icons/fa";
-import {
-  MdCheck,
-  MdChevronLeft,
-  MdChevronRight,
-  MdComment,
-  MdEdit,
-} from "react-icons/md";
+import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import { VscLoading } from "react-icons/vsc";
 import { useQuery } from "react-query";
-import { Link, useLocation, useParams } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
+import PageLoading from "../../../components/page-loading";
 import QuestaoItem from "../../../components/questao";
 import Api from "../../../libs/Api";
 
 export default function CadernoPage() {
   const params = useParams();
   const location = useLocation();
-  const { page = "1" } = parse(location.search);
+  const { page = "1", perpage = "5" } = parse(location.search);
+
+  const [_, setSearch] = useSearchParams();
 
   const cadernoQuery = useQuery(
     ["caderno", params.caderno_id],
@@ -28,12 +30,12 @@ export default function CadernoPage() {
   );
 
   const questoesQuery = useQuery(
-    ["questoes", params.aula_id, page],
+    ["questoes", params.aula_id, page, perpage],
     async ({ queryKey }) => {
       const [_, aula_id, page] = queryKey;
 
       const { data } = await Api.get(
-        `aulas/${aula_id}/questoes?page=${page}&perPage=5&withRespondidas=true`
+        `aulas/${aula_id}/questoes?page=${page}&perPage=${perpage}&withRespondidas=true`
       );
 
       return data;
@@ -87,30 +89,64 @@ export default function CadernoPage() {
             )
           )}
         </div>
+
         <div className="flex items-center gap-2">
+          <div className="mr-3">
+            Por página:
+            <select
+              onChange={(e) =>
+                setSearch({ page: "1", perpage: e.target.value })
+              }
+              className="bg-transparent"
+              name=""
+              id=""
+            >
+              {[1, 5, 10, 20].map((t) => (
+                <option key={t} value={t}>
+                  {t}
+                </option>
+              ))}
+            </select>
+          </div>
           <Link
-            to={`${location.pathname}?page=${parseInt(page as string) - 1}`}
+            to={`${location.pathname}?page=${
+              parseInt(page as string) - 1
+            }&perpage=${perpage}`}
           >
             <MdChevronLeft />
           </Link>
           <span>
-            {questoesQuery?.data?.meta?.current_page}/
+            <select onChange={(ev) => setSearch({perpage: perpage as string, page: ev.target.value})} value={page as string} className="bg-transparent appearance-none">
+              {Array(parseInt(questoesQuery?.data?.meta?.last_page))
+                .fill("")
+                .map((_, index: number) => (
+                  <option key={index} value={index+1}>{index+1}</option>
+                ))}
+            </select>
+            / {` `}
             {questoesQuery?.data?.meta?.last_page}
           </span>
           <Link
-            to={`${location.pathname}?page=${parseInt(page as string) + 1}`}
+            to={`${location.pathname}?page=${
+              parseInt(page as string) + 1
+            }&perpage=${perpage}`}
           >
             <MdChevronRight />
           </Link>
         </div>
       </div>
-      <div className="flex flex-col gap-5 mt-5">
+      <div className="flex flex-col gap-5 mt-5 relative min-h-[96px]">
+        <PageLoading show={questoesQuery.isFetching} />
         {questoesQuery?.data?.data.map((questao: any, index: number) => (
           <QuestaoItem
             key={questao.id}
             caderno_id={params.caderno_id}
             questao={questao}
-            index={(parseInt(page as string) - 1) * 5 + index + 1}
+            index={
+              (parseInt(page as string) - 1) * parseInt(perpage as string) +
+              index +
+              1
+            }
           />
         ))}
       </div>
