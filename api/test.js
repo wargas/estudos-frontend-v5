@@ -1,6 +1,6 @@
-export default async function(req, res) {
-    const response = fetch('https://dool.egba.ba.gov.br/apifront/portal/edicoes/ultimas_edicoes.json')
+const axios = require('axios')
 
-    const json = await response.json()
-    res.send(json)
+export default async function(req, res) {
+    const {data} = await axios.get('https://dool.egba.ba.gov.br/apifront/portal/edicoes/ultimas_edicoes.json')
+    res.send(data)
 }
