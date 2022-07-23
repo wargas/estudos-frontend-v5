@@ -17,3 +17,11 @@
 .enunciado table td, th {
     @apply px-3
 }
+
+ul  {
+    @apply list-disc
+}
+
+ol {
+    @apply  list-decimal pl-5;
+}
