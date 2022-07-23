@@ -16,7 +16,7 @@ import Api from "../../../libs/Api";
 export default function CadernoPage() {
   const params = useParams();
   const location = useLocation();
-  const { page = "1", perpage = "5" } = parse(location.search);
+  const { page = "1", perpage = "1" } = parse(location.search);
 
   const [_, setSearch] = useSearchParams();
 

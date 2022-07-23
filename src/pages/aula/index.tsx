@@ -18,20 +18,21 @@ export default function AulaPage() {
 
   return (
     <div>
-      {queryAula?.data && (
-        <PageTitle
-          backAction={() => navigate(`/disciplinas/${params.disciplina_id}`)}
-          title={`${String(queryAula.data.ordem).padStart(2, '0')} - ${queryAula.data.name}`}
-          subtitle={queryAula.data.disciplina.name}
-        >
-          <div className="flex items-center gap-5">
-            <Link to={"cadernos"}>Cadernos</Link>
-            <Link to={"importar"}>Importar</Link>
+      <PageTitle
+        isLoading={queryAula.isLoading}
+        backAction={() => navigate(`/disciplinas/${params.disciplina_id}`)}
+        title={`${String(queryAula?.data?.ordem).padStart(2, "0")} - ${
+          queryAula?.data?.name
+        }`}
+        subtitle={queryAula?.data?.disciplina?.name}
+      >
+        <div className="flex items-center gap-5">
+          <Link to={"cadernos"}>Cadernos</Link>
+          <Link to={"importar"}>Importar</Link>
 
-            {queryAula?.data && <Relogio aula={queryAula.data} />}
-          </div>
-        </PageTitle>
-      )}
+          {queryAula?.data && <Relogio aula={queryAula?.data} />}
+        </div>
+      </PageTitle>
 
       <div className="desktop:mx-auto mx-5 mt-5 max-w-screen-laptop">
         <Outlet />

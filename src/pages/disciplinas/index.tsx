@@ -5,6 +5,7 @@ import Api from "../../libs/Api";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useModal } from "../../providers/modal";
+import PageLoading from "../../components/page-loading";
 
 export default function DisciplinasPage() {
   const [search, setSearch] = useState("");
@@ -12,7 +13,7 @@ export default function DisciplinasPage() {
 
   const query = useQuery(["disciplinas"], async () => {
     const { data } = await Api.get(
-      "disciplinas?countAulas=true&countQuestoes=true"
+      "disciplinas?countAulas=true&countQuestoes=true&withCadernos"
     );
 
     return data;
@@ -43,7 +44,8 @@ export default function DisciplinasPage() {
         </div>
       </PageTitle>
 
-      <div className="m-5 py-2 divide-y max-w-screen-laptop desktop:mx-auto divide-gray-100 shadow-sm rounded bg-white">
+      <div className="m-5 relative py-2 divide-y max-w-screen-laptop desktop:mx-auto divide-gray-100 shadow-sm rounded bg-white">
+       <PageLoading show={query.isLoading} />
         {query?.data &&
           query.data
             .filter((disciplina: any) =>
@@ -54,7 +56,7 @@ export default function DisciplinasPage() {
             .map((disciplina: any) => (
               <div
                 key={disciplina.id}
-                className=" text-gray-500 hover:text-gray-700"
+                className=" "
               >
                 <div className="px-5 py-3 flex justify-between">
                   <div className="flex-1">

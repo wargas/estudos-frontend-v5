@@ -5,9 +5,16 @@ type Props = {
   subtitle?: string;
   backAction?: () => void;
   children?: any;
+  isLoading?: boolean;
 };
 
-export default function PageTitle({ title, subtitle, children, backAction }: Props) {
+export default function PageTitle({
+  title,
+  subtitle,
+  children,
+  backAction,
+  isLoading = false,
+}: Props) {
   return (
     <div className="flex bg-white border-b border-gray-100  justify-between items-center px-5 p-3">
       <div className="flex">
@@ -17,11 +24,25 @@ export default function PageTitle({ title, subtitle, children, backAction }: Pro
           </button>
         )}
         <div className="flex flex-col">
-          <h1 className="text-2xl font-bold text-gray-500">{title}</h1>
-          {subtitle && <span className="font-light">{subtitle}</span>}
+          <h1 className="text-2xl font-bold text-gray-500">
+            {isLoading ? (
+              <div className="h-8 w-96 mb-2 rounded-full animate-pulse bg-gray-100"></div>
+            ) : (
+              title
+            )}
+          </h1>
+          {isLoading ? (
+            <div className="h-6 w-80 animate-pulse rounded-full bg-gray-100"></div>
+          ) : (
+            <span className="font-light">{subtitle}</span>
+          )}
         </div>
       </div>
-      <div>{children}</div>
+      <div>
+        {isLoading ? (
+          <div className="h-8 w-40 rounded-full animate-pulse bg-gray-100"></div>
+        ) : children}
+      </div>
     </div>
   );
 }
