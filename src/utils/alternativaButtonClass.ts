@@ -9,7 +9,7 @@ export default function  alternativaButtonClass(
         return "bg-green-500 border-green-500 text-white";
       }
       if (letra === resposta && letra !== gabarito) {
-        return "bg-red-500 border-red-500 text-white";
+        return gabarito === 'X' ? "bg-yellow-500 border-yellow-500 text-white" : "bg-red-500 border-red-500 text-white";
       }
 
       if (letra === gabarito && gabarito !== resposta) {

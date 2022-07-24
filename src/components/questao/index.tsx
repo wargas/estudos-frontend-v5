@@ -68,10 +68,12 @@ export default function QuestaoItem({
   }, []);
 
   useEffect(() => {
-    const _respondida = questao?.respondidas?.find((r:any) => r.caderno_id === parseInt(caderno_id))
+    const _respondida = questao?.respondidas?.find(
+      (r: any) => r.caderno_id === parseInt(caderno_id)
+    );
 
-    setRespondida(_respondida)
-  }, [questao])
+    setRespondida(_respondida);
+  }, [questao]);
 
   return (
     <div className="bg-white rounded shadow-sm overflow-hidden">
@@ -79,10 +81,24 @@ export default function QuestaoItem({
         <div>
           <img className="w-8 h-8" src={questao?.banca?.image_url} />
         </div>
-        <span className="flex-1 font-bold"> {questao.header}</span>
-        <span>Questão {index}</span>
+
+        <span className="flex-1 font-bold">{questao.header}</span>
+        <div className="flex gap-2">
+          {questao?.respondidas?.map((item: any) => (
+            <div
+              className={`w-4 h-4 rounded-full ${
+                item.acertou ? "bg-green-600" : "bg-red-600"
+              }`}
+            ></div>
+          ))}
+        </div>
       </div>
-      <div className="p-5 border-b border-gray-100">
+      <div className="p-5  border-b border-gray-100">
+        <div className="flex justify-end pb-3">
+          <span className="font-bold">
+            Questão {index.toString().padStart(2, "0")}
+          </span>
+        </div>
         <div
           className="text-justify text-xl enunciado"
           dangerouslySetInnerHTML={{ __html: questao.enunciadoHtml }}

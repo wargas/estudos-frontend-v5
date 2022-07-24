@@ -25,7 +25,7 @@ export default function RespondidaItem({ respondida }: Props) {
       <div className='flex-1'>
         <p className='flex items-center gap-2'><Calendar />  {new Date(respondida.horario).toLocaleDateString()}</p>
         <p className="text-base">
-        Gabarito: {respondida.resposta} &bull; Resposta: {respondida.resposta}
+        Gabarito: {respondida.gabarito} &bull; Resposta: {respondida.resposta}
         </p>
       </div>
       <div>
