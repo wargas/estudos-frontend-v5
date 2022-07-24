@@ -21,4 +21,6 @@ Api.interceptors.request.use((config) => {
     return Error(error)
 })
 
+
+
 export default Api;

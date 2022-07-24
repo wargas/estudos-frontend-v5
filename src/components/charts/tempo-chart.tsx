@@ -1,5 +1,5 @@
 import 'chart.js/auto'
-import { DateTime } from 'luxon';
+import { DateTime, Duration } from 'luxon';
 import { Bar, Chart, Line } from "react-chartjs-2";
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
 export default function TempoChart({data}: Props) {
     return <div className='bg-white rounded shadow -p-5 relative'>
         <h1 className='absolute top-5 left-5 uppercase text-gray-400 font-bold'>Tempo - Últimos 15 dias</h1>
-        <Chart type='line' options={{
+        <Chart type='bar' options={{
             responsive: true,
             scales: {
                 xAxes: {
@@ -22,6 +22,16 @@ export default function TempoChart({data}: Props) {
                 yAxes: {
                     display: false
                 }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: (context) => {
+                            const tempo = Duration.fromObject({seconds: context.raw as number}).toFormat('hh:mm')
+                            return tempo
+                        }
+                    }
+                }
             }
         }}  height={'80px'} data={{
             labels: data.map(d => DateTime.fromISO(d.day).toFormat('dd/MM')),
@@ -29,22 +39,23 @@ export default function TempoChart({data}: Props) {
                 {
                     label: 'Tempo',
                     data: data.map(d => d.tempo),
-                    borderColor: '#1f2937',
-                    pointBackgroundColor: '#1f2937',
-                    tension: 0.3,
-                    borderWidth: 3
+                    backgroundColor: '#1f2937',
+                    // borderColor: '#1f2937'
+                    // pointBackgroundColor: '#1f2937',
+                    // tension: 0.3,
+                    // borderWidth: 3
                 },
-                {
-                    label: 'Meta (4h)',
-                    data: data.map(d => 14400),
-                    borderColor: '#030508',
-                    borderDash: [1, 10],
-                    pointBackgroundColor: 'transparent',
-                    fill: false,
-                    pointBorderWidth: 0,
-                    tension: 0.3,
-                    borderWidth: 1,
-                }
+                // {
+                //     label: 'Meta (4h)',
+                //     data: data.map(d => 14400),
+                //     borderColor: '#030508',
+                //     borderDash: [1, 10],
+                //     pointBackgroundColor: 'transparent',
+                //     fill: false,
+                //     pointBorderWidth: 0,
+                //     tension: 0.3,
+                //     borderWidth: 1,
+                // }
             ]
         }} />
     </div>
