@@ -7,6 +7,7 @@ import alternativaButtonClass from "../../utils/alternativaButtonClass";
 import { useModal } from "../../providers/modal";
 import TabsQuestao from "./TabsQuestao";
 import { X } from "phosphor-react";
+import Stats from "./Stats";
 
 export default function QuestaoItem({
   questao: initQuestao,
@@ -83,15 +84,7 @@ export default function QuestaoItem({
         </div>
 
         <span className="flex-1 font-bold">{questao.header}</span>
-        <div className="flex gap-2">
-          {questao?.respondidas?.map((item: any) => (
-            <div
-              className={`w-4 h-4 rounded-full ${
-                item.acertou ? "bg-green-600" : "bg-red-600"
-              }`}
-            ></div>
-          ))}
-        </div>
+        {<Stats respondidas={questao?.respondidas || []} />}
       </div>
       <div className="p-5  border-b border-gray-100">
         <div className="flex justify-end pb-3">
