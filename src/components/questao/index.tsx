@@ -21,11 +21,7 @@ export default function QuestaoItem({
 
   const queryClient = useQueryClient();
 
-  const [respondida, setRespondida] = useState(
-    questao?.respondidas?.find(
-      (questao: any) => questao.caderno_id === caderno_id
-    )
-  );
+  const [respondida, setRespondida] = useState<any>();
 
   const mutationResponder = useMutation(
     async () => {
@@ -66,13 +62,16 @@ export default function QuestaoItem({
 
     const unobserver = observer.subscribe(({ data }) => {
       setQuestao({ ...questao, respondidas: data });
-      setRespondida(
-        data?.find((questao: any) => questao.caderno_id === caderno_id)
-      );
     });
 
     return unobserver;
   }, []);
+
+  useEffect(() => {
+    const _respondida = questao?.respondidas?.find((r:any) => r.caderno_id === parseInt(caderno_id))
+
+    setRespondida(_respondida)
+  }, [questao])
 
   return (
     <div className="bg-white rounded shadow-sm overflow-hidden">
