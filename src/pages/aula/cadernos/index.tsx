@@ -76,8 +76,8 @@ export default function CadernosPage() {
             </span>
           </div>
           <div className="flex gap-5 items-center">
-            <Link to={caderno.id}>
-              <MdPlayArrow />
+            <Link className="flex items-center" to={caderno.id.toString()}>
+              iniciar
             </Link>
             <button>
               <MdMoreVert />
