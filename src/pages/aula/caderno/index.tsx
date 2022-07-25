@@ -139,6 +139,7 @@ export default function CadernoPage() {
         <PageLoading show={questoesQuery.isFetching} />
         {questoesQuery?.data?.data.map((questao: any, index: number) => (
           <QuestaoItem
+            isCurrent={index === 0}
             key={questao.id}
             caderno_id={params.caderno_id}
             questao={questao}

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { MdCheck, MdClose, MdComment, MdEdit } from "react-icons/md";
+import { MdCheck, MdEdit } from "react-icons/md";
 import { useMutation, useQueryClient, QueryObserver } from "react-query";
 import { VscLoading } from "react-icons/vsc";
+import { useHotkeys } from "react-hotkeys-hook";
 import Api from "../../libs/Api";
 import alternativaButtonClass from "../../utils/alternativaButtonClass";
 import { useModal } from "../../providers/modal";
@@ -13,6 +14,7 @@ export default function QuestaoItem({
   questao: initQuestao,
   index,
   caderno_id,
+  isCurrent = false,
 }: any) {
   const [selectedLetra, setSelectedLetra] = useState("");
   const [riscadas, setRiscadas] = useState<string[]>([]);
@@ -48,11 +50,21 @@ export default function QuestaoItem({
     }
   }
 
-  function handlerRiscadas(letra: string) {
+  function handlerRiscadas(_letra: string) {
+    const letra = _letra.toUpperCase();
     if (riscadas.includes(letra)) {
       setRiscadas((old) => old.filter((l) => l !== letra));
     } else {
       setRiscadas((old) => [...old, letra]);
+    }
+  }
+
+  function handlerSelect(_letra: string) {
+    const letra = _letra.toUpperCase();
+    if (letra === selectedLetra) {
+      setSelectedLetra("");
+    } else {
+      setSelectedLetra(letra);
     }
   }
 
@@ -67,6 +79,24 @@ export default function QuestaoItem({
 
     return unobserver;
   }, []);
+
+  useHotkeys("shift+a", () => isCurrent && handlerRiscadas("A"), [riscadas]);
+  useHotkeys("shift+b", () => isCurrent && handlerRiscadas("B"), [riscadas]);
+  useHotkeys("shift+c", () => isCurrent && handlerRiscadas("C"), [riscadas]);
+  useHotkeys("shift+d", () => isCurrent && handlerRiscadas("D"), [riscadas]);
+  useHotkeys("shift+e", () => isCurrent && handlerRiscadas("E"), [riscadas]);
+
+  useHotkeys("a", () => isCurrent && handlerSelect("A"), [selectedLetra]);
+  useHotkeys("b", () => isCurrent && handlerSelect("B"), [selectedLetra]);
+  useHotkeys("c", () => isCurrent && handlerSelect("C"), [selectedLetra]);
+  useHotkeys("d", () => isCurrent && handlerSelect("D"), [selectedLetra]);
+  useHotkeys("e", () => isCurrent && handlerSelect("E"), [selectedLetra]);
+
+  useHotkeys(
+    "enter",
+    () => selectedLetra !== "" && !respondida && mutationResponder.mutate(),
+    [questao, selectedLetra, respondida]
+  );
 
   useEffect(() => {
     const _respondida = questao?.respondidas?.find(
@@ -106,18 +136,14 @@ export default function QuestaoItem({
             <button
               disabled={respondida}
               onClick={() => handlerRiscadas(alternativa.letra)}
-              className="opacity-0 disabled:group-hover:opacity-0 group-hover:opacity-100 transition-opacity"
+              className="opacity-0 -mx-5 px-5  h-10 disabled:group-hover:opacity-0 group-hover:opacity-100 transition-opacity"
             >
               <X />
             </button>
 
             <button
               disabled={!!respondida}
-              onClick={() =>
-                setSelectedLetra(
-                  alternativa.letra === selectedLetra ? "" : alternativa.letra
-                )
-              }
+              onClick={() => handlerSelect(alternativa.letra)}
               className={`${alternativaButtonClass(
                 alternativa.letra,
                 selectedLetra,
@@ -128,11 +154,7 @@ export default function QuestaoItem({
               {alternativa.letra}
             </button>
             <span
-              onClick={() =>
-                setSelectedLetra(
-                  alternativa.letra === selectedLetra ? "" : alternativa.letra
-                )
-              }
+              onClick={() => handlerSelect(alternativa.letra)}
               className={`flex-1 opacity-25  ${
                 riscadas.includes(alternativa.letra)
                   ? "opacity-25 line-through"
