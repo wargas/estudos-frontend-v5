@@ -80,17 +80,37 @@ export default function QuestaoItem({
     return unobserver;
   }, []);
 
-  useHotkeys("shift+a", () => isCurrent && handlerRiscadas("A"), [riscadas]);
-  useHotkeys("shift+b", () => isCurrent && handlerRiscadas("B"), [riscadas]);
-  useHotkeys("shift+c", () => isCurrent && handlerRiscadas("C"), [riscadas]);
-  useHotkeys("shift+d", () => isCurrent && handlerRiscadas("D"), [riscadas]);
-  useHotkeys("shift+e", () => isCurrent && handlerRiscadas("E"), [riscadas]);
+  useHotkeys("shift+a", () => handlerRiscadas("A"), {
+    enabled: isCurrent
+  }, [riscadas]);
+  useHotkeys("shift+b", () => handlerRiscadas("B"), {
+    enabled: isCurrent
+  }, [riscadas]);
+  useHotkeys("shift+c", () => handlerRiscadas("C"), {
+    enabled: isCurrent
+  }, [riscadas]);
+  useHotkeys("shift+d", () => handlerRiscadas("D"), {
+    enabled: isCurrent
+  }, [riscadas]);
+  useHotkeys("shift+e", () => handlerRiscadas("E"), {
+    enabled: isCurrent
+  }, [riscadas]);
 
-  useHotkeys("a", () => isCurrent && handlerSelect("A"), [selectedLetra]);
-  useHotkeys("b", () => isCurrent && handlerSelect("B"), [selectedLetra]);
-  useHotkeys("c", () => isCurrent && handlerSelect("C"), [selectedLetra]);
-  useHotkeys("d", () => isCurrent && handlerSelect("D"), [selectedLetra]);
-  useHotkeys("e", () => isCurrent && handlerSelect("E"), [selectedLetra]);
+  useHotkeys("a", () => handlerSelect("A"), {
+    enabled: isCurrent
+  }, [selectedLetra]);
+  useHotkeys("b", () => handlerSelect("B"), {
+    enabled: isCurrent
+  }, [selectedLetra]);
+  useHotkeys("c", () => handlerSelect("C"), {
+    enabled: isCurrent
+  }, [selectedLetra]);
+  useHotkeys("d", () => handlerSelect("D"), {
+    enabled: isCurrent
+  }, [selectedLetra]);
+  useHotkeys("e", () => handlerSelect("E"), {
+    enabled: isCurrent
+  }, [selectedLetra]);
 
   useHotkeys(
     "enter",
@@ -174,7 +194,7 @@ export default function QuestaoItem({
               !!respondida ||
               mutationResponder.isLoading
             }
-            className="bg-stone-500 disabled:opacity-30 flex items-center gap-2 h-10 rounded-lg px-5 text-white"
+            className="bg-primary-500 disabled:opacity-30 flex items-center gap-2 h-10 rounded-lg px-5 text-white"
           >
             {mutationResponder.isLoading ? (
               <VscLoading className="animate-spin" />
@@ -189,7 +209,7 @@ export default function QuestaoItem({
             onClick={() =>
               openModal(`/form-questao/${questao.id}`, handlerCloseEdit)
             }
-            className="flex items-center gap-2 border border-stone-600 text-stone-600 px-2 h-10 rounded-lg"
+            className="flex items-center gap-2 border border-primary-600 text-primary-600 px-2 h-10 rounded-lg"
           >
             <MdEdit /> Editar
           </button>

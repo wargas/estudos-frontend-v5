@@ -100,7 +100,7 @@ export default function FormEditQuestao() {
             </div>
           </div>
           <div className="flex items-end justify-end flex-1">
-            <button type="submit" className="bg-stone-600 rounded px-5 h-9 text-white">
+            <button type="submit" className="bg-primary-600 rounded px-5 h-9 text-white">
               Salvar
             </button>
           </div>

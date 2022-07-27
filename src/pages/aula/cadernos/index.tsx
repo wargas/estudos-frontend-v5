@@ -34,7 +34,7 @@ export default function CadernosPage() {
           <p className="text-gray-400 text">nenhum caderno cadastrado</p>
           <button
             onClick={() => mutation.mutate()}
-            className="bg-stone-700 rounded px-3 h-9 text-white flex items-center gap-2"
+            className="bg-primary-700 rounded px-3 h-9 text-white flex items-center gap-2"
           >
             {mutation.isLoading ? (
               <VscLoading className="animate-spin" />
@@ -89,7 +89,7 @@ export default function CadernosPage() {
         <div className="p-5 flex justify-end">
           <button
             onClick={() => mutation.mutate()}
-            className="bg-stone-700 rounded px-3 h-9 text-white flex items-center gap-2"
+            className="bg-primary-700 rounded px-3 h-9 text-white flex items-center gap-2"
           >
             {mutation.isLoading ? (
               <VscLoading className="animate-spin" />
