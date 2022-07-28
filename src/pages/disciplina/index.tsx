@@ -14,7 +14,7 @@ export default function Disciplina() {
   const navigate = useNavigate();
   const [_, setSearch] = useSearchParams()
 
-  const { sort = 'ordem', ordem = 'asc'} = qs.parse(location.search)
+  const { sort = 'ordem', ordem = 'asc' } = qs.parse(location.search)
 
   const queryDisciplina = useQuery(["disciplina", params.id], async () => {
     const { data } = await Api.get(`disciplinas/${params.id}`);
@@ -30,7 +30,9 @@ export default function Disciplina() {
       );
 
       return data?.map((item: any) => {
-        const last = item?.cadernos?.filter((it: any) => !!it.fim).at(-1);
+        const last = item?.cadernos?.filter((it: any) => !!it.fim)
+          ?.sort((a: any, b: any) => a.fim > b.fim ? 1 : -1)
+          ?.at(-1);
         let nota = 0;
         let _data = "";
         if (last) {
@@ -59,23 +61,23 @@ export default function Disciplina() {
         <div className="flex gap-2">
           <span>Ordenar por: </span>
           <div className="flex justify-around border rounded-full divide-x">
-            <button onClick={() => setSearch({sort: 'ordem', ordem: ordem === 'asc' ? 'desc': 'asc'})} className={`text-sm flex items-center gap-1  flex-1 px-5 h-7`}>
+            <button onClick={() => setSearch({ sort: 'ordem', ordem: ordem === 'asc' ? 'desc' : 'asc' })} className={`text-sm flex items-center gap-1  flex-1 px-5 h-7`}>
               <span> Aula</span> {sort === 'ordem' && (
                 ordem === 'asc' ? (<SortDescending />) : (<SortAscending />)
               )}
             </button>
-            <button onClick={() => setSearch({sort: 'nota', ordem: ordem === 'asc' ? 'desc': 'asc'})}  className={`text-sm flex items-center gap-1 flex-1 px-5 h-7`}>
+            <button onClick={() => setSearch({ sort: 'nota', ordem: ordem === 'asc' ? 'desc' : 'asc' })} className={`text-sm flex items-center gap-1 flex-1 px-5 h-7`}>
               <span> Nota</span> {sort === 'nota' && (
                 ordem === 'asc' ? (<SortDescending />) : (<SortAscending />)
               )}
             </button>
-            <button onClick={() => setSearch({sort: 'data', ordem: ordem === 'asc' ? 'desc': 'asc'})} className={`text-sm flex items-center gap-1  flex-1 px-5 h-7`}>
+            <button onClick={() => setSearch({ sort: 'data', ordem: ordem === 'asc' ? 'desc' : 'asc' })} className={`text-sm flex items-center gap-1  flex-1 px-5 h-7`}>
               <span> Data</span> {sort === 'data' && (
                 ordem === 'asc' ? (<SortDescending />) : (<SortAscending />)
               )}
             </button>
           </div>
-          
+
         </div>
       </PageTitle>
 
