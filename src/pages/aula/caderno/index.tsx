@@ -1,4 +1,6 @@
 import { parse } from "query-string";
+import { useEffect } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 import { FaArrowUp } from "react-icons/fa";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import { VscLoading } from "react-icons/vsc";
@@ -45,6 +47,37 @@ export default function CadernoPage() {
     }
   );
 
+  useEffect(() => {
+
+    function onListener(e: any) {
+      if (e.key === 'ArrowRight') {
+        next()
+      }
+      if (e.key === 'ArrowLeft') {
+        prev()
+      }
+    }
+
+    const event = document.addEventListener('keydown', onListener)
+
+    return () => {
+      document.removeEventListener('keydown', onListener)
+    }
+
+  }, [page])
+
+  function next() {
+    const currentPage = parseInt(page as string) + 1;
+
+    setSearch({ page: currentPage.toString(), perpage: perpage as string })
+  }
+
+  function prev() {
+    const currentPage = parseInt(page as string) - 1;
+
+    setSearch({ page: currentPage.toString(), perpage: perpage as string })
+  }
+
   return (
     <div className="mb-36">
       <button
@@ -80,7 +113,7 @@ export default function CadernoPage() {
                     {(
                       (cadernoQuery.data.acertos /
                         (cadernoQuery.data.acertos + cadernoQuery.data.erros)) *
-                        100 || 0
+                      100 || 0
                     ).toFixed(1)}
                     %
                   </span>
@@ -108,34 +141,28 @@ export default function CadernoPage() {
               ))}
             </select>
           </div>
-          <Link
-            to={`${location.pathname}?page=${
-              parseInt(page as string) - 1
-            }&perpage=${perpage}`}
-          >
+          <button onClick={prev}>
             <MdChevronLeft />
-          </Link>
+          </button>
+
           <span>
-            <select onChange={(ev) => setSearch({perpage: perpage as string, page: ev.target.value})} value={page as string} className="bg-transparent appearance-none">
+            <select onChange={(ev) => setSearch({ perpage: perpage as string, page: ev.target.value })} value={page as string} className="bg-transparent appearance-none">
               {Array(parseInt(questoesQuery?.data?.meta?.last_page || 0))
                 .fill("")
                 .map((_, index: number) => (
-                  <option key={index} value={index+1}>{index+1}</option>
+                  <option key={index} value={index + 1}>{index + 1}</option>
                 ))}
             </select>
             / {` `}
             {questoesQuery?.data?.meta?.last_page}
           </span>
-          <Link
-            to={`${location.pathname}?page=${
-              parseInt(page as string) + 1
-            }&perpage=${perpage}`}
-          >
+          <button onClick={next}>
             <MdChevronRight />
-          </Link>
+          </button>
         </div>
       </div>
       <div className="flex flex-col gap-5 mt-5 relative min-h-[96px]">
+
         <PageLoading show={questoesQuery.isFetching} />
         {questoesQuery?.data?.data.map((questao: any, index: number) => (
           <QuestaoItem
