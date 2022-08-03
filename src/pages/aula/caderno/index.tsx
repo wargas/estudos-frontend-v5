@@ -50,6 +50,10 @@ export default function CadernoPage() {
   useEffect(() => {
 
     function onListener(e: any) {
+      if(['input', 'textarea'].includes(e.target.localName)) {
+        return;
+      }
+
       if (e.key === 'ArrowRight') {
         next()
       }

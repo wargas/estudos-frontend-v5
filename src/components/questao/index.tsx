@@ -80,42 +80,28 @@ export default function QuestaoItem({
     return unobserver;
   }, []);
 
-  useHotkeys("shift+a", () => handlerRiscadas("A"), {
-    enabled: isCurrent
-  }, [riscadas]);
-  useHotkeys("shift+b", () => handlerRiscadas("B"), {
-    enabled: isCurrent
-  }, [riscadas]);
-  useHotkeys("shift+c", () => handlerRiscadas("C"), {
-    enabled: isCurrent
-  }, [riscadas]);
-  useHotkeys("shift+d", () => handlerRiscadas("D"), {
-    enabled: isCurrent
-  }, [riscadas]);
-  useHotkeys("shift+e", () => handlerRiscadas("E"), {
+  useHotkeys("shift+e,shift+a,shift+b,shift+c,shift+d", (e) => {
+    handlerRiscadas(e.key.toUpperCase())
+  }, {
     enabled: isCurrent
   }, [riscadas]);
 
-  useHotkeys("a", () => handlerSelect("A"), {
+  
+
+  useHotkeys("a,b,c,d,e", e => {
+    handlerSelect(e.key.toUpperCase())
+  }, {
     enabled: isCurrent
-  }, [selectedLetra]);
-  useHotkeys("b", () => handlerSelect("B"), {
-    enabled: isCurrent
-  }, [selectedLetra]);
-  useHotkeys("c", () => handlerSelect("C"), {
-    enabled: isCurrent
-  }, [selectedLetra]);
-  useHotkeys("d", () => handlerSelect("D"), {
-    enabled: isCurrent
-  }, [selectedLetra]);
-  useHotkeys("e", () => handlerSelect("E"), {
-    enabled: isCurrent
-  }, [selectedLetra]);
+  }, [selectedLetra])
 
   useHotkeys(
     "enter",
-    () => selectedLetra !== "" && !respondida && mutationResponder.mutate(),
-    [questao, selectedLetra, respondida]
+    (e) => {
+      e.preventDefault()
+      selectedLetra !== "" && !respondida && mutationResponder.mutate()
+    },
+    [questao, selectedLetra, respondida],
+
   );
 
   useEffect(() => {
@@ -175,11 +161,10 @@ export default function QuestaoItem({
             </button>
             <span
               onClick={() => handlerSelect(alternativa.letra)}
-              className={`flex-1 opacity-25  ${
-                riscadas.includes(alternativa.letra)
+              className={`flex-1 opacity-25  ${riscadas.includes(alternativa.letra)
                   ? "opacity-25 line-through"
                   : "opacity-100"
-              }`}
+                }`}
               dangerouslySetInnerHTML={{ __html: alternativa.html }}
             />
           </div>
