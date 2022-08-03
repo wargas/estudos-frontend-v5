@@ -35,7 +35,9 @@ export default function Sidebar() {
           </ul>
         </div>
         <div className="h-14 border-t flex items-center justify-center">
-            <span className="text-sm text-gray-400">VERSAO: 4.0.1</span>
+            <span className="text-sm text-gray-400">
+              {import.meta.env.VERCEL_GIT_COMMIT_MESSAGE || ''}
+            </span>
         </div>
       </div>
     </div>
