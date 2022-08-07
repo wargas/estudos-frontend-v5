@@ -9,6 +9,7 @@ import { useModal } from "../../providers/modal";
 import TabsQuestao from "./TabsQuestao";
 import { X } from "phosphor-react";
 import Stats from "./Stats";
+import qs from 'query-string'
 
 export default function QuestaoItem({
   questao: initQuestao,
@@ -47,6 +48,13 @@ export default function QuestaoItem({
   function handlerCloseEdit(data: any) {
     if (data) {
       setQuestao((old: any) => ({ ...old, ...data }));
+
+      const {page, perpage} = qs.parse(location.search)
+
+      const key = ['questoes', questao.aula_id.toString(), page, perpage]
+
+      queryClient.invalidateQueries(key)      
+     
     }
   }
 
