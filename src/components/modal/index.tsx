@@ -15,7 +15,7 @@ export default function ModalComponent() {
     >
       <div className="fixed inset-0 flex items-center justify-center">
         <div
-            onClick={closeModal}
+            onClick={() => closeModal(null)}
           className="fixed inset-0 bg-black/30 cursor-pointer"
           aria-hidden="true"
         />

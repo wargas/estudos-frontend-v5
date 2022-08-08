@@ -1,7 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { Route, Routes } from "react-router-dom";
 import { StaticRouter } from "react-router-dom/server";
-import ModalComponent from "../../components/modal";
 import ModalRoutes from "../../ModalRoutes";
 
 type callback = (data:any) => void

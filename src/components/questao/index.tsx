@@ -46,6 +46,8 @@ export default function QuestaoItem({
   );
 
   function handlerCloseEdit(data: any) {
+    console.log(data)
+
     if (data) {
       setQuestao((old: any) => ({ ...old, ...data }));
 
