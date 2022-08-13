@@ -1,7 +1,7 @@
 import { parse } from "query-string";
 import { useEffect } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { FaArrowUp } from "react-icons/fa";
+import { FaArrowUp, FaListAlt } from "react-icons/fa";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import { VscLoading } from "react-icons/vsc";
 import { useQuery } from "react-query";
@@ -14,11 +14,14 @@ import {
 import PageLoading from "../../../components/page-loading";
 import QuestaoItem from "../../../components/questao";
 import Api from "../../../libs/Api";
+import { useModal } from "../../../providers/modal";
 
 export default function CadernoPage() {
   const params = useParams();
   const location = useLocation();
   const { page = "1", perpage = "1" } = parse(location.search);
+
+  const { openModal } = useModal()
 
   const [_, setSearch] = useSearchParams();
 
@@ -46,6 +49,12 @@ export default function CadernoPage() {
       keepPreviousData: true,
     }
   );
+
+  function handlerCloseListModal(response: any) {
+    if(response) {
+      setSearch({ page: response, perpage: '1' })
+    }
+  }
 
   
   useEffect(() => {
@@ -129,6 +138,9 @@ export default function CadernoPage() {
         </div>
 
         <div className="flex items-center gap-2">
+          <button onClick={() => openModal(`/list-questoes/${params.caderno_id}?type=drawer`, handlerCloseListModal)}>
+            <FaListAlt />
+          </button>
           <div className="mr-3">
             Por página:
             <select

@@ -202,7 +202,7 @@ export default function QuestaoItem({
         <div className="flex gap-5 p-5">
           <button
             onClick={() =>
-              openModal(`/form-questao/${questao.id}`, handlerCloseEdit)
+              openModal(`/form-questao/${questao.id}?type=drawer`, handlerCloseEdit)
             }
             className="flex items-center gap-2 border border-primary-600 text-primary-600 px-2 h-10 rounded-lg"
           >

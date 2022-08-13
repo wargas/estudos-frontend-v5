@@ -8,6 +8,8 @@ import Api from "../../libs/Api";
 type DashItem = {
   day: string;
   tempo: number;
+  positionTempo: number;
+  positionQuestoes: number;
   questoes: {
     total: number;
     acertos: number;
@@ -16,7 +18,7 @@ type DashItem = {
 
 export default function DashboardPage() {
 
-    const [hoje, setHoje] = useState<DashItem>()
+  const [hoje, setHoje] = useState<DashItem>()
 
   const { data: dashboardData } = useQuery<DashItem[]>(
     ["dashboard"],
@@ -28,10 +30,10 @@ export default function DashboardPage() {
   );
 
   useEffect(() => {
-    const _hoje = dashboardData?.find(({day}) => DateTime.local().toSQLDate() === day)
+    const _hoje = dashboardData?.find(({ day }) => DateTime.local().toSQLDate() === day)
 
-    if(_hoje) {
-        setHoje(_hoje)
+    if (_hoje) {
+      setHoje(_hoje)
     }
   }, [dashboardData])
 
@@ -41,7 +43,7 @@ export default function DashboardPage() {
         <div className="p-5 flex-1 bg-white rounded shadow">
           <span className="text-sm text-gray-400">Tempo</span>
           <div className="mt-3">
-            <span className="text-6xl font-bold">{!hoje ? 0 : Duration.fromObject({second: hoje.tempo}).toFormat("hh'h':mm''")}</span>
+            <span className="text-6xl font-bold">{!hoje ? 0 : Duration.fromObject({ second: hoje.tempo }).toFormat("hh'h':mm''")}</span>
           </div>
         </div>
         <div className="p-5 flex-1 bg-white rounded shadow">

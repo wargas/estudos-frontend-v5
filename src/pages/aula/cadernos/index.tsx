@@ -54,8 +54,7 @@ export default function CadernosPage() {
         <div key={caderno.id} className="flex p-5">
           <div className="flex-1">
             <p className="flex items-center gap-5">
-              {" "}
-              {caderno.inicio
+                         {caderno.inicio
                 ? format(new Date(caderno.inicio), "dd/MM/Y")
                 : "Não iniciado"}
               <div
@@ -65,6 +64,7 @@ export default function CadernosPage() {
               ></div>
             </p>
             <span className="font-light">
+            {caderno.total} total &bull;{" "}
               {caderno.inicio
                 ? (
                     (caderno.acertos / (caderno.erros + caderno.acertos)) *

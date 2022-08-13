@@ -1,6 +1,5 @@
-import { Outlet, useLocation, useSearchParams } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { Dialog } from "@headlessui/react";
-import queryString from "query-string";
 import { useModal } from "../../providers/modal";
 
 export default function ModalComponent() {
@@ -19,7 +18,7 @@ export default function ModalComponent() {
           className="fixed inset-0 bg-black/30 cursor-pointer"
           aria-hidden="true"
         />
-        <Dialog.Panel className="bg-white border z-50 w-full max-w-screen-sm shadow-xl rounded-lg">
+        <Dialog.Panel className="bg-white border z-50 w-full max-w-screen-md shadow-xl rounded-lg">
           <Outlet />
         </Dialog.Panel>
       </div>

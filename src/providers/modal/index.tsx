@@ -14,7 +14,7 @@ export const ModalContext = createContext<contextProps>({} as contextProps);
 
 export function ModalProvider({ children }: any) {
   const [location, setLocation] = useState("/");
-  const [callback, setCallback] = useState<callback>()
+  const [callback, setCallback] = useState<callback>();
 
   function open(path:string, cb: callback = ({}) => {}){
     setLocation(path)
@@ -42,7 +42,6 @@ export function useModal(): { openModal: (path:string, cb?: callback) => void, c
   const ctx = useContext(ModalContext);
 
   function openModal(path: string, cb?: callback) {
-    console.log(path)
     ctx.open(path, cb)
   }
 

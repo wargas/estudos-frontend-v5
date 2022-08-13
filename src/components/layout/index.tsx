@@ -14,7 +14,6 @@ import PageLoading from "../page-loading";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 
-import { toast } from "react-toastify";
 
 export default function Layout() {
   const setUser = useAuthStore(({ setUser }) => setUser);
