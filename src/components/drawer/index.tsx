@@ -8,7 +8,7 @@ export default function Drawer() {
 
     return (
         <>
-            <div onClick={() => closeModal(null)} className="inset-0 absolute bg-black/30 cursor-pointer">
+            <div onClick={() => closeModal(null)} className="inset-0 absolute z-50 bg-black/30 cursor-pointer">
 
             </div>
             <div className={`${pathname === '/' ? '-right-40' : 'right-0'} transition-all z-50 overflow-y-auto absolute w-96 shadow top-0 bottom-0 bg-white`}>
