@@ -139,7 +139,7 @@ export default function QuestaoItem({
           </span>
         </div>
         <div
-          className="text-justify text-xl enunciado"
+          className="text-justify text-lg enunciado"
           dangerouslySetInnerHTML={{ __html: questao.enunciadoHtml }}
         />
       </div>

@@ -138,7 +138,7 @@ export default function CadernoPage() {
         </div>
 
         <div className="flex items-center gap-2">
-          <button onClick={() => openModal(`/list-questoes/${params.caderno_id}?type=drawer`, handlerCloseListModal)}>
+          <button onClick={() => openModal(`/list-questoes/${params.aula_id}/${params.caderno_id}?type=drawer`, handlerCloseListModal)}>
             <FaListAlt />
           </button>
           <div className="mr-3">

@@ -22,7 +22,7 @@ export default function ModalRoutes({}: Props) {
         <Route path="form-disciplina" element={<FormDisciplina />} />
         <Route path="form-disciplina/:id" element={<FormDisciplina />} />
         <Route path="form-questao/:id" element={<FormEditQuestao />} />
-        <Route path="list-questoes/:caderno_id" element={<ListQUestoes />} />
+        <Route path="list-questoes/:aula_id/:caderno_id" element={<ListQUestoes />} />
       </Route>
     </Routes>
   );
