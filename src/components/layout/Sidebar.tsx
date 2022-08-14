@@ -11,14 +11,14 @@ import {
 
 export default function Sidebar() {
   return (
-    <div className="fixed transition-all  bottom-0 top-0 left-[-280px] w-[280px] laptop:left-0 desktop:w-[350px] bg-white shadow-lg">
+    <div className="fixed transition-all z-50  bottom-0 top-0 left-[-280px] w-[280px] laptop:left-0 desktop:w-[350px] bg-white shadow-lg">
       <div className="h-screen flex flex-col border-gray-100">
-        <div className="h-16 border-b border-gray-100 bg-gray-700">
+        <div className="h-14 bg-header-bg">
           <Link
             to="/dashboard"
-            className="flex items-center h-16 justify-center text-white"
+            className="flex items-center h-14 justify-center text-white"
           >
-            <span className="text-4xl font-bold">ESTUDOS</span>
+            <span className="text-4xl text-sp font-extrabold tracking-widest">ESTUDOS</span>
           </Link>
         </div>
         <div className="flex-1 pt-5">

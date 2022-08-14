@@ -6,13 +6,13 @@ export default function Header() {
   const user = useAuthStore((state) => state.user);
 
   return (
-    <div className="fixed z-50 shadow px-5 top-0 left-0 right-0 h-16 flex justify-between bg-header-bg text-header-text">
+    <div className="fixed z-50 shadow px-5 top-0 left-0 right-0 h-14 flex justify-between bg-header-bg text-header-text">
       <div></div>
       <div>
         {user && (
           <button
             onClick={() => navigate("/login")}
-            className="h-16 hover:bg-gray-800 text-gray-200 px-3"
+            className="h-14 hover:bg-gray-800 text-gray-200 px-3"
           >
             {user.name}
           </button>
