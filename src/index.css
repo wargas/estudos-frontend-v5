@@ -14,14 +14,23 @@
     @apply border divide-y
 }
 
-.enunciado table td, th {
+.enunciado table td,
+th {
     @apply px-3
 }
 
-ul  {
+ul {
     @apply list-disc
 }
 
 ol {
-    @apply  list-decimal pl-5;
+    @apply list-decimal pl-5;
 }
+
+.overline-line::after {
+    border-bottom-color: black;
+}
+
+.frac-line::after {
+    border-bottom-color: black;
+  }
