@@ -16,7 +16,7 @@ export default function DisciplinasPage() {
     const { data } = await Api.get<Disciplina[]>(`disciplinas?search=${search}`);
 
     return data;
-  });
+  }); 
 
   useEffect(() => {
     localStorage.setItem('search', search)
