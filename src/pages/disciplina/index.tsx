@@ -7,8 +7,9 @@ import PageLoading from "../../components/page-loading";
 import qs from 'query-string'
 import { DateTime } from "luxon";
 import { SortAscending, SortDescending } from "phosphor-react";
+import { Disciplina } from "../../interfaces/Disciplina";
 
-export default function Disciplina() {
+export default function DisciplinaPage() {
   const params = useParams();
   const location = useLocation()
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ export default function Disciplina() {
   const { sort = 'ordem', ordem = 'asc' } = qs.parse(location.search)
 
   const queryDisciplina = useQuery(["disciplina", params.id], async () => {
-    const { data } = await Api.get(`disciplinas/${params.id}`);
+    const { data } = await Api.get<Disciplina>(`disciplinas/${params.id}`);
 
     return data;
   });
@@ -53,7 +54,7 @@ export default function Disciplina() {
       <PageTitle
         isLoading={queryDisciplina.isLoading || queryAulas.isLoading}
         backAction={() => navigate(`/disciplinas`)}
-        title={queryDisciplina?.data?.name}
+        title={queryDisciplina?.data?.name || ''}
         subtitle={
           queryAulas?.data ? `${queryAulas.data.length} aulas` : "0 aulas"
         }

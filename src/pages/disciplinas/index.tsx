@@ -1,27 +1,30 @@
 import PageTitle from "../../components/page-title";
-import { MdPlusOne, MdMoreVert, MdSearch } from "react-icons/md";
+import { MdMoreVert, MdSearch } from "react-icons/md";
 import { useQuery } from "react-query";
 import Api from "../../libs/Api";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useModal } from "../../providers/modal";
 import PageLoading from "../../components/page-loading";
+import { Disciplina } from "../../interfaces/Disciplina";
 
 export default function DisciplinasPage() {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(localStorage.getItem('search')||'');
   const { openModal } = useModal()
 
-  const query = useQuery(["disciplinas"], async () => {
-    const { data } = await Api.get(
-      "disciplinas?countAulas=true&countQuestoes=true&withCadernos"
-    );
+  const query = useQuery(["disciplinas", {search}], async () => {
+    const { data } = await Api.get<Disciplina[]>(`disciplinas?search=${search}`);
 
     return data;
   });
 
+  useEffect(() => {
+    localStorage.setItem('search', search)
+  }, [search])
+
   return (
     <div className="">
-      <PageTitle backAction={() => {}} title="Disciplinas">
+      <PageTitle backAction={() => { }} title="Disciplinas">
         <div className="flex w-full gap-5 items-center">
           <div className="flex px-3 border rounded h-10">
             <input
@@ -45,15 +48,9 @@ export default function DisciplinasPage() {
       </PageTitle>
 
       <div className="m-5 relative py-2 divide-y max-w-screen-laptop desktop:mx-auto divide-gray-100 shadow-sm rounded bg-white">
-       <PageLoading show={query.isLoading} />
+        <PageLoading show={query.isLoading} />
         {query?.data &&
-          query.data
-            .filter((disciplina: any) =>
-              JSON.stringify(disciplina)
-                .toLocaleLowerCase()
-                .includes(search.toLocaleLowerCase())
-            )
-            .map((disciplina: any) => (
+          query.data.map((disciplina) => (
               <div
                 key={disciplina.id}
                 className=" "
@@ -68,8 +65,8 @@ export default function DisciplinasPage() {
                     </Link>
                     <span className="text-sm font-light">
                       {disciplina?.meta?.dia} &bull;{" "}
-                      {disciplina?.meta?.aulas_count || 0} aulas &bull;{" "}
-                      {disciplina?.meta?.questoes_count || 0} questões
+                      {disciplina?.meta?.count_aulas} aulas &bull;{" "}
+                      {disciplina?.meta?.count_questoes || 0} questões
                     </span>
                   </div>
                   <div>

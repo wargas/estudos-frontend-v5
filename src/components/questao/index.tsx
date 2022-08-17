@@ -10,6 +10,7 @@ import TabsQuestao from "./TabsQuestao";
 import { X } from "phosphor-react";
 import Stats from "./Stats";
 import qs from 'query-string'
+import normalize from "../../libs/normalize";
 
 export default function QuestaoItem({
   questao: initQuestao,
@@ -46,7 +47,6 @@ export default function QuestaoItem({
   );
 
   function handlerCloseEdit(data: any) {
-    console.log(data)
 
     if (data) {
       setQuestao((old: any) => ({ ...old, ...data }));
@@ -140,7 +140,7 @@ export default function QuestaoItem({
         </div>
         <div
           className="text-justify text-lg enunciado"
-          dangerouslySetInnerHTML={{ __html: questao.enunciadoHtml }}
+          dangerouslySetInnerHTML={{ __html: normalize(questao?.enunciadoHtml) }}
         />
       </div>
       <div className="divide-y divide-gray-50">
@@ -175,7 +175,7 @@ export default function QuestaoItem({
                   ? "opacity-25 line-through"
                   : "opacity-100"
                 }`}
-              dangerouslySetInnerHTML={{ __html: alternativa.html }}
+              dangerouslySetInnerHTML={{ __html: decodeURIComponent(alternativa.html) }}
             />
           </div>
         ))}
