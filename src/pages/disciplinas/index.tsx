@@ -7,16 +7,20 @@ import { useEffect, useState } from "react";
 import { useModal } from "../../providers/modal";
 import PageLoading from "../../components/page-loading";
 import { Disciplina } from "../../interfaces/Disciplina";
+import { Duration } from "luxon";
+import useDebounce from "../../libs/debounce";
 
 export default function DisciplinasPage() {
-  const [search, setSearch] = useState(localStorage.getItem('search')||'');
+  const [search, setSearch] = useState(localStorage.getItem('search') || '');
   const { openModal } = useModal()
 
-  const query = useQuery(["disciplinas", {search}], async () => {
+  const debounceValue = useDebounce(search)
+
+  const query = useQuery(["disciplinas", { search: debounceValue }], async () => {
     const { data } = await Api.get<Disciplina[]>(`disciplinas?search=${search}`);
 
     return data;
-  }); 
+  });
 
   useEffect(() => {
     localStorage.setItem('search', search)
@@ -49,34 +53,36 @@ export default function DisciplinasPage() {
 
       <div className="m-5 relative py-2 divide-y max-w-screen-laptop desktop:mx-auto divide-gray-100 shadow-sm rounded bg-white">
         <PageLoading show={query.isLoading} />
-        {query?.data &&
-          query.data.map((disciplina) => (
-              <div
-                key={disciplina.id}
-                className=" "
-              >
-                <div className="px-5 py-3 flex justify-between">
-                  <div className="flex-1">
+        <table className="w-full divide-y divide-gray-100">
+          <thead className="uppercase">
+            <tr>
+              <th className="cursor-pointer text-left px-3 h-12">Nome</th>
+              <th className="cursor-pointer px-3 h-12 text-end">Aulas</th>
+              <th className="cursor-pointer px-3 h-12 text-end">Questões</th>
+              <th className="cursor-pointer px-3 h-12 text-end">Tempo</th>
+              <th className="cursor-pointer text-left px-3 h-12"></th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-50">
+            {query?.data &&
+              query.data.map((disciplina) => (
+                <tr className="odd:bg-stone-50" key={disciplina.id}>
+                  <td className="px-3 h-12">{disciplina.name}</td>
+                  <td className="px-3 h-12 text-gray-700 text-end">{disciplina.meta.count_aulas}</td>
+                  <td className="px-3 h-12 text-gray-700 text-end">{disciplina.meta.count_questoes}</td>
+                  <td className="px-3 h-12 text-gray-700 text-end">{Duration.fromMillis(disciplina.meta.count_tempo * 1000).toFormat("hh'h'mm")}</td>
+                  <td className="px-3 h-12 text-gray-700">
                     <Link
-                      className="block"
+                      className="flex justify-end px-4"
                       to={`/disciplinas/${disciplina.id}`}
                     >
-                      {disciplina.name}
+                      <MdSearch />
                     </Link>
-                    <span className="text-sm font-light">
-                      {disciplina?.meta?.dia} &bull;{" "}
-                      {disciplina?.meta?.count_aulas} aulas &bull;{" "}
-                      {disciplina?.meta?.count_questoes || 0} questões
-                    </span>
-                  </div>
-                  <div>
-                    <button onClick={() => openModal(`/form-disciplina/${disciplina.id}`)}>
-                      <MdMoreVert />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
