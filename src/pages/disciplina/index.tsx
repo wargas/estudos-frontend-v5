@@ -1,13 +1,14 @@
 import { useQuery } from "react-query";
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { MdMoreVert } from "react-icons/md";
+import { MdMoreVert, MdSearch } from "react-icons/md";
 import PageTitle from "../../components/page-title";
 import Api from "../../libs/Api";
 import PageLoading from "../../components/page-loading";
 import qs from 'query-string'
-import { DateTime } from "luxon";
+import { DateTime, Duration } from "luxon";
 import { SortAscending, SortDescending } from "phosphor-react";
 import { Disciplina } from "../../interfaces/Disciplina";
+import Aula from "../../interfaces/Aula";
 
 export default function DisciplinaPage() {
   const params = useParams();
@@ -15,7 +16,7 @@ export default function DisciplinaPage() {
   const navigate = useNavigate();
   const [_, setSearch] = useSearchParams()
 
-  const { sort = 'ordem', ordem = 'asc' } = qs.parse(location.search)
+  
 
   const queryDisciplina = useQuery(["disciplina", params.id], async () => {
     const { data } = await Api.get<Disciplina>(`disciplinas/${params.id}`);
@@ -23,31 +24,31 @@ export default function DisciplinaPage() {
     return data;
   });
 
+  const search = qs.parse(location.search)
+
   const queryAulas = useQuery(
-    [`aulas`, params.id],
+    [`aulas`, params.id, search],
     async () => {
-      const { data } = await Api.get(
-        `disciplinas/${params.id}/aulas?withCadernos=true&withMeta=true&withRegistros=true`
+      const { data } = await Api.get<Aula[]>(
+        `disciplinas/${params.id}/aulas?${qs.stringify(search)}`
       );
 
-      return data?.map((item: any) => {
-        const last = item?.cadernos?.filter((it: any) => !!it.fim)
-          ?.sort((a: any, b: any) => a.fim > b.fim ? 1 : -1)
-          ?.at(-1);
-        let nota = 0;
-        let _data = "";
-        if (last) {
-          nota = (last.acertos / (last.erros + last.acertos)) * 100;
-          _data = last.fim;
-        }
-
-        return { ...item, last, nota, data: _data };
-      });
+      return data
     },
     {
       enabled: !!queryDisciplina?.data?.id,
     }
   );
+
+  function toggleSearch(col: string) {
+    const { sort = 'ordem', ordem = 'asc' } = qs.parse(location.search);
+
+    if(col === sort) {
+      setSearch({sort: col, ordem: ordem === 'asc' ? 'desc' : 'asc'})
+    } else {
+      setSearch({sort: col, ordem: 'asc'})
+    }
+  }
 
   return (
     <div className="relative">
@@ -60,88 +61,50 @@ export default function DisciplinaPage() {
         }
       >
         <div className="flex gap-2">
-          <span>Ordenar por: </span>
-          <div className="flex justify-around border rounded-full divide-x">
-            <button onClick={() => setSearch({ sort: 'ordem', ordem: ordem === 'asc' ? 'desc' : 'asc' })} className={`text-sm flex items-center gap-1  flex-1 px-5 h-7`}>
-              <span> Aula</span> {sort === 'ordem' && (
-                ordem === 'asc' ? (<SortDescending />) : (<SortAscending />)
-              )}
-            </button>
-            <button onClick={() => setSearch({ sort: 'nota', ordem: ordem === 'asc' ? 'desc' : 'asc' })} className={`text-sm flex items-center gap-1 flex-1 px-5 h-7`}>
-              <span> Nota</span> {sort === 'nota' && (
-                ordem === 'asc' ? (<SortDescending />) : (<SortAscending />)
-              )}
-            </button>
-            <button onClick={() => setSearch({ sort: 'data', ordem: ordem === 'asc' ? 'desc' : 'asc' })} className={`text-sm flex items-center gap-1  flex-1 px-5 h-7`}>
-              <span> Data</span> {sort === 'data' && (
-                ordem === 'asc' ? (<SortDescending />) : (<SortAscending />)
-              )}
-            </button>
-          </div>
-
+         
         </div>
       </PageTitle>
 
       {queryAulas?.data && (
-        <div className="bg-white py-5 shadow relative flex flex-col divide-y divide-gray-100 rounded max-w-screen-laptop desktop:mx-auto m-5">
-          <PageLoading show={queryAulas.isLoading} />
-          {queryAulas.data
-            .sort(sortDisciplinas(sort as string, ordem as "asc"))
-            .map((aula: any) => (
-              <div
-                key={aula.id}
-                className="px-5 py-3 grid items-center grid-cols-[1fr_100px_30px] gap-3"
-              >
-                <div className="flex flex-col flex-1">
-                  <span className="font-light">
-                    Aula {aula.ordem.toString().padStart(2, "0")}
-                  </span>
+        <div className="bg-white py-3 shadow relative flex flex-col divide-y divide-gray-100 rounded max-w-screen-laptop desktop:mx-auto m-5">
+          <PageLoading show={queryAulas.isFetching} />
+          <table className="divide-y">
+            <thead>
+              <tr className="h-14 uppercase">
+                <th className="text-left cursor-pointer" onClick={() => toggleSearch('ordem')}>#</th>
+                <th className="text-left cursor-pointer" onClick={() => toggleSearch('name')}>Nome</th>
+                <th className="text-left cursor-pointer" onClick={() => toggleSearch('total_questoes')}>Questões</th>
+                <th className="text-left cursor-pointer" onClick={() => toggleSearch('total_registro')}>Tempo</th>
+                <th className="text-left cursor-pointer" onClick={() => toggleSearch('last_registro')}>Visto em</th>
+                <th className="text-left cursor-pointer" onClick={() => toggleSearch('last_nota')}>Nota</th>
+                <th className="text-left cursor-pointer" onClick={() => toggleSearch('nome')}></th>
+              </tr>
+            </thead>
+            <tbody className="divide-y">
+              {queryAulas?.data?.map(aula => (
+                <tr className="odd:bg-stone-50">
+                  <td className="px-4 py-3 text-lg font-extrabold">{aula.ordem.toString().padStart(2, '0')}</td>
+                  <td className="px-4 py-3">{aula.name}</td>
+                  <td className="px-4 py-3 text-gray-600 text-base">{aula.meta.total_questoes}</td>
+                  <td className="px-4 py-3 text-gray-600 text-base">{Duration.fromMillis(aula.meta.total_registro * 1000).toFormat("hh'h'mm")}</td>
+                  <td className="px-4 py-3 text-gray-600 text-base">{!aula.meta.last_registro  ? '-'  : DateTime.fromISO(aula.meta.last_registro).toFormat('dd/MM/yyyy')}</td>
+                  <td title={`Acertos: ${aula.meta.last_caderno_acertos}`} className="px-4 py-3 text-gray-600 text-base">{(aula.meta.last_nota * 100).toLocaleString('br', { minimumFractionDigits: 1 })}%</td>
+                  <td className="px-4 py-3 text-gray-600 text-base">
                   <Link
                     className="hover:text-gray-900 text-lg"
                     to={`/disciplinas/${params.id}/aula/${aula.id}`}
                   >
-                    {aula.name}
+                    <MdSearch />
                   </Link>
-                  <span className="text-sm font-light">
-                    {aula?.meta?.questoes_count || 0} questoes &bull;{" "}
-                    {aula?.cadernos.length} cadernos
-                  </span>
-                </div>
-                <div>
-                  {aula?.last && (
-                    <>
-                      <p className="text-sm">
-                        {DateTime.fromISO(aula?.last?.fim).toFormat("dd/MM")}
-                      </p>
-                      <span>{aula.nota.toFixed(1)}%</span>
-                    </>
-                  )}
-                </div>
-                <div>
-                  <button>
-                    <MdMoreVert />
-                  </button>
-                </div>
-              </div>
-            ))}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+         
         </div>
       )}
     </div>
   );
 }
 
-function sortDisciplinas(
-  tipo: string,
-  ordem: "asc" | "desc"
-) {
-  return (a: any, b: any) => {
-    const valueA = a[tipo] || 0;
-    const valueB = b[tipo] || 0;
-
-    if (valueA > valueB) {
-      return ordem === "desc" ? -1 : 1;
-    } else {
-      return ordem === "desc" ? 1 : -1;
-    }
-  };
-}
