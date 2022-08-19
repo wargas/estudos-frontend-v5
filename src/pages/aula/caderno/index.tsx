@@ -112,7 +112,7 @@ export default function CadernoPage() {
           ) : (
             cadernoQuery?.data && (
               <div>
-                {cadernoQuery.data.fim ? (
+                {cadernoQuery.data.finalizado ? (
                   <span className="text-xl text-green-600">Finalizado</span>
                 ) : cadernoQuery.data.inicio ? (
                   <span className="text-xl">Iniciado</span>
@@ -124,12 +124,7 @@ export default function CadernoPage() {
                   <span>{cadernoQuery.data.acertos | 0} acertos</span> &bull;
                   <span>{cadernoQuery.data.erros | 0} erros</span> &bull;
                   <span>
-                    {(
-                      (cadernoQuery.data.acertos /
-                        (cadernoQuery.data.acertos + cadernoQuery.data.erros)) *
-                      100 || 0
-                    ).toFixed(1)}
-                    %
+                    {(cadernoQuery.data.nota * 100).toFixed(1)}%
                   </span>
                 </div>
               </div>

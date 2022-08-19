@@ -59,19 +59,14 @@ export default function CadernosPage() {
                 : "Não iniciado"}
               <div
                 className={`${
-                  caderno.encerrado ? "bg-green-500" : "bg-yellow-500"
+                  caderno.finalizado ? "bg-green-500" : "bg-yellow-500"
                 } w-3 h-3 rounded-full`}
               ></div>
             </p>
             <span className="font-light">
-            {caderno.total} total &bull;{" "}
-              {caderno.inicio
-                ? (
-                    (caderno.acertos / (caderno.erros + caderno.acertos)) *
-                    100
-                  ).toFixed(2)
-                : "0.00"}
-              % &bull; {caderno.acertos || 0} acertos &bull;{" "}
+            {caderno.total} total &bull;
+              {(caderno.nota * 100).toFixed(1)}  % &bull; 
+              {caderno.acertos || 0} acertos &bull;
               {caderno.erros || 0} erros
             </span>
           </div>
