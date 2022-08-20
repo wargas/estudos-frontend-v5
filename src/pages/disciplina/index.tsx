@@ -53,11 +53,11 @@ export default function DisciplinaPage() {
   return (
     <div className="relative">
       <PageTitle
-        isLoading={queryDisciplina.isLoading || queryAulas.isLoading}
+        isLoading={queryDisciplina.isLoading}
         backAction={() => navigate(`/disciplinas`)}
         title={queryDisciplina?.data?.name || ''}
         subtitle={
-          queryAulas?.data ? `${queryAulas.data.length} aulas` : "0 aulas"
+          `${queryDisciplina.data?.meta.count_aulas ||0} aulas`
         }
       >
         <div className="flex gap-2">
