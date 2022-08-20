@@ -16,7 +16,7 @@ export default function DisciplinaPage() {
   const navigate = useNavigate();
   const [_, setSearch] = useSearchParams()
 
-  
+
 
   const queryDisciplina = useQuery(["disciplina", params.id], async () => {
     const { data } = await Api.get<Disciplina>(`disciplinas/${params.id}`);
@@ -43,10 +43,10 @@ export default function DisciplinaPage() {
   function toggleSearch(col: string) {
     const { sort = 'ordem', ordem = 'asc' } = qs.parse(location.search);
 
-    if(col === sort) {
-      setSearch({sort: col, ordem: ordem === 'asc' ? 'desc' : 'asc'})
+    if (col === sort) {
+      setSearch({ sort: col, ordem: ordem === 'asc' ? 'desc' : 'asc' })
     } else {
-      setSearch({sort: col, ordem: 'asc'})
+      setSearch({ sort: col, ordem: 'asc' })
     }
   }
 
@@ -57,53 +57,53 @@ export default function DisciplinaPage() {
         backAction={() => navigate(`/disciplinas`)}
         title={queryDisciplina?.data?.name || ''}
         subtitle={
-          `${queryDisciplina.data?.meta.count_aulas ||0} aulas`
+          `${queryDisciplina.data?.meta.count_aulas || 0} aulas`
         }
       >
         <div className="flex gap-2">
-         
+
         </div>
       </PageTitle>
 
-      {queryAulas?.data && (
-        <div className="bg-white py-3 shadow relative flex flex-col divide-y divide-gray-100 rounded max-w-screen-laptop desktop:mx-auto m-5">
-          <PageLoading show={queryAulas.isFetching} />
-          <table className="divide-y">
-            <thead>
-              <tr className="h-14 uppercase">
-                <th className="text-left cursor-pointer" onClick={() => toggleSearch('ordem')}>#</th>
-                <th className="text-left cursor-pointer" onClick={() => toggleSearch('name')}>Nome</th>
-                <th className="text-left cursor-pointer" onClick={() => toggleSearch('total_questoes')}>Questões</th>
-                <th className="text-left cursor-pointer" onClick={() => toggleSearch('total_registro')}>Tempo</th>
-                <th className="text-left cursor-pointer" onClick={() => toggleSearch('last_registro')}>Visto em</th>
-                <th className="text-left cursor-pointer" onClick={() => toggleSearch('last_nota')}>Nota</th>
-                <th className="text-left cursor-pointer" onClick={() => toggleSearch('nome')}></th>
-              </tr>
-            </thead>
-            <tbody className="divide-y">
-              {queryAulas?.data?.map(aula => (
-                <tr className="odd:bg-stone-50">
-                  <td className="px-4 py-3 text-lg font-extrabold">{aula.ordem.toString().padStart(2, '0')}</td>
-                  <td className="px-4 py-3">{aula.name}</td>
-                  <td className="px-4 py-3 text-gray-600 text-base">{aula.meta.total_questoes}</td>
-                  <td className="px-4 py-3 text-gray-600 text-base">{Duration.fromMillis(aula.meta.total_registro * 1000).toFormat("hh'h'mm")}</td>
-                  <td className="px-4 py-3 text-gray-600 text-base">{!aula.meta.last_registro  ? '-'  : DateTime.fromISO(aula.meta.last_registro).toFormat('dd/MM/yyyy')}</td>
-                  <td title={`Acertos: ${aula.meta.last_caderno_acertos}`} className="px-4 py-3 text-gray-600 text-base">{(aula.meta.last_nota * 100).toLocaleString('br', { minimumFractionDigits: 1 })}%</td>
-                  <td className="px-4 py-3 text-gray-600 text-base">
+
+      <div className="bg-white py-3 shadow relative flex flex-col divide-y divide-gray-100 rounded max-w-screen-laptop desktop:mx-auto m-5">
+        <PageLoading show={queryAulas.isFetching || queryAulas.isLoading} />
+        <table className="divide-y">
+          <thead>
+            <tr className="h-14 uppercase">
+              <th className="text-left cursor-pointer" onClick={() => toggleSearch('ordem')}>#</th>
+              <th className="text-left cursor-pointer" onClick={() => toggleSearch('name')}>Nome</th>
+              <th className="text-left cursor-pointer" onClick={() => toggleSearch('total_questoes')}>Questões</th>
+              <th className="text-left cursor-pointer" onClick={() => toggleSearch('total_registro')}>Tempo</th>
+              <th className="text-left cursor-pointer" onClick={() => toggleSearch('last_registro')}>Visto em</th>
+              <th className="text-left cursor-pointer" onClick={() => toggleSearch('last_nota')}>Nota</th>
+              <th className="text-left cursor-pointer" onClick={() => toggleSearch('nome')}></th>
+            </tr>
+          </thead>
+          <tbody className="divide-y">
+            {queryAulas?.data?.map(aula => (
+              <tr className="odd:bg-stone-50">
+                <td className="px-4 py-3 text-lg font-extrabold">{aula.ordem.toString().padStart(2, '0')}</td>
+                <td className="px-4 py-3">{aula.name}</td>
+                <td className="px-4 py-3 text-gray-600 text-base">{aula.meta.total_questoes}</td>
+                <td className="px-4 py-3 text-gray-600 text-base">{Duration.fromMillis(aula.meta.total_registro * 1000).toFormat("hh'h'mm")}</td>
+                <td className="px-4 py-3 text-gray-600 text-base">{!aula.meta.last_registro ? '-' : DateTime.fromISO(aula.meta.last_registro).toFormat('dd/MM/yyyy')}</td>
+                <td title={`Acertos: ${aula.meta.last_caderno_acertos}`} className="px-4 py-3 text-gray-600 text-base">{(aula.meta.last_nota * 100).toLocaleString('br', { minimumFractionDigits: 1 })}%</td>
+                <td className="px-4 py-3 text-gray-600 text-base">
                   <Link
                     className="hover:text-gray-900 text-lg"
                     to={`/disciplinas/${params.id}/aula/${aula.id}`}
                   >
                     <MdSearch />
                   </Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-         
-        </div>
-      )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+      </div>
+
     </div>
   );
 }
