@@ -15,6 +15,7 @@ export default function QuestaoItem({
   questao: initQuestao,
   index,
   caderno_id,
+  aula_id,
   isCurrent = false,
 }: any) {
   const [selectedLetra, setSelectedLetra] = useState("");
@@ -31,6 +32,7 @@ export default function QuestaoItem({
     async () => {
       const { data } = await Api.post(`questoes/responder`, {
         questao_id: questao.id,
+        aula_id: aula_id,
         caderno_id,
         resposta: selectedLetra,
       });

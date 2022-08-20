@@ -35,12 +35,12 @@ export default function CadernoPage() {
   );
 
   const questoesQuery = useQuery(
-    ["questoes", params.aula_id, page, perpage],
+    ["questoes", params.caderno_id, page, perpage],
     async ({ queryKey }) => {
-      const [_, aula_id, page] = queryKey;
+      const [_, caderno_id, page] = queryKey;
 
       const { data } = await Api.get(
-        `aulas/${aula_id}/questoes?page=${page}&perPage=${perpage}&withRespondidas=true`
+        `cadernos/${caderno_id}/questoes?page=${page}&perPage=${perpage}&withRespondidas=true`
       );
 
       return data;
@@ -181,6 +181,7 @@ export default function CadernoPage() {
             isCurrent={index === 0}
             key={questao.id}
             caderno_id={params.caderno_id}
+            aula_id={params.aula_id}
             questao={questao}
             index={
               (parseInt(page as string) - 1) * parseInt(perpage as string) +
