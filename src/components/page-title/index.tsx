@@ -1,3 +1,4 @@
+import React from "react";
 import { MdChevronLeft } from "react-icons/md";
 
 type Props = {
@@ -8,6 +9,8 @@ type Props = {
   isLoading?: boolean;
 };
 
+const DEFAULT_TITLE =  `Gerenciador de Estudos`
+
 export default function PageTitle({
   title,
   subtitle,
@@ -15,6 +18,17 @@ export default function PageTitle({
   backAction,
   isLoading = false,
 }: Props) {
+
+  React.useSyncExternalStore
+
+  React.useEffect(() => {
+    document.title = title || DEFAULT_TITLE;
+
+    return () => {
+      document.title = DEFAULT_TITLE
+    }
+  }, [title])
+
   return (
     <div className="flex bg-white border-b border-gray-100  justify-between items-center px-5 p-3">
       <div className="flex">

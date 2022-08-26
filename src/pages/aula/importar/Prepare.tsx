@@ -5,6 +5,7 @@ import React, { ChangeEvent, ChangeEventHandler, useRef } from "react";
 import { useMutation } from "react-query";
 import { useParams } from "react-router-dom";
 import Api from "../../../libs/Api";
+import { useModal } from "../../../providers/modal";
 
 type Props = {
   onChange: (data: any) => void;
@@ -12,6 +13,8 @@ type Props = {
 
 function Prepare({ onChange }: Props) {
   const { aula_id = "" } = useParams();
+
+  const { openModal } = useModal()
 
   const mutation = useMutation(async ({ texto }: any) => {
     const data = new Blob([texto], { type: "text/plain" });
@@ -69,7 +72,7 @@ function Prepare({ onChange }: Props) {
           className="resize-none w-full focus:outline-none font-mono"
         ></textarea>
       </div>
-      <div className="p-5 border-t flex justify-between">
+      <div className="p-5 border-t flex gap-4">
         <button
           type="button"
           onClick={() => inputFileRef?.current?.click()}
@@ -77,6 +80,14 @@ function Prepare({ onChange }: Props) {
         >
           Importar arquivo
         </button>
+        <button
+          type="button"
+          onClick={() => openModal('/qconcursos')}
+          className="text-primary-500 font-bold uppercase text-base"
+        >
+          Qconcursos
+        </button>
+        <div className="flex-1"></div>
         <button
           disabled={values.texto === "" || mutation.isLoading}
           type="submit"

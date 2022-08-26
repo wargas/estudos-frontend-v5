@@ -5,6 +5,7 @@ import ModalComponent from "./components/modal";
 import FormDisciplina from "./modals/form-disciplina";
 import FormEditQuestao from "./modals/form-edit-questao";
 import ListQUestoes from "./components/list-questoes";
+import QconcursosModal from "./pages/aula/importar/QconcursosModal";
 
 type Props = {
   
@@ -23,6 +24,7 @@ export default function ModalRoutes({}: Props) {
         <Route path="form-disciplina/:id" element={<FormDisciplina />} />
         <Route path="form-questao/:id" element={<FormEditQuestao />} />
         <Route path="list-questoes/:aula_id/:caderno_id" element={<ListQUestoes />} />
+        <Route path="qconcursos" element={<QconcursosModal />} />
       </Route>
     </Routes>
   );
