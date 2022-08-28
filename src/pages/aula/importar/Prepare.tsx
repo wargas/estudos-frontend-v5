@@ -4,6 +4,7 @@ import { CircleNotch } from "phosphor-react";
 import React, { ChangeEvent, ChangeEventHandler, useRef } from "react";
 import { useMutation } from "react-query";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import Api from "../../../libs/Api";
 import { useModal } from "../../../providers/modal";
 
@@ -26,8 +27,13 @@ function Prepare({ onChange }: Props) {
     formData.append("aula_id", aula_id);
 
     const { data: _data } = await Api.post(`questoes/prepare`, formData);
-    setValues({ texto: "" });
-    onChange(_data);
+
+    if(_data.error) {
+      toast.error(_data.message || 'Arquivo Inválido')
+    } else {
+      setValues({ texto: "" });
+      onChange(_data);
+    }
   });
 
   const { handleSubmit, handleChange, values, setValues } = useFormik({
@@ -83,7 +89,7 @@ function Prepare({ onChange }: Props) {
         <button
           type="button"
           onClick={() => openModal('/qconcursos')}
-          className="text-primary-500 font-bold uppercase text-base"
+          className="text-primary-500 font-bold uppercase text-base hidden"
         >
           Qconcursos
         </button>

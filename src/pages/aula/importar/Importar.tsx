@@ -5,9 +5,10 @@ import Api from "../../../libs/Api";
 
 type Props = {
   questoes: any[];
+  onClear: () => void
 };
 
-function Importar({ questoes }: Props) {
+function Importar({ questoes, onClear }: Props) {
   const [loadingList, setLoadingList] = useState<number[]>([]);
   const [doneList, setDoneList] = useState<number[]>([]);
   const [errorList, setErrorList] = useState<number[]>([]);
@@ -48,7 +49,10 @@ function Importar({ questoes }: Props) {
     <div>
       <div className="p-5 border-b flex justify-between">
         <div>{questoes.length} questões &bull; {(doneList.length / questoes.length * 100).toFixed(2)}% concluído</div>
-        <div>
+        <div className="flex gap-4">
+          <button onClick={onClear} className="font-bold text-stone-600 uppercase">
+            Limpar
+          </button>
           <button
             onClick={sendAll}
             className="font-bold text-primary-600 uppercase"

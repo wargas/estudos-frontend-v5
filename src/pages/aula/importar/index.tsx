@@ -9,7 +9,7 @@ export default function ImportarPage() {
     <div className="bg-white shadow rounded mb-10">
       <Prepare onChange={(data) => setQuestoes(old => [...old, ...data])} />
       {questoes?.length > 0 && (
-        <Importar questoes={questoes} />
+        <Importar onClear={() => setQuestoes([])} questoes={questoes} />
       )}
     </div>
   );
