@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { MdMoreVert, MdSearch } from "react-icons/md";
+import { MdEdit, MdMoreVert, MdSearch } from "react-icons/md";
 import PageTitle from "../../components/page-title";
 import Api from "../../libs/Api";
 import PageLoading from "../../components/page-loading";
@@ -9,6 +9,7 @@ import { DateTime, Duration } from "luxon";
 import { SortAscending, SortDescending } from "phosphor-react";
 import { Disciplina } from "../../interfaces/Disciplina";
 import Aula from "../../interfaces/Aula";
+import { useModal } from "../../providers/modal";
 
 export default function DisciplinaPage() {
   const params = useParams();
@@ -16,6 +17,7 @@ export default function DisciplinaPage() {
   const navigate = useNavigate();
   const [_, setSearch] = useSearchParams()
 
+  const { openModal }  = useModal()
 
 
   const queryDisciplina = useQuery(["disciplina", params.id], async () => {
@@ -61,7 +63,7 @@ export default function DisciplinaPage() {
         }
       >
         <div className="flex gap-2">
-
+          <button onClick={() => openModal(`/form-aula/${queryDisciplina?.data?.id || ''}?type=side`)}>Adicionar</button>
         </div>
       </PageTitle>
 
@@ -89,13 +91,23 @@ export default function DisciplinaPage() {
                 <td className="px-4 py-3 text-gray-600 text-base">{Duration.fromMillis(aula.meta.total_registro * 1000).toFormat("hh'h'mm")}</td>
                 <td className="px-4 py-3 text-gray-600 text-base">{!aula.meta.last_registro ? '-' : DateTime.fromISO(aula.meta.last_registro).toFormat('dd/MM/yyyy')}</td>
                 <td title={`Acertos: ${aula.meta.last_caderno_acertos}`} className="px-4 py-3 text-gray-600 text-base">{(aula.meta.last_nota * 100).toLocaleString('br', { minimumFractionDigits: 1 })}%</td>
-                <td className="px-4 py-3 text-gray-600 text-base">
-                  <Link
-                    className="hover:text-gray-900 text-lg"
-                    to={`/disciplinas/${params.id}/aula/${aula.id}`}
-                  >
-                    <MdSearch />
-                  </Link>
+                <td className="">
+                  <div className="flex px-4 py-3 text-gray-600 text-base gap-4">
+
+                    <button onClick={() => openModal(`/form-aula//${queryDisciplina?.data?.id || ''}/${aula.id}?type=sidebar`, () => {
+                      queryAulas.refetch()
+                    })}>
+                      <MdEdit />
+                    </button>
+
+                    <Link
+                      className="hover:text-gray-900 text-lg"
+                      to={`/disciplinas/${params.id}/aula/${aula.id}`}
+                    >
+                      <MdSearch />
+                    </Link>
+
+                  </div>
                 </td>
               </tr>
             ))}

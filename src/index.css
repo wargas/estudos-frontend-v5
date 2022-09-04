@@ -34,3 +34,7 @@ ol {
 .frac-line::after {
     border-bottom-color: black;
   }
+
+.ql-editor {
+    @apply focus:outline-none
+}
