@@ -35,6 +35,8 @@ export default function DashboardPage() {
     if (_hoje) {
       setHoje(_hoje)
     }
+
+    
   }, [dashboardData])
 
   return (

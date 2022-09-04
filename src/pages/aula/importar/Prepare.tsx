@@ -1,7 +1,7 @@
 import { useFormik } from "formik";
 import { CircleNotch } from "phosphor-react";
 
-import React, { ChangeEvent, ChangeEventHandler, useRef } from "react";
+import { ChangeEvent, useRef } from "react";
 import { useMutation } from "react-query";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -28,8 +28,9 @@ function Prepare({ onChange }: Props) {
 
     const { data: _data } = await Api.post(`questoes/prepare`, formData);
 
-    if(_data.error) {
-      toast.error(_data.message || 'Arquivo Inválido')
+    if(_data?.error) {
+      console.log(toast)
+      toast.error(_data?.message || 'Arquivo Inválido')
     } else {
       setValues({ texto: "" });
       onChange(_data);
