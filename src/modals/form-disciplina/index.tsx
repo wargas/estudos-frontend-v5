@@ -1,12 +1,20 @@
+import { eachMonthOfInterval, format } from "date-fns"
 import { useLocation } from "react-router-dom"
 import { useModal } from "../../providers/modal"
 
-export default function FormDisciplina () {
+export default function FormDisciplina() {
     const { closeModal } = useModal()
     const location = useLocation()
     return <div className="p-5">
-        <h1>Add disciplina</h1>
-        <p>{location.pathname}</p>
-        <button onClick={() => closeModal({name: 'wargas'})}>Fechar</button>
+
+        {eachMonthOfInterval({
+            start: new Date(2019, 0, 1),
+            end: new Date()
+        }).map(month => (
+            <p key={month.getMonth()}>{format(month, "MM/yyyy")}</p>
+        ))}
+
+        <hr />
+        <button onClick={() => closeModal({ name: 'wargas' })}>Fechar</button>
     </div>
 }

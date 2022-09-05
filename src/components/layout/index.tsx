@@ -21,6 +21,13 @@ export default function Layout() {
   const location = useLocation();
   const [loading, setLoading] = useState(true);
 
+  const [opened, setOpened] = useState(true)
+
+
+  function toggle() {
+    setOpened(curr => !curr);
+  }
+
   useEffect(() => {
 
     const interceptor = Api.interceptors.response.use((value) => {
@@ -36,6 +43,8 @@ export default function Layout() {
       Api.interceptors.response.eject(interceptor)
     }
   }, []);
+
+
 
   async function verifyLogin() {
     setLoading(true);
@@ -56,12 +65,14 @@ export default function Layout() {
     setLoading(false);
   }
 
-  
+  useEffect(() => {
+    setOpened(false)
+  }, [location.pathname])
 
   return (
     <div className=" text-gray-700 bg-gray-50 h-screen text-base desktop:text-lg">
-      <Header />
-      <Sidebar />
+      <Header toggle={toggle} />
+      <Sidebar opened={opened} toggle={toggle} />
       <main id="main" className="pl-0 laptop:pl-[280px] desktop:pl-[350px] transition-all pt-16 h-screen overflow-y-auto">
         <PageLoading show={loading} />
         <Outlet />

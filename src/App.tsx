@@ -1,4 +1,4 @@
-import AppRoutes from "./AppRoutes";
+import AppRoutes from "./routes/app-routes";
 import { BrowserRouter, Route, Router } from "react-router-dom";
 import { QueryClientProvider, QueryClient } from "react-query";
 

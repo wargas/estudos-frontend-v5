@@ -3,7 +3,7 @@ import { DateTime } from "luxon"
 import { useEffect, useState } from "react"
 import { MdArrowDownward, MdArrowDropDown, MdMoreVert } from "react-icons/md"
 import { useQuery } from "react-query"
-import { useLocation, useParams } from "react-router-dom"
+import { useLocation, useParams, useSearchParams } from "react-router-dom"
 import Api from "../../libs/Api"
 import { useModal } from "../../providers/modal"
 import PageLoading from "../page-loading"
@@ -78,13 +78,13 @@ type ItemProp = {
 
 function Item({ questao, index, caderno_id }: ItemProp) {
 
-    const { closeModal } = useModal()
+    const [s, setSearch] = useSearchParams()
 
     const respondida = questao?.respondidas.find((r: any) => r.caderno_id === caderno_id)
 
     const bgClassName = respondida ? respondida.acertou ? 'bg-green-500' : 'bg-red-500' : 'bg-gray-200'
 
-    return <div onClick={() => closeModal(index)} className={`${bgClassName} rounded-lg cursor-pointer font-extrabold text-lg flex justify-center items-center text-white h-12`}>
-        {index}
+    return <div onClick={() => setSearch({page: index.toString(), perPage: '1'})} className={`${bgClassName} rounded-lg cursor-pointer font-extrabold text-lg flex justify-center items-center text-white h-12`}>
+        {index.toString().padStart(2,'0')}
     </div>
 }

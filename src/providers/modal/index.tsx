@@ -1,7 +1,7 @@
 import { Dialog } from "@headlessui/react";
 import { createContext, useContext, useState } from "react";
 import { matchRoutes, renderMatches, useLocation, useMatch, useNavigate } from "react-router-dom";
-import routes from "../../ModalRoutes";
+import routes from "../../routes/modal-routes";
 
 type callback = (data: any) => void
 type Options = {
