@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 import QuestoesChart from "../../components/charts/questoes-chart";
 import TempoChart from "../../components/charts/tempo-chart";
 import Api from "../../libs/Api";
+import { useModal } from "../../providers/modal";
 
 type DashItem = {
   day: string;
@@ -19,6 +20,8 @@ type DashItem = {
 export default function DashboardPage() {
 
   const [hoje, setHoje] = useState<DashItem>()
+
+  const { openModal } = useModal()
 
   const { data: dashboardData } = useQuery<DashItem[]>(
     ["dashboard"],
@@ -42,6 +45,9 @@ export default function DashboardPage() {
   return (
     <div className="p-5 w-full max-w-screen-laptop mx-auto desktop::px-0">
       <div className="flex gap-5">
+        <div>
+          <button onClick={() => openModal('/form-disciplina', console.log)}>Abrir modal</button>
+        </div>
         <div className="p-5 flex-1 bg-white rounded shadow">
           <span className="text-sm text-gray-400">Tempo</span>
           <div className="mt-3">

@@ -18,12 +18,12 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ModalProvider>
-        <BrowserRouter>
-          <AppRoutes />
+      <BrowserRouter>
+        <ModalProvider>
+        <AppRoutes />
           <ToastContainer />
-        </BrowserRouter>
-      </ModalProvider>
+        </ModalProvider>
+      </BrowserRouter>
     </QueryClientProvider>
   );
 }

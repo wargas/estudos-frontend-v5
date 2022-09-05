@@ -94,8 +94,10 @@ export default function DisciplinaPage() {
                 <td className="">
                   <div className="flex px-4 py-3 text-gray-600 text-base gap-4">
 
-                    <button onClick={() => openModal(`/form-aula//${queryDisciplina?.data?.id || ''}/${aula.id}?type=sidebar`, () => {
-                      queryAulas.refetch()
+                    <button onClick={() => openModal(`/form-aula/${queryDisciplina?.data?.id || ''}/${aula.id}`, (res) => {
+                      if(res) {
+                        queryAulas.refetch()
+                      }
                     })}>
                       <MdEdit />
                     </button>

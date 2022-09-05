@@ -55,10 +55,10 @@ export default function FormAula() {
 
 
   return (
-    <form onSubmit={handleSubmit} className='flex flex-col text-base gap-4 h-screen'>
+    <form onSubmit={handleSubmit} className='flex flex-col text-base gap-4 relative'>
       <PageLoading show={isLoading} />
       <div className='px-4 h-14 border-b flex items-center uppercase text-gray-700'>
-        <h1>Cadastrar Disciplina</h1>
+        <h1>Cadastrar Aula</h1>
       </div>
       <div className='flex flex-col px-4'>
         <label htmlFor="">Ordem:</label>

@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+    @apply w-screen overflow-hidden
+}
+
 .enunciado table {
     @apply w-full border divide-y
 }

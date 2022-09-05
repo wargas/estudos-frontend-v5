@@ -7,6 +7,6 @@ export default function FormDisciplina () {
     return <div className="p-5">
         <h1>Add disciplina</h1>
         <p>{location.pathname}</p>
-        <button onClick={closeModal}>Fechar</button>
+        <button onClick={() => closeModal({name: 'wargas'})}>Fechar</button>
     </div>
 }
