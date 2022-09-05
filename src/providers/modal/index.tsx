@@ -20,7 +20,7 @@ export function ModalProvider({ children }: any) {
 
   const [options, setOptions] = useState<Options>({size: 'w-96'})
 
-  const { hash, pathname } = useLocation()
+  const { hash, pathname, search } = useLocation()
   const navigate = useNavigate()
 
   const matches = matchRoutes(
@@ -36,14 +36,14 @@ export function ModalProvider({ children }: any) {
 
   function open(path: string, cb?: callback) {
     const _path = btoa(path)
-    navigate(`${pathname}#${_path}`)
+    navigate(`${pathname}${search}#${_path}`)
     if(cb) {
       setCallback(() => cb)
     }
   }
 
   function close(data: any) {
-    navigate(pathname)
+    navigate(`${pathname}${search}`)
     if (callback) {
       
       callback(data)
