@@ -1,5 +1,6 @@
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { FaExpand, FaExpandAlt, FaFulcrum } from "react-icons/fa";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
@@ -11,7 +12,9 @@ import { useModal } from "../../providers/modal";
 export default function FormEditQuestao() {
   const params = useParams();
   const [showPW, setShowPW] = useState(false);
-  const { closeModal } = useModal();
+  const { closeModal, setOptions } = useModal();
+
+  const [full, setFull] = useState(false)
 
   const queryClient = useQueryClient()
 
@@ -55,31 +58,40 @@ export default function FormEditQuestao() {
     }
   })
 
+  useEffect(() => {
+    setOptions({size: full ? 'w-full' : 'w-1/2'})
+  }, [full])
+
   return (
-    <div className="relative">
-      <div className="border-b p-5">
+    <div className="relative h-screen flex flex-col">
+      <div className="border-b p-4 h-14 flex justify-between">
         <h1 className="text-lg font-bold text-gray-800">Editar Questão</h1>
+        <div>
+          <button onClick={() => setFull(!full)}>
+            <FaExpandAlt />
+          </button>
+        </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-5 p-5">
-        <div className="flex flex-col">
+      <form onSubmit={handleSubmit} className="flex flex-1  flex-col gap-5 p-5">
+        <div className="flex flex-col flex-1">
           <label className="text-gray-700 text-base">Enunciado</label>
           <textarea
             onChange={handleChange}
             onBlur={handleBlur}
             name="enunciado"
             value={values.enunciado}
-            className="border rounded h-36 p-3 font-mono"
+            className="border rounded h-36 p-3 font-mono flex-1"
           ></textarea>
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col flex-1">
           <label className="text-gray-700 text-base">Alternativas</label>
           <textarea
             onChange={handleChange}
             onBlur={handleBlur}
             name="alternativas"
             value={values.alternativas}
-            className="border rounded h-36 p-3 font-mono"
+            className="border rounded h-36 p-3 font-mono flex-1"
           ></textarea>
         </div>
         <div className="flex">
