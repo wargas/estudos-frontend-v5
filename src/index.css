@@ -24,7 +24,15 @@ th {
 }
 
 ul {
-    @apply list-disc
+    @apply list-disc pl-5
+}
+
+summary {
+    @apply ml-5;
+}
+
+summary::marker {
+    content: "> "
 }
 
 ol {
@@ -41,4 +49,8 @@ ol {
 
 .ql-editor {
     @apply focus:outline-none
+}
+
+blockquote {
+    @apply border-2 p-4 mb-4 rounded
 }

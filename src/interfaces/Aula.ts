@@ -5,6 +5,7 @@ export default interface Aula {
     "user_id": number
     "concurso_id": number
     "disciplina_id": number
+    "notion_id": string
     "meta": {
         "total_questoes": number
         "last_registro": string

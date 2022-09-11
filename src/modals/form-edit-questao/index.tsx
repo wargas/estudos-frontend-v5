@@ -5,6 +5,7 @@ import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import MarkdownEditor from "../../components/mardown-editor";
 import PageLoading from "../../components/page-loading";
 import Api from "../../libs/Api";
 import { useModal } from "../../providers/modal";
@@ -18,7 +19,7 @@ export default function FormEditQuestao() {
 
   const queryClient = useQueryClient()
 
-  const { values, setValues, handleBlur, handleSubmit, handleChange } =
+  const { values, setValues, handleBlur, handleSubmit, handleChange, setFieldValue } =
     useFormik({
       initialValues: {
         enunciado: "",
@@ -76,23 +77,25 @@ export default function FormEditQuestao() {
       <form onSubmit={handleSubmit} className="flex flex-1  flex-col gap-5 p-5">
         <div className="flex flex-col flex-1">
           <label className="text-gray-700 text-base">Enunciado</label>
-          <textarea
+          <MarkdownEditor value={values.enunciado} onChange={(v) => setFieldValue('enunciado', v)} />
+          {/* <textarea
             onChange={handleChange}
             onBlur={handleBlur}
             name="enunciado"
             value={values.enunciado}
             className="border rounded h-36 p-3 font-mono flex-1"
-          ></textarea>
+          ></textarea> */}
         </div>
         <div className="flex flex-col flex-1">
           <label className="text-gray-700 text-base">Alternativas</label>
-          <textarea
+          <MarkdownEditor value={values.alternativas} onChange={(v) => setFieldValue('alternativas', v)} />
+          {/* <textarea
             onChange={handleChange}
             onBlur={handleBlur}
             name="alternativas"
             value={values.alternativas}
             className="border rounded h-36 p-3 font-mono flex-1"
-          ></textarea>
+          ></textarea> */}
         </div>
         <div className="flex">
           <div className="flex flex-col relative">

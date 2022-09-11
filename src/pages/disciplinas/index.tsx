@@ -9,6 +9,7 @@ import PageLoading from "../../components/page-loading";
 import { Disciplina } from "../../interfaces/Disciplina";
 import { Duration } from "luxon";
 import useDebounce from "../../libs/debounce";
+import { FaEdit } from "react-icons/fa";
 
 export default function DisciplinasPage() {
   const [search, setSearch] = useState(localStorage.getItem('search') || '');
@@ -72,12 +73,17 @@ export default function DisciplinasPage() {
                   <td className="px-3 h-12 text-gray-700 text-end">{disciplina.meta.count_questoes}</td>
                   <td className="px-3 h-12 text-gray-700 text-end">{Duration.fromMillis(disciplina.meta.count_tempo * 1000).toFormat("hh'h'mm")}</td>
                   <td className="px-3 h-12 text-gray-700">
-                    <Link
-                      className="flex justify-end px-4"
-                      to={`/disciplinas/${disciplina.id}`}
-                    >
-                      <MdSearch />
-                    </Link>
+                    <div className="flex items-center justify-end">
+                      <button onClick={() => openModal(`/form-disciplina/${disciplina.id}`)}>
+                        <FaEdit />
+                      </button>
+                      <Link
+                        className=" px-4"
+                        to={`/disciplinas/${disciplina.id}`}
+                      >
+                        <MdSearch />
+                      </Link>
+                    </div>
                   </td>
                 </tr>
               ))}

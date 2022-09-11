@@ -28,12 +28,17 @@ function Importar({ questoes, onClear }: Props) {
     const index = questoes.indexOf(questao)
     setLoadingList((old) => [...old, index]);
     try {
-      const { data, status } = await Api.post(`aulas/${questao.aula_id}/questoes`, {
+
+      const url = questao?.id ? `aulas/${questao.aula_id}/questoes/${questao?.id}` : `aulas/${questao.aula_id}/questoes`
+      const method = questao?.id ? 'put' : 'post'
+      
+      const { data, status } = await Api[method](url, {
         enunciado: questao.enunciado,
         alternativas: questao.alternativas.map((alt: any) => alt.conteudo),
         gabarito: questao.gabarito,
         modalidade: questao.modalidade,
-        comentario: questao.comentario
+        comentario: questao.comentario,
+        resolucao: questao.resolucao
       });
 
       if(status === 200) {
@@ -68,6 +73,7 @@ function Importar({ questoes, onClear }: Props) {
             <th className="text-left uppercase">Enunciado</th>
             <th className="text-left uppercase">Alternativas</th>
             <th className="text-left uppercase">Gabarito</th>
+            <th className="text-left uppercase">Resolucao</th>
             <th className="text-left uppercase"></th>
           </tr>
         </thead>
@@ -86,6 +92,7 @@ function Importar({ questoes, onClear }: Props) {
               </td>
               <td className="px-3">{questao.alternativas.length}</td>
               <td className="px-3">{questao.gabarito}</td>
+              <td className="px-3">{String(questao.resolucao).substring(0, 50)}</td>
               <td>
                 <div>
                   {loadingList.includes(index) && (

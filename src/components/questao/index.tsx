@@ -211,7 +211,7 @@ export default function QuestaoItem({
           </button>
         </div>
       </div>
-      <TabsQuestao id={questao.id} />
+      <TabsQuestao questao={questao} />
     </div>
   );
 }
