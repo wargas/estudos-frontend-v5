@@ -1,15 +1,17 @@
 
-import { createElement, useRef, useState, MutableRefObject } from 'react';
+import { createElement, useRef, useState, MutableRefObject, useMemo } from 'react';
 import { useQuery } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Questao } from '../../../interfaces/Questao'
 import Api from '../../../libs/Api'
 import { Transition } from '@headlessui/react'
 import { useModal } from '../../../providers/modal';
+import { FaSearch } from 'react-icons/fa';
 
 
 export default function ResumoPage() {
     const params = useParams();
+    const [filter, setFilter] = useState('')
     const navigate = useNavigate()
 
     const refLink = useRef() as MutableRefObject<HTMLAnchorElement>
@@ -20,10 +22,20 @@ export default function ResumoPage() {
         return data
     })
 
+    const filtreds = useMemo(() => {
+
+        return dataQuestoes?.filter(q => {
+            return JSON.stringify(q).toLocaleLowerCase()
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, "")
+                .includes(filter.toLocaleLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ""))
+        }) || []
+
+    }, [filter, dataQuestoes])
+
     function handlerDownload() {
         if (refLink.current) {
 
-            const conteudos = dataQuestoes?.map((questao, index) => {
+            const conteudos = filtreds?.map((questao, index) => {
                 const alternativas = questao
                     .alternativas.map(alt => `a) ${alt.conteudo
                         .replace(/^\n/g, "")
@@ -40,11 +52,11 @@ export default function ResumoPage() {
                     .replace(/\n$/g, "")}\n${alternativas}${resolucao}`
             }).join('') || ''
 
-            const header = dataQuestoes?.map((questao) => {
+            const header = filtreds?.map((questao) => {
                 return questao.id
             }).join(',')
 
-            const gabaritos = dataQuestoes?.map((questao, index) => {
+            const gabaritos = filtreds?.map((questao, index) => {
                 return `${index + 1}. ${questao.gabarito}`
             }).join('\n')
 
@@ -60,16 +72,30 @@ export default function ResumoPage() {
 
 
     return <div className='flex flex-col divide-y divide-gray-100 pb-10'>
-        <div className='flex gap-4 justify-end mb-4'>
-            <button
-                className='border text-primary-600 border-primary-600 px-4 rounded-full bg-white'
-                onClick={handlerDownload}>Exportar</button>
-            <button
-                className='border text-primary-600 border-primary-600 px-4 rounded-full bg-white'
-                onClick={() => navigate('importar')}>Importar</button>
+        <div className='flex items-center gap-4 justify-between mb-4'>
+            <div className="flex flex-1 items-center gap-4">
+                <div className='h-9 bg-white flex items-center w-full max-w-[30rem] px-4 rounded-full border'>
+                    <input value={filter} onChange={(ev) => setFilter(ev.target.value)} placeholder='Filtrar questão...' type="text" className='flex-1 focus:outline-none' />
+                    
+                    <span className='text-sm text-gray-400 mx-4'>
+                        {filtreds.length}/{dataQuestoes?.length}
+                    </span>
+                    <span>
+                        <FaSearch className='text-gray-400' />
+                    </span>
+                </div>
+            </div>
+            <div className='flex gap-4'>
+                <button
+                    className='border text-primary-600 border-primary-600 px-4 rounded-full bg-white'
+                    onClick={handlerDownload}>Exportar</button>
+                <button
+                    className='border text-primary-600 border-primary-600 px-4 rounded-full bg-white'
+                    onClick={() => navigate('importar')}>Importar</button>
+            </div>
         </div>
         <a href="" download="aula.md" ref={refLink} className='d-none'></a>
-        {dataQuestoes?.map(questao => <QuestaoItem questao={questao} />)}
+        {filtreds.map(questao => <QuestaoItem questao={questao} />)}
     </div>
 }
 
@@ -89,7 +115,7 @@ function QuestaoItem({ questao }: { questao: Questao }) {
             <div>
                 <div dangerouslySetInnerHTML={{ __html: questao.enunciadoHtml }}></div>
             </div>
-            <div className='gap-2 flex flex-col'>
+            <div className='gap-2 mt-4 flex flex-col'>
                 {questao.alternativas.map(alternativa => (
                     <div key={alternativa.letra} className='flex gap-4'>
                         <div className='flex'>
@@ -98,6 +124,9 @@ function QuestaoItem({ questao }: { questao: Questao }) {
                         <div dangerouslySetInnerHTML={{ __html: alternativa.html }}></div>
                     </div>
                 ))}
+            </div>
+            <div className='border text-gray-700 p-4 rounded-lg mt-4 max-h-24 overflow-y-auto'>
+                <div dangerouslySetInnerHTML={{ __html: questao.resolucaoHtml }}></div>
             </div>
         </div>
     )
