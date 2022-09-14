@@ -1,11 +1,12 @@
 import PageTitle from "../../components/page-title";
 import { useQuery } from "react-query";
-import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import Api from "../../libs/Api";
 import { Relogio } from "../../components/relogio";
 
 export default function AulaPage() {
   const params = useParams();
+  const location = useLocation()
   const navigate = useNavigate();
 
   const queryAula = useQuery(["aula", params?.aula_id], async () => {
@@ -28,7 +29,7 @@ export default function AulaPage() {
       >
         <div className="flex items-center gap-5">
           <Link to={"cadernos"}>Cadernos</Link>
-          <Link to={"importar"}>Importar</Link>
+          <Link to={location.pathname.split('/cadernos')[0]}>Questões</Link>
 
           {queryAula?.data && <Relogio aula={queryAula?.data} />}
         </div>
