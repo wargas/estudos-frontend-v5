@@ -52,12 +52,12 @@ export default function QuestaoItem({
     if (data) {
       setQuestao((old: any) => ({ ...old, ...data }));
 
-      const {page, perpage} = qs.parse(location.search)
+      const { page, perpage } = qs.parse(location.search)
 
       const key = ['questoes', questao.aula_id.toString(), page, perpage]
 
-      queryClient.invalidateQueries(key)      
-     
+      queryClient.invalidateQueries(key)
+
     }
   }
 
@@ -97,7 +97,7 @@ export default function QuestaoItem({
     enabled: isCurrent
   }, [riscadas]);
 
-  
+
 
   useHotkeys("a,b,c,d,e", e => {
     handlerSelect(e.key.toUpperCase())
@@ -127,7 +127,11 @@ export default function QuestaoItem({
     <div className="bg-white rounded shadow-sm overflow-hidden">
       <div className="p-5 border-b gap-2 border-gray-100 flex items-center">
         <div>
-          <img className="w-8 h-8" src={questao?.banca?.image_url} />
+          {questao?.banca?.image_url ? (
+            <img className="w-8 h-8 grayscale" src={questao?.banca?.image_url} />
+          ) : (
+            <div className="w-8 h-8 bg-gray-100 rounded-full"></div>
+          )}
         </div>
 
         <span className="flex-1 font-bold">{questao.header}</span>
@@ -173,8 +177,8 @@ export default function QuestaoItem({
             <span
               onClick={() => handlerSelect(alternativa.letra)}
               className={`flex-1 opacity-25  ${riscadas.includes(alternativa.letra)
-                  ? "opacity-25 line-through"
-                  : "opacity-100"
+                ? "opacity-25 line-through"
+                : "opacity-100"
                 }`}
               dangerouslySetInnerHTML={{ __html: alternativa?.html }}
             />

@@ -1,4 +1,3 @@
-import { MdDownloading } from "react-icons/md";
 import { VscLoading } from "react-icons/vsc";
 
 type Props = {
