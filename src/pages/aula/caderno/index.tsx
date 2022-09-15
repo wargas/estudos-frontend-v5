@@ -176,7 +176,7 @@ export default function CadernoPage() {
       </div>
       <div className="flex flex-col gap-5 mt-5 relative min-h-[96px]">
 
-        <PageLoading show={questoesQuery.isFetching} />
+        <PageLoading show={!questoesQuery.isFetching} />
         {questoesQuery?.data?.data.map((questao: any, index: number) => (
           <QuestaoItem
             isCurrent={index === 0}
