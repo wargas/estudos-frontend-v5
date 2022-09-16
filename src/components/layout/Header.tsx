@@ -1,12 +1,14 @@
 import { FaBars } from "react-icons/fa";
+import { MdKeyboardArrowDown, MdMoreVert } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../Store";
+import { Dropdown } from "../dropdown";
 
 type Props = {
   toggle: () => void
 }
 
-export default function Header({toggle}: Props) {
+export default function Header({ toggle }: Props) {
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
 
@@ -17,15 +19,23 @@ export default function Header({toggle}: Props) {
           <FaBars />
         </button>
       </div>
-      <div>
+      <div className="flex items-center">
+
         {user && (
-          <button
-            onClick={() => navigate("/login")}
-            className="h-14 hover:bg-gray-800 text-gray-200 px-3"
-          >
-            {user.name}
-          </button>
+          <Dropdown position="right" items={[
+            { label: 'Sair', icon: '', action: () => navigate("/login") },
+            { label: 'Alterar Senha', icon: '', action: () => { } }
+          ]}>
+            <button
+              className="hover:bg-gray-800 flex gap-2 items-center text-gray-200 px-3"
+            >
+              {user.name} <MdKeyboardArrowDown />
+            </button>
+          </Dropdown>
+
+
         )}
+
       </div>
     </div>
   );

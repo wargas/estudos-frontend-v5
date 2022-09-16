@@ -9,15 +9,16 @@ import {
   FaChartBar,
 } from "react-icons/fa";
 import { useState } from "react";
+import { Menu } from "@headlessui/react";
 
 type Props = {
   opened: boolean,
   toggle: () => void
 }
 
-export default function Sidebar({opened, toggle}: Props) {
+export default function Sidebar({ opened, toggle }: Props) {
 
-  
+
 
   return (
     <>
@@ -50,6 +51,7 @@ export default function Sidebar({opened, toggle}: Props) {
                 to="/estatisticas"
               />
             </ul>
+            
           </div>
           <div className="h-14 border-t flex items-center justify-center">
             <span className="text-sm text-gray-400">
@@ -69,6 +71,8 @@ type MenuItemProps = {
 };
 
 export function MenuItem({ label, to, Icon }: MenuItemProps) {
+  
+
   return (
     <li className="flex">
       <NavLink
