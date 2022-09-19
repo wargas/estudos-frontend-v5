@@ -70,10 +70,10 @@ export default function Layout() {
   }, [location.pathname])
 
   return (
-    <div className=" text-gray-700 bg-gray-50 h-screen text-base desktop:text-lg">
+    <div className=" text-gray-700 bg-gray-100 h-screen text-base desktop:text-lg">
       <Header toggle={toggle} />
       <Sidebar opened={opened} toggle={toggle} />
-      <main id="main" className="pl-0 laptop:pl-[280px] desktop:pl-[350px] transition-all pt-16 h-screen overflow-y-auto">
+      <main id="main" style={{scrollbarWidth: 'none'}} className="pl-0 laptop:pl-[280px] desktop:pl-[350px] transition-all pt-14 h-screen overflow-y-auto">
         <PageLoading show={loading} />
         <Outlet />
       </main>

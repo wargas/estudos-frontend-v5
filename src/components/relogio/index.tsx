@@ -87,9 +87,9 @@ export function Relogio({ aula }: any) {
 
   return (
     <React.Fragment>
-      <div className="text-primary-600 bg-white border flex items-center h-10  shadow-sm rounded-full px-5">
+      <div className="text-white bg-primary-700  flex items-center h-10  rounded-full px-5">
         <div>
-          <FaClock className="text-primary-500" />
+          <FaClock className="" />
         </div>
         <div className="">
           <h3 className="p-0 m-0 fontb-bold w-32 text-center text-2xl">

@@ -7,10 +7,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: colors.indigo,
+        primary: colors.sky,
         header: {
-          bg: colors.gray[800],
-          text: colors.gray[100]
+          bg: colors.sky[800],
+          text: colors.sky[100]
         }
       },
       screens: {
