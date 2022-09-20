@@ -7,6 +7,7 @@ import Api from '../../../libs/Api'
 import { Transition } from '@headlessui/react'
 import { useModal } from '../../../providers/modal';
 import { FaSearch } from 'react-icons/fa';
+import toMarkdown from '../../../libs/toMarkdown';
 
 
 export default function ResumoPage() {
@@ -35,32 +36,7 @@ export default function ResumoPage() {
     function handlerDownload() {
         if (refLink.current) {
 
-            const conteudos = filtreds?.map((questao, index) => {
-                const alternativas = questao
-                    .alternativas.map(alt => `a) ${alt.conteudo
-                        .replace(/^\n/g, "")
-                        .replace(/\n$/g, "")}`).join('\n')
-
-                let resolucao = `\n`
-                if (questao.resolucao) {
-                    resolucao = `\n---\n${questao.resolucao.replace(/^\n/g, "")
-                        .replace(/\n$/g, "")}\n---\n`.replace(/\n\n/g, '\n')
-                }
-
-
-                return `${index + 1}. ${questao.enunciado.replace(/^\n/g, "")
-                    .replace(/\n$/g, "")}\n${alternativas}${resolucao}`
-            }).join('') || ''
-
-            const header = filtreds?.map((questao) => {
-                return questao.id
-            }).join(',')
-
-            const gabaritos = filtreds?.map((questao, index) => {
-                return `${index + 1}. ${questao.gabarito}`
-            }).join('\n')
-
-            const text = `[UPDATE]${header}\n${conteudos}\nGABARITO\n${gabaritos}`
+            const text = toMarkdown(filtreds)
 
             const data = new Blob([text], { type: 'text/x-markdown' })
 
@@ -76,7 +52,7 @@ export default function ResumoPage() {
             <div className="flex flex-1 items-center gap-4">
                 <div className='h-9 bg-white flex items-center w-full max-w-[30rem] px-4 rounded-full border'>
                     <input value={filter} onChange={(ev) => setFilter(ev.target.value)} placeholder='Filtrar questão...' type="text" className='flex-1 focus:outline-none' />
-                    
+
                     <span className='text-sm text-gray-400 mx-4'>
                         {filtreds.length}/{dataQuestoes?.length}
                     </span>
