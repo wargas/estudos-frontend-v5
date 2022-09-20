@@ -176,7 +176,7 @@ export default function QuestaoItem({
             </button>
             <span
               onClick={() => handlerSelect(alternativa.letra)}
-              className={`flex-1 opacity-25  ${riscadas.includes(alternativa.letra)
+              className={`flex-1  ${riscadas.includes(alternativa.letra)
                 ? "opacity-25 line-through"
                 : "opacity-100"
                 }`}
