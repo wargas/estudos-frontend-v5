@@ -63,7 +63,11 @@ export default function DisciplinaPage() {
         }
       >
         <div className="flex gap-2">
-          <button onClick={() => openModal(`/form-aula/${queryDisciplina?.data?.id || ''}?type=side`)}>Adicionar</button>
+          <button onClick={() => openModal(`/form-aula/${queryDisciplina?.data?.id || ''}?type=side`, (res) => {
+            if(res) {
+              queryAulas.refetch()
+            }
+          })}>Adicionar</button>
         </div>
       </PageTitle>
 
@@ -95,6 +99,7 @@ export default function DisciplinaPage() {
                   <div className="flex px-4 py-3 text-gray-600 text-base gap-4">
 
                     <button onClick={() => openModal(`/form-aula/${queryDisciplina?.data?.id || ''}/${aula.id}`, (res) => {
+                      
                       if(res) {
                         queryAulas.refetch()
                       }
