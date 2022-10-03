@@ -1,5 +1,5 @@
 import { Outlet, useLocation } from "react-router-dom";
-import { useModal } from "../../providers/modal";
+import { useModal } from "@app/providers/modal";
 
 export default function Drawer() {
 

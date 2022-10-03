@@ -1,7 +1,7 @@
 import { MdMoreVert, MdPlayArrow, MdPlusOne } from "react-icons/md";
 import { useMutation, useQuery } from "react-query";
 import { Link, useParams } from "react-router-dom";
-import Api from "../../../libs/Api";
+import Api from "@app/libs/Api";
 import { format } from "date-fns";
 import { VscLoading } from "react-icons/vsc";
 

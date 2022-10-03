@@ -1,4 +1,4 @@
-import { Questao } from "../interfaces/Questao";
+import { Questao } from "@app/interfaces/Questao";
 
 export default function toMarkdown(questoes: Questao[]): string {
     const conteudos = questoes?.map((questao, index) => {

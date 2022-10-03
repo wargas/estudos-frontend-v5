@@ -1,20 +1,18 @@
 import { parse } from "query-string";
 import { useEffect } from "react";
-import { useHotkeys } from "react-hotkeys-hook";
 import { FaArrowUp, FaListAlt } from "react-icons/fa";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import { VscLoading } from "react-icons/vsc";
 import { useQuery } from "react-query";
 import {
-  Link,
   useLocation,
   useParams,
   useSearchParams,
 } from "react-router-dom";
-import PageLoading from "../../../components/page-loading";
-import QuestaoItem from "../../../components/questao";
-import Api from "../../../libs/Api";
-import { useModal } from "../../../providers/modal";
+import PageLoading from "@app/components/page-loading";
+import QuestaoItem from "@app/components/questao";
+import Api from "@app/libs/Api";
+import { useModal } from "@app/providers/modal";
 
 export default function CadernoPage() {
   const params = useParams();

@@ -1,8 +1,8 @@
 import { FaBars } from "react-icons/fa";
 import { MdKeyboardArrowDown, MdMoreVert } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { useAuthStore } from "../../Store";
-import { Dropdown } from "../dropdown";
+import { useAuthStore } from "@app/Store";
+import { Dropdown } from "@app/components/dropdown";
 
 type Props = {
   toggle: () => void

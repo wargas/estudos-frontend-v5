@@ -1,12 +1,10 @@
 import { useFormik } from 'formik'
-import React from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
-import Button from '../../components/button'
-import Loading from '../../components/loading'
-import PageLoading from '../../components/page-loading'
-import Api from '../../libs/Api'
-import { useModal } from '../../providers/modal'
+import Button from '@app/components/button'
+import PageLoading from '@app/components/page-loading'
+import Api from '@app/libs/Api'
+import { useModal } from '@app/providers/modal'
 
 export default function FormAula() {
   const { closeModal } = useModal()

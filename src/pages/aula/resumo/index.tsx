@@ -2,12 +2,12 @@
 import { createElement, useRef, useState, MutableRefObject, useMemo } from 'react';
 import { useQuery } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Questao } from '../../../interfaces/Questao'
-import Api from '../../../libs/Api'
+import { Questao } from '@app/interfaces/Questao'
+import Api from '@app/libs/Api'
 import { Transition } from '@headlessui/react'
-import { useModal } from '../../../providers/modal';
+import { useModal } from '@app/providers/modal';
 import { FaSearch } from 'react-icons/fa';
-import toMarkdown from '../../../libs/toMarkdown';
+import toMarkdown from '@app/libs/toMarkdown';
 
 
 export default function ResumoPage() {

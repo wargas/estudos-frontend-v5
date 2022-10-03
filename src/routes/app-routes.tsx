@@ -1,14 +1,14 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import Layout from "../components/layout";
-import AulaPage from "../pages/aula";
-import CadernoPage from "../pages/aula/caderno";
-import CadernosPage from "../pages/aula/cadernos";
-import ImportarPage from "../pages/aula/importar";
-import ResumoPage from "../pages/aula/resumo";
-import DashboardPage from "../pages/dashboard";
-import Disciplina from "../pages/disciplina";
-import DisciplinasPage from "../pages/disciplinas";
-import LoginPage from "../pages/login";
+import Layout from "@app/components/layout";
+import AulaPage from "@app/pages/aula";
+import CadernoPage from "@app/pages/aula/caderno";
+import CadernosPage from "@app/pages/aula/cadernos";
+import ImportarPage from "@app/pages/aula/importar";
+import ResumoPage from "@app/pages/aula/resumo";
+import DashboardPage from "@app/pages/dashboard";
+import Disciplina from "@app/pages/disciplina";
+import DisciplinasPage from "@app/pages/disciplinas";
+import LoginPage from "@app/pages/login";
 
 export default function AppRoutes () {
     return (

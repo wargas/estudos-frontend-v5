@@ -5,8 +5,8 @@ import { ChangeEvent, useRef } from "react";
 import { useMutation } from "react-query";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import Api from "../../../libs/Api";
-import { useModal } from "../../../providers/modal";
+import Api from "@app/libs/Api";
+import { useModal } from "@app/providers/modal";
 
 type Props = {
   onChange: (data: any) => void;

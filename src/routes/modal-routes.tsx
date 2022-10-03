@@ -1,9 +1,9 @@
 import { RouteObject } from "react-router-dom";
-import FormDisciplina from "../modals/form-disciplina";
-import FormEditQuestao from "../modals/form-edit-questao";
-import ListQUestoes from "../components/list-questoes";
-import QconcursosModal from "../pages/aula/importar/QconcursosModal";
-import FormAula from "../modals/form-aula";
+import FormDisciplina from "@app/modals/form-disciplina";
+import FormEditQuestao from "@app/modals/form-edit-questao";
+import ListQUestoes from "@app/components/list-questoes";
+import QconcursosModal from "@app/pages/aula/importar/QconcursosModal";
+import FormAula from "@app/modals/form-aula";
 import { eachDayOfInterval } from "date-fns";
 
 

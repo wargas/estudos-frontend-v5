@@ -38,7 +38,7 @@ export default function PageTitle({
           </button>
         )}
         <div className="flex flex-col">
-          <h1 className="text-2xl font-bold text-gray-500">
+          <h1 title={title} className="text-2xl font-bold text-gray-500 line-clamp-2">
             {isLoading ? (
               <div className="h-8 w-96 mb-2 rounded-full animate-pulse bg-gray-100"></div>
             ) : (

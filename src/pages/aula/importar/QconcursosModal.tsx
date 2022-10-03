@@ -1,7 +1,7 @@
 import { SpinnerGap } from "phosphor-react"
 import { useState } from "react"
 import { useMutation, useQuery } from "react-query"
-import Api from "../../../libs/Api"
+import Api from "@app/libs/Api"
 
 export default function QconcursosModal() {
 

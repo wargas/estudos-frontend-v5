@@ -1,16 +1,15 @@
-import PageTitle from "../../components/page-title";
+import PageTitle from "@app/components/page-title";
 import { MdMoreVert, MdSearch } from "react-icons/md";
 import { useQuery } from "react-query";
-import Api from "../../libs/Api";
+import Api from "@app/libs/Api";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useModal } from "../../providers/modal";
-import PageLoading from "../../components/page-loading";
-import { Disciplina } from "../../interfaces/Disciplina";
+import { useModal } from "@app/providers/modal";
+import PageLoading from "@app/components/page-loading";
+import { Disciplina } from "@app/interfaces/Disciplina";
 import { Duration } from "luxon";
-import useDebounce from "../../libs/debounce";
-import { FaEdit } from "react-icons/fa";
-import { Dropdown } from "../../components/dropdown";
+import useDebounce from "@app/libs/debounce";
+import { Dropdown } from "@app/components/dropdown";
 
 export default function DisciplinasPage() {
   const [search, setSearch] = useState(localStorage.getItem('search') || '');

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AUTH_TOKEN_KEY } from "../constants";
+import { AUTH_TOKEN_KEY } from "@app/constants";
 
 const Api = axios.create({
     // baseURL: 'https://app-estudos.herokuapp.com/api'

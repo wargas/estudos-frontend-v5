@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
-import MarkdownEditor from "../../components/mardown-editor";
-import PageLoading from "../../components/page-loading";
-import { Questao } from "../../interfaces/Questao";
-import Api from "../../libs/Api";
-import { useModal } from "../../providers/modal";
+import MarkdownEditor from "@app/components/mardown-editor";
+import PageLoading from "@app/components/page-loading";
+import { Questao } from "@app/interfaces/Questao";
+import Api from "@app/libs/Api";
+import { useModal } from "@app/providers/modal";
 
 const tabs = [
   {

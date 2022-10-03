@@ -1,12 +1,11 @@
 import { useFormik } from "formik";
 import { useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import { AUTH_TOKEN_KEY } from "../../constants";
+import { useNavigate } from "react-router-dom";
+import { AUTH_TOKEN_KEY } from "@app/constants";
 import querystring from "query-string";
-import Api from "../../libs/Api";
+import Api from "@app/libs/Api";
 import { useMutation } from "react-query";
-import { CircleNotch, SpinnerGap } from "phosphor-react";
-import { VscLoading } from "react-icons/vsc";
+import { SpinnerGap } from "phosphor-react";
 
 export default function LoginPage() {
   const navigate = useNavigate();

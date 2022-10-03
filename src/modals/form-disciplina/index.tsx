@@ -1,9 +1,9 @@
-import { eachMonthOfInterval, format } from "date-fns"
-import { useLocation, useParams } from "react-router-dom"
-import { useModal } from "../../providers/modal"
+import { useParams } from "react-router-dom"
+import { useModal } from "@app/providers/modal"
 
 export default function FormDisciplina(...args: any[]) {
     const { closeModal } = useModal()
+    
     const params = useParams()
     return <div className="p-5">
 

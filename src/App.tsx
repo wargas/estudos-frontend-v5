@@ -1,11 +1,11 @@
-import AppRoutes from "./routes/app-routes";
+import AppRoutes from "@app/routes/app-routes";
 import { BrowserRouter, Route, Router } from "react-router-dom";
 import { QueryClientProvider, QueryClient } from "react-query";
 
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
-import { ModalProvider } from "./providers/modal";
+import { ModalProvider } from "@app/providers/modal";
 
 const queryClient = new QueryClient({
   defaultOptions: {

@@ -2,8 +2,8 @@ import { CheckCircle, Spinner, SpinnerGap, WarningCircle } from "phosphor-react"
 import React, { MutableRefObject, useMemo, useRef, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { useMutation } from "react-query";
-import Api from "../../../libs/Api";
-import toMarkdown from "../../../libs/toMarkdown";
+import Api from "@app/libs/Api";
+import toMarkdown from "@app/libs/toMarkdown";
 
 type Props = {
   questoes: any[];

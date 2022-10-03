@@ -7,12 +7,12 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
-import { AUTH_TOKEN_KEY } from "../../constants";
-import Api from "../../libs/Api";
-import { useAuthStore } from "../../Store";
-import PageLoading from "../page-loading";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
+import { AUTH_TOKEN_KEY } from "@app/constants";
+import Api from "@app/libs/Api";
+import { useAuthStore } from "@app/Store";
+import PageLoading from "@app/components/page-loading";
+import Header from "@app/components/layout/Header";
+import Sidebar from "@app/components/layout/Sidebar";
 
 
 export default function Layout() {

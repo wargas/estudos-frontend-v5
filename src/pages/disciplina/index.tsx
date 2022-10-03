@@ -1,15 +1,14 @@
 import { useQuery } from "react-query";
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { MdEdit, MdMoreVert, MdSearch } from "react-icons/md";
-import PageTitle from "../../components/page-title";
-import Api from "../../libs/Api";
-import PageLoading from "../../components/page-loading";
+import { MdEdit, MdSearch } from "react-icons/md";
+import PageTitle from "@app/components/page-title";
+import Api from "@app/libs/Api";
+import PageLoading from "@app/components/page-loading";
 import qs from 'query-string'
 import { DateTime, Duration } from "luxon";
-import { SortAscending, SortDescending } from "phosphor-react";
-import { Disciplina } from "../../interfaces/Disciplina";
-import Aula from "../../interfaces/Aula";
-import { useModal } from "../../providers/modal";
+import { Disciplina } from "@app/interfaces/Disciplina";
+import Aula from "@app/interfaces/Aula";
+import { useModal } from "@app/providers/modal";
 
 export default function DisciplinaPage() {
   const params = useParams();

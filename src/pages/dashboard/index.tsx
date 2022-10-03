@@ -1,10 +1,10 @@
 import { DateTime, Duration } from "luxon";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import QuestoesChart from "../../components/charts/questoes-chart";
-import TempoChart from "../../components/charts/tempo-chart";
-import Api from "../../libs/Api";
-import { useModal } from "../../providers/modal";
+import QuestoesChart from "@app/components/charts/questoes-chart";
+import TempoChart from "@app/components/charts/tempo-chart";
+import Api from "@app/libs/Api";
+import { useModal } from "@app/providers/modal";
 
 type DashItem = {
   day: string;

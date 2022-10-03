@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Importar from "./Importar";
-import Prepare from "./Prepare";
+import Importar from "@app/pages/aula/importar/Importar";
+import Prepare from "@app/pages/aula/importar/Prepare";
 
 export default function ImportarPage() {
   const [questoes, setQuestoes] = useState<any[]>([]);
