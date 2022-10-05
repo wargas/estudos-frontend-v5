@@ -9,12 +9,14 @@ import DashboardPage from "@app/pages/dashboard";
 import Disciplina from "@app/pages/disciplina";
 import DisciplinasPage from "@app/pages/disciplinas";
 import LoginPage from "@app/pages/login";
+import Testes from "@app/pages/testes";
 
 export default function AppRoutes () {
     return (
         <Routes>
             <Route path="/" element={<Layout />}>
               <Route path='/dashboard' element={<DashboardPage />} />
+              <Route path='/testes' element={<Testes />} />
               <Route path='disciplinas' element={<DisciplinasPage />} />
               <Route path='disciplinas/:id' element={<Disciplina />} />
               <Route path='disciplinas/:disciplina_id/aula/:aula_id' element={<AulaPage />}>

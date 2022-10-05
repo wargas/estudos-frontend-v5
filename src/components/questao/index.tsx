@@ -41,8 +41,8 @@ export default function QuestaoItem({
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("caderno");
-        queryClient.invalidateQueries("respondidas");
+        queryClient.refetchQueries(["caderno"])
+        queryClient.refetchQueries(["respondidas"])
       },
     }
   );
@@ -51,13 +51,6 @@ export default function QuestaoItem({
 
     if (data) {
       setQuestao((old: any) => ({ ...old, ...data }));
-
-      const { page, perpage } = qs.parse(location.search)
-
-      const key = ['questoes', questao.aula_id.toString(), page, perpage]
-
-      queryClient.invalidateQueries(key)
-
     }
   }
 
@@ -85,7 +78,7 @@ export default function QuestaoItem({
     });
 
     const unobserver = observer.subscribe(({ data }) => {
-      setQuestao({ ...questao, respondidas: data });
+      setQuestao((questao: any) => ({ ...questao, respondidas: data }));
     });
 
     return unobserver;

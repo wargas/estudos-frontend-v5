@@ -19,7 +19,6 @@ export default function PageTitle({
   isLoading = false,
 }: Props) {
 
-  React.useSyncExternalStore
 
   React.useEffect(() => {
     document.title = title || DEFAULT_TITLE;
@@ -30,7 +29,7 @@ export default function PageTitle({
   }, [title])
 
   return (
-    <div className="flex bg-white border-b border-gray-100  justify-between items-center px-5 p-3">
+    <div className="flex flex-col gap-4 divide-y bg-white border-b border-gray-100  justify-between laptop:divide-y-0 laptop:flex-row laptop:items-center px-5 p-3">
       <div className="flex">
         {backAction && (
           <button onClick={backAction} className="min-w-[30px] text-center">
@@ -52,7 +51,7 @@ export default function PageTitle({
           )}
         </div>
       </div>
-      <div>
+      <div className="pt-4 laptop:pt-0">
         {isLoading ? (
           <div className="h-8 w-40 rounded-full animate-pulse bg-gray-100"></div>
         ) : children}
