@@ -3,13 +3,13 @@ import { MdCheck, MdEdit } from "react-icons/md";
 import { useMutation, useQueryClient, QueryObserver } from "react-query";
 import { VscLoading } from "react-icons/vsc";
 import { useHotkeys } from "react-hotkeys-hook";
+import Button from '@app/components/button'
 import Api from "../../libs/Api";
 import alternativaButtonClass from "../../utils/alternativaButtonClass";
 import { useModal } from "../../providers/modal";
 import TabsQuestao from "./TabsQuestao";
 import { X } from "phosphor-react";
 import Stats from "./Stats";
-import qs from 'query-string'
 
 export default function QuestaoItem({
   questao: initQuestao,
@@ -46,6 +46,16 @@ export default function QuestaoItem({
       },
     }
   );
+
+  const mutationDelete = useMutation(async () => {
+    await Api.delete(`questoes/${questao.id}`);
+  }, {
+    onSuccess: () => {
+      queryClient.refetchQueries(["caderno"])
+      queryClient.refetchQueries(["respondidas"])
+      queryClient.refetchQueries(["questoes"])
+    }
+  })
 
   function handlerCloseEdit(data: any) {
 
@@ -198,6 +208,7 @@ export default function QuestaoItem({
           </button>
         </div>
         <div className="flex gap-5 p-5">
+          <Button isLoading={mutationDelete.isLoading} onClick={() => mutationDelete.mutate()}>Excluir</Button>
           <button
             onClick={() =>
               openModal(`/form-questao/${questao.id}?type=drawer`, handlerCloseEdit)

@@ -89,7 +89,11 @@ export default function DisciplinaPage() {
             {queryAulas?.data?.map(aula => (
               <tr className="odd:bg-stone-50">
                 <td className="px-4 py-3 text-lg font-extrabold">{aula.ordem.toString().padStart(2, '0')}</td>
-                <td className="px-4 py-3">{aula.name}</td>
+                <td className="px-4 py-3">
+                  <Link className="line-clamp-2" to={`/disciplinas/${params.id}/aula/${aula.id}`}>
+                    {aula.name}
+                  </Link>
+                  </td>
                 <td className="px-4 py-3 text-gray-600 text-base">{aula.meta.total_questoes}</td>
                 <td className="px-4 py-3 text-gray-600 text-base">{Duration.fromMillis(aula.meta.total_registro * 1000).toFormat("hh'h'mm")}</td>
                 <td className="px-4 py-3 text-gray-600 text-base">{!aula.meta.last_registro ? '-' : DateTime.fromISO(aula.meta.last_registro).toFormat('dd/MM/yyyy')}</td>

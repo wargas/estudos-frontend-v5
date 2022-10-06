@@ -118,10 +118,18 @@ export default function CadernoPage() {
                 ) : (
                   <span className="text-xl text-yellow-500">Não inciado</span>
                 )}
-                <div className="flex gap-1 font-light">
-                  <span>{cadernoQuery.data.total | 0} total</span> &bull;
-                  <span>{cadernoQuery.data.acertos | 0} acertos</span> &bull;
-                  <span>{cadernoQuery.data.erros | 0} erros</span> &bull;
+                <div className="hidden tablet:flex gap-1 font-light">
+                  <span>{cadernoQuery.data.total | 0}  total</span> &bull;
+                  <span>{cadernoQuery.data.acertos | 0}  acertos</span> &bull;
+                  <span>{cadernoQuery.data.erros | 0}  erros</span> &bull;
+                  <span>
+                    {(cadernoQuery.data.nota * 100).toFixed(1)}%
+                  </span>
+                </div>
+                <div className="tablet:hidden">
+                  <span>{cadernoQuery.data.total | 0} </span> &bull;
+                  <span>{cadernoQuery.data.acertos | 0}  </span> &bull;
+                  <span>{cadernoQuery.data.erros | 0} </span> &bull;
                   <span>
                     {(cadernoQuery.data.nota * 100).toFixed(1)}%
                   </span>
@@ -136,7 +144,7 @@ export default function CadernoPage() {
             <FaListAlt />
           </button>
           <div className="mr-3">
-            Por página:
+            <span className="hidden tablet:inline">Por página: </span>
             <select
               onChange={(e) =>
                 setSearch({ page: "1", perpage: e.target.value })

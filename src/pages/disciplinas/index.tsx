@@ -68,7 +68,9 @@ export default function DisciplinasPage() {
             {query?.data &&
               query.data.map((disciplina) => (
                 <tr className="group" key={disciplina.id}>
-                  <td className="px-3 bg-white  group-last:rounded-bl h-12">{disciplina.name}</td>
+                  <td className="px-3 bg-white  group-last:rounded-bl h-12">
+                    <Link to={`/disciplinas/${disciplina.id}`} className="text-left">{disciplina.name}</Link>
+                  </td>
                   <td className="px-3 bg-white  h-12 text-gray-700 text-end">{disciplina.meta.count_aulas}</td>
                   <td className="px-3 bg-white  h-12 text-gray-700 text-end">{disciplina.meta.count_questoes}</td>
                   <td className="px-3 bg-white  h-12 text-gray-700 text-end">{Duration.fromMillis(disciplina.meta.count_tempo * 1000).toFormat("hh'h'mm")}</td>
