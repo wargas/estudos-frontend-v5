@@ -54,3 +54,7 @@ ol {
 blockquote {
     @apply border-2 p-4 mb-4 rounded
 }
+
+.resolucao p {
+    @apply py-2
+}

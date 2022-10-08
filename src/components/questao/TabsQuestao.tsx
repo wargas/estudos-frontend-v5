@@ -63,7 +63,7 @@ export default function TabsQuestao({ questao }: Props) {
       </div>
       <div>
         {aba === 'resolucao' && (
-          <div className="p-5">
+          <div className="p-5 resolucao">
             <div dangerouslySetInnerHTML={{__html: questao?.resolucaoHtml || ''}}></div>
           </div>
         )}
