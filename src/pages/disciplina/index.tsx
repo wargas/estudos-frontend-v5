@@ -11,10 +11,14 @@ import Aula from "@app/interfaces/Aula";
 import { useModal } from "@app/providers/modal";
 import { Icon, IconButton } from "@vechaiui/react";
 import { Dropdown } from "@app/components/dropdown";
+import { useState } from "react";
 
 export default function DisciplinaPage() {
+
+  const [edit, setEdit] = useState<number>()
+
   const params = useParams();
-  const location = useLocation()
+  const location = useLocation();
   const navigate = useNavigate();
   const [_, setSearch] = useSearchParams()
 
@@ -92,6 +96,7 @@ export default function DisciplinaPage() {
               <tr className="focus:bg-gray-50">
                 <td className="px-4 py-3 text-lg font-extrabold">{aula.ordem.toString().padStart(2, '0')}</td>
                 <td className="px-4 py-3">
+                  
                   <Link className="line-clamp-1" to={`/disciplinas/${params.id}/aula/${aula.id}`}>
                     {aula.name}
                   </Link>

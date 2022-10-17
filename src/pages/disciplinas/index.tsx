@@ -1,6 +1,6 @@
 import PageTitle from "@app/components/page-title";
 import { MdMoreVert, MdSearch } from "react-icons/md";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import Api from "@app/libs/Api";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -11,9 +11,15 @@ import { Duration } from "luxon";
 import useDebounce from "@app/libs/debounce";
 import { Dropdown } from "@app/components/dropdown";
 
+type EditProps = {
+  disciplina: number
+  name: string
+}
+
 export default function DisciplinasPage() {
   const [search, setSearch] = useState(localStorage.getItem('search') || '');
-  const { openModal } = useModal()
+  const { openModal } = useModal();
+  const [edit, setEdit] = useState<EditProps>()
 
   const debounceValue = useDebounce(search)
 
@@ -22,6 +28,21 @@ export default function DisciplinasPage() {
 
     return data;
   });
+
+  const mutate = useMutation(async () => {
+    await Api.put(`disciplinas/${edit?.disciplina}`, { name: edit?.name })
+
+    setEdit({
+      disciplina: 0,
+      name: ''
+    })
+
+    query.refetch()
+  })
+
+  function handleEditName() {
+    mutate.mutate()
+  }
 
   useEffect(() => {
     localStorage.setItem('search', search)
@@ -34,6 +55,7 @@ export default function DisciplinasPage() {
           <div className="flex px-3 border rounded h-10">
             <input
               onChange={(ev) => setSearch(ev.target.value)}
+              
               value={search}
               className="bg-transparent focus:outline-none"
               type="text"
@@ -68,8 +90,20 @@ export default function DisciplinasPage() {
             {query?.data &&
               query.data.map((disciplina) => (
                 <tr className="group hover:bg-gray-50 cursor-pointer" key={disciplina.id}>
-                  <td className="px-4  group-last:rounded-bl h-12">
-                    <Link to={`/disciplinas/${disciplina.id}`} className="text-left">{disciplina.name}</Link>
+                  <td onDoubleClick={() => setEdit({disciplina: disciplina.id, name: disciplina.name})} className="px-4  group-last:rounded-bl h-12">
+                    {edit?.disciplina === disciplina.id ? (
+                      <input
+                        onKeyDown={ev => {
+                          if(ev.key === 'Enter') {
+                            handleEditName()
+                          }
+                        }}
+                        onBlur={() => setEdit({disciplina: 0, name: ''})}
+                        className="w-full h-12"
+                        type="text" onChange={(ev) => setEdit({ ...edit, name: ev.target.value })} value={edit.name} />
+                    ) : (
+                      <span>{disciplina.name}</span>
+                    )}
                   </td>
                   <td className="px-4  h-12 text-gray-700 text-end">{disciplina.meta.count_aulas}</td>
                   <td className="px-4  h-12 text-gray-700 text-end">{disciplina.meta.count_questoes}</td>
@@ -79,17 +113,22 @@ export default function DisciplinasPage() {
                       <Dropdown position="right" items={[
                         {
                           label: "Editar",
-                          action: () => openModal(`/form-disciplina/${disciplina.id}`),
+                          action: () => {
+                            setEdit({
+                              disciplina: disciplina.id,
+                              name: disciplina.name
+                            })
+                          },
                           icon: ""
                         },
                         {
                           label: "Excluir",
-                          action: () => {},
+                          action: () => { },
                           icon: ""
                         },
                         {
                           label: "Detalhes",
-                          action: () => {},
+                          action: () => { },
                           icon: ""
                         }
                       ]}>
