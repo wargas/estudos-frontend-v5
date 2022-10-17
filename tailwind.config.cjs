@@ -1,9 +1,21 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
-const colors = require("tailwindcss/colors")
+const colors = require("tailwindcss/colors");
+const plugin = require("tailwindcss/plugin");
 /** @type {import('tailwindcss').Config} */
 
+const appPlugin = plugin.withOptions((options) => {
+  return ({addComponents}) => {
+    addComponents([{
+      class: '.wargas',
+      styles: {
+        color: 'red'
+      }
+    }])
+  }
+})
+
 module.exports = {
-  content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
+  content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}",  "./node_modules/@vechaiui/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       colors: {
@@ -42,5 +54,8 @@ module.exports = {
   plugins: [
     require('@headlessui/tailwindcss')({ prefix: 'ui' }),
     require('@tailwindcss/line-clamp'),
+    require("@tailwindcss/forms")({strategy: 'class'}),    
+    require("@vechaiui/core"),
+    appPlugin({})
   ],
 };

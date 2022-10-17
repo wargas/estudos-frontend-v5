@@ -71,7 +71,7 @@ export default function CadernoPage() {
       }
     }
 
-    const event = document.addEventListener('keydown', onListener)
+    document.addEventListener('keydown', onListener)
 
     return () => {
       document.removeEventListener('keydown', onListener)

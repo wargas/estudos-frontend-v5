@@ -4,7 +4,6 @@ import { useQuery } from "react-query";
 import QuestoesChart from "@app/components/charts/questoes-chart";
 import TempoChart from "@app/components/charts/tempo-chart";
 import Api from "@app/libs/Api";
-import { useModal } from "@app/providers/modal";
 
 type DashItem = {
   day: string;
@@ -41,7 +40,21 @@ export default function DashboardPage() {
   }, [dashboardData])
 
   return (
+
     <div className="p-5 w-full max-w-screen-laptop mx-auto desktop::px-0">
+{/* 
+      <div className="mb-4">
+        <Card>
+          <Text>Tempo Estudado</Text>
+          <Metric>15</Metric>
+          <Flex>
+            <Text>25%</Text>
+            <Text>Meta: 4 horas</Text>
+          </Flex>
+          <ProgressBar percentageValue={32} />
+        </Card>
+      </div> */}
+      
       <div className="flex gap-5">
         
         <div className="p-5 flex-1 bg-white rounded shadow">

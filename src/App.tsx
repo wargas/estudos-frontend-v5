@@ -4,8 +4,11 @@ import { QueryClientProvider, QueryClient } from "react-query";
 
 import { ToastContainer } from "react-toastify";
 
-import "react-toastify/dist/ReactToastify.css";
 import { ModalProvider } from "@app/providers/modal";
+import { VechaiProvider } from "@vechaiui/react";
+
+import "react-toastify/dist/ReactToastify.css";
+import '@tremor/react/dist/esm/tremor.css';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -17,14 +20,16 @@ const queryClient = new QueryClient({
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <ModalProvider>
-        <AppRoutes />
-          <ToastContainer />
-        </ModalProvider>
-      </BrowserRouter>
-    </QueryClientProvider>
+    <VechaiProvider> 
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <ModalProvider>
+            <AppRoutes />
+            <ToastContainer />
+          </ModalProvider>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </VechaiProvider>
   );
 }
 

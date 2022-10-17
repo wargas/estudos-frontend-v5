@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { MdEdit, MdSearch } from "react-icons/md";
+import { MdDeleteForever, MdDetails, MdEdit, MdImportExport, MdMoreVert, MdSearch } from "react-icons/md";
 import PageTitle from "@app/components/page-title";
 import Api from "@app/libs/Api";
 import PageLoading from "@app/components/page-loading";
@@ -9,6 +9,8 @@ import { DateTime, Duration } from "luxon";
 import { Disciplina } from "@app/interfaces/Disciplina";
 import Aula from "@app/interfaces/Aula";
 import { useModal } from "@app/providers/modal";
+import { Icon, IconButton } from "@vechaiui/react";
+import { Dropdown } from "@app/components/dropdown";
 
 export default function DisciplinaPage() {
   const params = useParams();
@@ -16,7 +18,7 @@ export default function DisciplinaPage() {
   const navigate = useNavigate();
   const [_, setSearch] = useSearchParams()
 
-  const { openModal }  = useModal()
+  const { openModal } = useModal()
 
 
   const queryDisciplina = useQuery(["disciplina", params.id], async () => {
@@ -63,7 +65,7 @@ export default function DisciplinaPage() {
       >
         <div className="flex gap-2">
           <button onClick={() => openModal(`/form-aula/${queryDisciplina?.data?.id || ''}?type=side`, (res) => {
-            if(res) {
+            if (res) {
               queryAulas.refetch()
             }
           })}>Adicionar</button>
@@ -71,29 +73,29 @@ export default function DisciplinaPage() {
       </PageTitle>
 
 
-      <div className="bg-white py-3 shadow relative flex flex-col divide-y divide-gray-100 rounded max-w-screen-laptop desktop:mx-auto m-5">
-        <PageLoading show={queryAulas.isFetching || queryAulas.isLoading} />
+      <div className="bg-white shadow relative flex flex-col divide-y divide-gray-100 rounded-lg max-w-screen-laptop desktop:mx-auto m-5">
+        <PageLoading className="rounded-lg" show={queryAulas?.isFetching || queryAulas.isLoading} />
         <table className="divide-y">
           <thead>
             <tr className="h-14 uppercase">
-              <th className="text-left cursor-pointer" onClick={() => toggleSearch('ordem')}>#</th>
+              <th className="text-left cursor-pointer rounded-tr-lg" onClick={() => toggleSearch('ordem')}>#</th>
               <th className="text-left cursor-pointer" onClick={() => toggleSearch('name')}>Nome</th>
               <th className="text-left cursor-pointer" onClick={() => toggleSearch('total_questoes')}>Questões</th>
               <th className="text-left cursor-pointer" onClick={() => toggleSearch('total_registro')}>Tempo</th>
               <th className="text-left cursor-pointer" onClick={() => toggleSearch('last_registro')}>Visto em</th>
               <th className="text-left cursor-pointer" onClick={() => toggleSearch('last_nota')}>Nota</th>
-              <th className="text-left cursor-pointer" onClick={() => toggleSearch('nome')}></th>
+              <th className="text-left cursor-pointer rounded-tl-lg" onClick={() => toggleSearch('nome')}></th>
             </tr>
           </thead>
-          <tbody className="divide-y">
+          <tbody className="divide-y divide-gray-50">
             {queryAulas?.data?.map(aula => (
-              <tr className="odd:bg-stone-50">
+              <tr className="focus:bg-gray-50">
                 <td className="px-4 py-3 text-lg font-extrabold">{aula.ordem.toString().padStart(2, '0')}</td>
                 <td className="px-4 py-3">
-                  <Link className="line-clamp-2" to={`/disciplinas/${params.id}/aula/${aula.id}`}>
+                  <Link className="line-clamp-1" to={`/disciplinas/${params.id}/aula/${aula.id}`}>
                     {aula.name}
                   </Link>
-                  </td>
+                </td>
                 <td className="px-4 py-3 text-gray-600 text-base">{aula.meta.total_questoes}</td>
                 <td className="px-4 py-3 text-gray-600 text-base">{Duration.fromMillis(aula.meta.total_registro * 1000).toFormat("hh'h'mm")}</td>
                 <td className="px-4 py-3 text-gray-600 text-base">{!aula.meta.last_registro ? '-' : DateTime.fromISO(aula.meta.last_registro).toFormat('dd/MM/yyyy')}</td>
@@ -101,29 +103,50 @@ export default function DisciplinaPage() {
                 <td className="">
                   <div className="flex px-4 py-3 text-gray-600 text-base gap-4">
 
-                    <button onClick={() => openModal(`/form-aula/${queryDisciplina?.data?.id || ''}/${aula.id}`, (res) => {
-                      
-                      if(res) {
-                        queryAulas.refetch()
+                    
+                    <Dropdown position="right" items={[
+                      {
+                        label: "Editar",
+                        action: () => openModal(`/form-aula/${queryDisciplina?.data?.id || ''}/${aula.id}`, (res) => {
+
+                          if (res) {
+                            queryAulas.refetch()
+                          }
+                        }),
+                        icon: MdEdit
+                      },
+                      {
+                        label: "Importar questões",
+                        action: () => openModal(`/form-importar-questoes/${aula.id}`, () => {
+                          queryAulas.refetch()
+                        }),
+                        icon: MdImportExport
+                      },
+                      {
+                        label: "Ver aulas",
+                        action: () => { },
+                        disabled: false,
+                        icon: MdSearch
+                      },
+                      {
+                        label: "Excluir",
+                        action: () => { },
+                        disabled: true,
+                        icon: MdDeleteForever
                       }
-                    })}>
-                      <MdEdit />
-                    </button>
-
-                    <Link
-                      className="hover:text-gray-900 text-lg"
-                      to={`/disciplinas/${params.id}/aula/${aula.id}`}
-                    >
-                      <MdSearch />
-                    </Link>
-
+                    ]}>
+                      <MdMoreVert />
+                    </Dropdown>
                   </div>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-
+        <div className="flex items-center justify-between py-3 px-5">
+          <span></span>
+          <span>{queryAulas?.data?.length || 0} Aulas encontradas</span>
+        </div>
       </div>
 
     </div>

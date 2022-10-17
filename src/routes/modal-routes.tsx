@@ -5,6 +5,7 @@ import ListQUestoes from "@app/components/list-questoes";
 import QconcursosModal from "@app/pages/aula/importar/QconcursosModal";
 import FormAula from "@app/modals/form-aula";
 import { eachDayOfInterval } from "date-fns";
+import FormImportQuestoes from "@app/modals/form-import-questoes";
 
 
 
@@ -36,6 +37,10 @@ const routes: RouteObject[] = [
     {
       path: "/form-aula/:disciplina_id", 
       element: <FormAula />
+    },
+    {
+      path: "/form-importar-questoes/:aula_id",
+      element: <FormImportQuestoes />
     }
 ]
 

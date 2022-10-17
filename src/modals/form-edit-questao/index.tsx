@@ -84,7 +84,7 @@ export default function FormEditQuestao() {
     <div className="relative h-screen flex flex-col">
 
       <form onSubmit={handleSubmit} className="flex flex-1  flex-col gap-5 p-0">
-        <Tab.Group as='div' className={'flex-1'}>
+        <Tab.Group as='div' className={'flex-1 '}>
           <Tab.List className={'mb-4 bg-primary-800 text-white'}>
             {tabs.map(t => (
               <Tab as='button' key={t.key}
@@ -101,12 +101,13 @@ export default function FormEditQuestao() {
               <MarkdownEditor value={values.alternativas} onChange={(v) => setFieldValue('alternativas', v)} />
             </Tab.Panel>
             <Tab.Panel key={'resolucao'}>
+              <div className="h-screen overflow-y-auto">
+
               <MarkdownEditor value={values.resolucao || ''} onChange={(v) => setFieldValue('resolucao', v)} />
+              </div>
             </Tab.Panel>
           </Tab.Panels>
         </Tab.Group>
-
-
 
 
         <div className="flex p-5">
@@ -118,7 +119,7 @@ export default function FormEditQuestao() {
                 onBlur={handleBlur}
                 name="gabarito"
                 value={values.gabarito}
-                className="focus:outline-none"
+                className="focus:outline-none border-none"
                 type={showPW ? "text" : "password"}
               />
               <button type="button" onClick={() => setShowPW(!showPW)} className="">
