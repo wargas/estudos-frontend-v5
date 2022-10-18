@@ -128,7 +128,7 @@ export default function QuestaoItem({
 
   return (
     <div className="bg-white rounded shadow-sm overflow-hidden">
-      <div className="p-5 border-b gap-2 border-gray-100 flex items-center">
+      <div className="px-5 py-3 border-b gap-2 border-gray-100 flex items-center">
         <div>
           {questao?.banca?.image_url ? (
             <img className="w-8 h-8 grayscale" src={questao?.banca?.image_url} />
@@ -138,14 +138,13 @@ export default function QuestaoItem({
         </div>
 
         <span className="flex-1 font-bold">{questao.header}</span>
-        {<Stats respondidas={questao?.respondidas || []} />}
+
+        <span className="font-bold">
+          Questão {index.toString().padStart(2, "0")}
+        </span>
       </div>
       <div className="p-5  border-b border-gray-100">
-        <div className="flex justify-end pb-3">
-          <span className="font-bold">
-            Questão {index.toString().padStart(2, "0")}
-          </span>
-        </div>
+
         <div
           className="text-justify text-lg enunciado"
           dangerouslySetInnerHTML={{ __html: questao?.enunciadoHtml }}
