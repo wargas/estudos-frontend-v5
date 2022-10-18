@@ -40,6 +40,8 @@ export default function AulaPage() {
       <div className="desktop:mx-auto mx-5 mt-5 max-w-screen-laptop">
         <Outlet context={{ aula: queryAula.data }} />
       </div>
+
+      
     </div>
   );
 }

@@ -87,23 +87,23 @@ export function Relogio({ aula }: any) {
 
   return (
     <React.Fragment>
-      <div className="text-white bg-primary-700  flex items-center h-10  rounded-full px-5">
+      <div  className="_wrapper text-white bg-primary-700  flex items-center h-10  rounded-full px-5">
         <div>
-          <FaClock className="" />
+          <FaClock className="_icon-clock" />
         </div>
-        <div className="">
-          <h3 className="p-0 m-0 fontb-bold w-32 text-center text-2xl">
+        <div className="_tempo-wapper flex">
+          <h3 className="_tempo p-0 m-0 fontb-bold w-32 text-center text-2xl">
             {Duration.fromObject({ seconds: secounds }).toFormat("hh:mm:ss")}
           </h3>
         </div>
-        <div className="flex gap-3">
-          <button onClick={() => setPlay(!play)} className="btn">
+        <div  className="_actions flex gap-3">
+          <button onClick={() => setPlay(!play)} className="_actions-btn btn">
             {play && <FaPause />}
             {!play && <FaPlay />}
           </button>
-          <button onClick={handleSave} className="btn">
+          <button onClick={handleSave} className="_actions-btn btn">
             {!loading && <FaCheck />}
-            {loading && <BiLoaderAlt className="animate-spin " />}
+            {loading && <BiLoaderAlt className="_actions-btn-animate animate-spin " />}
           </button>
         </div>
       </div>

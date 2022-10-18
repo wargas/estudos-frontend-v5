@@ -7,9 +7,14 @@ import {
   FaUserAlt,
   FaQuestion,
   FaChartBar,
+  FaChevronCircleRight,
+  FaChevronRight,
 } from "react-icons/fa";
 import { useState } from "react";
 import { Menu } from "@headlessui/react";
+import { useQuery } from "react-query";
+import Api from "@app/libs/Api";
+import { Disciplina } from "@app/interfaces/Disciplina";
 
 type Props = {
   opened: boolean,
@@ -18,6 +23,11 @@ type Props = {
 
 export default function Sidebar({ opened, toggle }: Props) {
 
+  const { data } = useQuery(['disciplinas'], async () => {
+    const { data: _data } = await Api.get<Disciplina[]>(`disciplinas`);
+
+    return _data;
+  })
 
 
   return (
@@ -39,19 +49,30 @@ export default function Sidebar({ opened, toggle }: Props) {
               <span className="text-4xl text-sp font-extrabold tracking-widest">ESTUDOS</span>
             </Link>
           </div>
-          <div className="flex-1 pt-5">
-            <ul className="flex flex-col divide-y divide-gray-50">
+          <div className="border-b">
+            <ul className="pl-0">
               <MenuItem Icon={MdDashboard} label="Dashboard" to="/dashboard" />
               <MenuItem Icon={FaListUl} label="Disciplinas" to="/disciplinas" />
-              <MenuItem Icon={FaUserAlt} label="Perfil" to="/perfil" />
+            </ul>
+          </div>
+          <div className="flex-1 overflow-auto bg-gray-50/25">
+            <ul className="flex ml-0 pl-0 flex-col divide-y divide-gray-50">
+
+              {data?.map(disciplina => (
+                <MenuItem 
+                  key={disciplina.id} 
+                  Icon={FaChevronRight} 
+                  label={disciplina.name} to={`/disciplinas/${disciplina.id}`} />
+              ))}
+              {/* <MenuItem Icon={FaUserAlt} label="Perfil" to="/perfil" />
               <MenuItem Icon={FaQuestion} label="Simulados" to="/simulados" />
               <MenuItem
                 Icon={FaChartBar}
                 label="Estatísticas"
                 to="/estatisticas"
-              />
+              /> */}
             </ul>
-            
+
           </div>
           <div className="h-14 border-t flex items-center justify-center">
             <span className="text-sm text-gray-400">
@@ -71,13 +92,13 @@ type MenuItemProps = {
 };
 
 export function MenuItem({ label, to, Icon }: MenuItemProps) {
-  
+
 
   return (
     <li className="flex">
       <NavLink
         className={({ isActive }) =>
-          `h-14 flex items-center gap-2 border-r-4 transition-all ${isActive ? "bg-gray-50 text-gray-800" : "text-gray-500 border-transparent"
+          `h-14 flex items-center gap-2 border-l-4 transition-all ${isActive ? "bg-gray-50 text-gray-800" : "text-gray-500 border-transparent"
           } hover:bg-gray-50 px-3  w-full`
         }
         to={to}
