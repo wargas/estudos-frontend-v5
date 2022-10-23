@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { BiLoaderAlt } from "react-icons/bi";
 import { FaCheck, FaClock, FaPause, FaPlay } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { useInterval } from "usehooks-ts";
 import Api from "../../libs/Api";
 
 export function Relogio({ aula }: any) {
@@ -25,23 +26,15 @@ export function Relogio({ aula }: any) {
     }
   }, [aula.id]);
 
-  useEffect(() => {
-    let interval = setInterval(() => {}, 1000);
-    if (play) {
-      interval = setInterval(() => {
-        if (start > 0) {
-          const current = DateTime.local().toSeconds();
-          setSeconds((old) => current - start);
-        } else {
-          setSeconds((old) => old + 1);
-        }
-      }, 1000);
+  useInterval(() => {
+    if (start > 0) {
+      const current = DateTime.local().toSeconds();
+      setSeconds(() => current - start);
     } else {
-      if (interval) clearInterval(interval);
+      setSeconds((old) => old + 1);
     }
+  }, play ? 1000 : null)
 
-    return () => clearInterval(interval);
-  }, [play, secounds]);
 
   useEffect(() => {
     if (play) {
@@ -87,7 +80,7 @@ export function Relogio({ aula }: any) {
 
   return (
     <React.Fragment>
-      <div  className="_wrapper text-white bg-primary-700  flex items-center h-10  rounded-full px-5">
+      <div className="_wrapper text-white bg-primary-700  flex items-center h-10  rounded-full px-5">
         <div>
           <FaClock className="_icon-clock" />
         </div>
@@ -96,7 +89,7 @@ export function Relogio({ aula }: any) {
             {Duration.fromObject({ seconds: secounds }).toFormat("hh:mm:ss")}
           </h3>
         </div>
-        <div  className="_actions flex gap-3">
+        <div className="_actions flex gap-3">
           <button onClick={() => setPlay(!play)} className="_actions-btn btn">
             {play && <FaPause />}
             {!play && <FaPlay />}

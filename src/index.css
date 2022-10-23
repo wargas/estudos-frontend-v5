@@ -3,6 +3,8 @@
 @tailwind utilities;
 
 
+
+
 body {
     @apply w-screen overflow-hidden
 }
