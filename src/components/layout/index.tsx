@@ -44,8 +44,6 @@ export default function Layout() {
     }
   }, []);
 
-
-
   async function verifyLogin() {
     setLoading(true);
 

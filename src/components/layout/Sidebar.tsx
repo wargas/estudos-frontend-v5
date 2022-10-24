@@ -57,20 +57,13 @@ export default function Sidebar({ opened, toggle }: Props) {
           </div>
           <div className="flex-1 overflow-auto bg-gray-50/25">
             <ul className="flex ml-0 pl-0 flex-col divide-y divide-gray-50">
-
               {data?.map(disciplina => (
                 <MenuItem 
+                  compact
                   key={disciplina.id} 
                   Icon={FaChevronRight} 
                   label={disciplina.name} to={`/disciplinas/${disciplina.id}`} />
               ))}
-              {/* <MenuItem Icon={FaUserAlt} label="Perfil" to="/perfil" />
-              <MenuItem Icon={FaQuestion} label="Simulados" to="/simulados" />
-              <MenuItem
-                Icon={FaChartBar}
-                label="Estatísticas"
-                to="/estatisticas"
-              /> */}
             </ul>
 
           </div>
@@ -88,17 +81,18 @@ export default function Sidebar({ opened, toggle }: Props) {
 type MenuItemProps = {
   label: string;
   to: string;
+  compact?: boolean;
   Icon: IconType;
 };
 
-export function MenuItem({ label, to, Icon }: MenuItemProps) {
+export function MenuItem({ label, to, Icon, compact = false }: MenuItemProps) {
 
 
   return (
     <li className="flex">
       <NavLink
         className={({ isActive }) =>
-          `h-14 flex items-center gap-2 border-l-4 transition-all ${isActive ? "bg-gray-50 text-gray-800" : "text-gray-500 border-transparent"
+          `${compact ? 'h-10 text-base' : 'h-14'} flex items-center gap-2 border-l-4 transition-all ${isActive ? "bg-gray-50 text-gray-800" : "text-gray-500 border-transparent"
           } hover:bg-gray-50 px-3  w-full`
         }
         to={to}
