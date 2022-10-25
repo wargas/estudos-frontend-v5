@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import {
-  Link,
   Outlet,
-  Route,
-  Routes,
   useLocation,
   useNavigate,
 } from "react-router-dom";
