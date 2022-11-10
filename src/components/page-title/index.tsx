@@ -29,7 +29,7 @@ export default function PageTitle({
   }, [title])
 
   return (
-    <div className="flex flex-col gap-4 divide-y bg-white border-b border-gray-100  justify-between tablet:divide-y-0 tablet:flex-row tablet:items-center px-5 p-3">
+    <div className="flex flex-col gap-4 divide-y bg-white border-b border-gray-100  justify-between phone:divide-y-0 phone:flex-row phone:items-center px-5 p-3">
       <div className="flex">
         {backAction && (
           <button onClick={backAction} className="min-w-[30px] text-center">
@@ -51,7 +51,7 @@ export default function PageTitle({
           )}
         </div>
       </div>
-      <div className="pt-4 tablet:pt-0">
+      <div className="pt-4 phone:pt-0">
         {isLoading ? (
           <div className="h-8 w-40 rounded-full animate-pulse bg-gray-100"></div>
         ) : children}

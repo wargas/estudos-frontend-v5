@@ -23,9 +23,9 @@ export function MenuItem({ label, to, Icon, compact = false, right }: MenuItemPr
                 to={to}
             >
                 <Icon />
-                <span>{label}</span>
+                <span className="line-clamp-1 mr-auto">{label}</span>
                 {!!right && (
-                    <span className="ml-auto text-sm px-1 py-1 text-primary-400  rounded-full">{right}</span>
+                    <span className="text-sm px-1 py-1 text-primary-400  rounded-full">{right}</span>
                 )}
             </NavLink>
         </li>

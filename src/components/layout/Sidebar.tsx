@@ -34,12 +34,12 @@ export default function Sidebar({ opened, toggle }: Props) {
         laptop:left-0 desktop:w-[350px] 
         bg-white shadow-lg`}>
         <div className="h-screen flex flex-col border-gray-100">
-          <div className="h-14 bg-header-bg">
+          <div className="h-16 bg-header-bg/95">
             <Link
               to="/dashboard"
-              className="flex items-center h-14 justify-center text-white"
+              className="flex items-center h-16 justify-center text-white"
             >
-              <span className="text-4xl text-sp font-extrabold tracking-widest">ESTUDOS</span>
+              <span className="text-3xl text-sp font-extrabold tracking-widest">ESTUDOS</span>
             </Link>
           </div>
           <div className="border-b">

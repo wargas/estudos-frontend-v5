@@ -13,7 +13,7 @@ export default function Header({ toggle }: Props) {
   const user = useAuthStore((state) => state.user);
 
   return (
-    <div className="fixed z-50 shadow px-5 top-0 left-0 right-0 h-14 flex justify-between bg-header-bg text-header-text">
+    <div className="fixed z-50 shadow px-5 top-0 left-0 right-0 h-16 flex justify-between bg-header-bg text-header-text">
       <div className="flex items-center">
         <button onClick={() => toggle()} className="rounded-full w-8 h-8 items-center justify-center flex">
           <FaBars />
@@ -27,7 +27,7 @@ export default function Header({ toggle }: Props) {
             { label: 'Alterar Senha', icon: '', action: () => { } }
           ]}>
             <button
-              className="hover:bg-gray-800 flex gap-2 items-center text-gray-200 px-3"
+              className="hover:opacity-70 flex gap-2 items-center text-gray-200 px-3"
             >
               {user.name} <MdKeyboardArrowDown />
             </button>

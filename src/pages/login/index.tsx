@@ -6,6 +6,7 @@ import querystring from "query-string";
 import Api from "@app/libs/Api";
 import { useMutation } from "react-query";
 import { SpinnerGap } from "phosphor-react";
+import BeatLoader from 'react-spinners/BeatLoader'
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ export default function LoginPage() {
     }
   })
 
-  const { handleSubmit, values, handleBlur, handleChange } = useFormik({
+  const { handleSubmit, values, handleBlur, handleChange, getFieldProps } = useFormik({
     initialValues: {
       email: "",
       password: "",
@@ -35,23 +36,20 @@ export default function LoginPage() {
   });
 
   return (
-    <div className="h-screen text-base w-full bg-gray-200 flex items-center">
+    <div className="h-screen text-base w-full bg-gray-50 flex items-center">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-5 rounded shadow w-full laptop:w-[500px] laptop:mx-auto gap-5 flex flex-col"
+        className="w-full laptop:w-[480px] laptop:mx-auto gap-5 flex flex-col"
       >
         <div className="flex flex-col">
-          <div className="mb-3">
-            <h1 className="text-2xl font-bold text-gray-700">
+          <div className="mb-10">
+            <h1 className="text-6xl font-bold text-gray-700">
               Infome suas credencias
             </h1>
             <p className="font-light">Bem vindo ao sistema</p>
           </div>
           <input
-            name="email"
-            value={values.email}
-            onBlur={handleBlur}
-            onChange={handleChange}
+            {...getFieldProps('email')}
             className="px-3 h-10 focus:outline-none border rounded"
             type="text"
             placeholder="Email"
@@ -59,10 +57,7 @@ export default function LoginPage() {
         </div>
         <div className="flex flex-col">
           <input
-            name="password"
-            value={values.password}
-            onBlur={handleBlur}
-            onChange={handleChange}
+            {...getFieldProps('password')}
             className="px-3 h-10 focus:outline-none border rounded"
             type="password"
             placeholder="Senha"
@@ -72,9 +67,9 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={mutation.isLoading}
-            className="w-full flex justify-center items-center disabled:opacity-50 h-10 bg-indigo-500 text-white rounded uppercase font-bold"
+            className="w-full flex justify-center items-center disabled:opacity-50 h-10 bg-indigo-600 text-white rounded uppercase font-bold"
           >
-            {mutation.isLoading ? <SpinnerGap className="animate-spin" /> : 'Entrar'}
+            {mutation.isLoading ? <BeatLoader color="white" size={5} /> : 'Entrar'}
           </button>
         </div>
       </form>
