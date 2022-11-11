@@ -122,25 +122,25 @@ export default function DisciplinaPage() {
                   Nome
                 </th>
                 <th
-                  className="text-left cursor-pointer"
+                  className="text-left cursor-pointer max-w-0 desktop:max-w-lg overflow-hidden"
                   onClick={() => toggleSearch('total_questoes')}
                 >
                   Questões
                 </th>
                 <th
-                  className="text-left cursor-pointer"
+                  className="text-left cursor-pointer max-w-0 desktop:max-w-lg overflow-hidden"
                   onClick={() => toggleSearch('total_registro')}
                 >
                   Tempo
                 </th>
                 <th
-                  className="text-left cursor-pointer"
+                  className="text-left cursor-pointer max-w-0 desktop:max-w-lg overflow-hidden"
                   onClick={() => toggleSearch('last_registro')}
                 >
                   Visto em
                 </th>
                 <th
-                  className="text-left cursor-pointer"
+                  className="text-left cursor-pointer max-w-0 desktop:max-w-lg overflow-hidden"
                   onClick={() => toggleSearch('last_nota')}
                 >
                   Nota
@@ -165,15 +165,15 @@ export default function DisciplinaPage() {
                       {aula.name}
                     </Link>
                   </td>
-                  <td className="px-4 py-3 text-gray-600 text-base">
+                  <td className="px-4 py-3 text-gray-600 text-base max-w-0 desktop:max-w-lg overflow-hidden">
                     {aula.meta.total_questoes}
                   </td>
-                  <td className="px-4 py-3 text-gray-600 text-base">
+                  <td className="px-4 py-3 text-gray-600 text-base max-w-0 desktop:max-w-lg overflow-hidden">
                     {Duration.fromMillis(
                       aula.meta.total_registro * 1000,
                     ).toFormat("hh'h'mm")}
                   </td>
-                  <td className="px-4 py-3 text-gray-600 text-base">
+                  <td className="px-4 py-3 text-gray-600 text-base max-w-0 desktop:max-w-lg overflow-hidden">
                     {!aula.meta.last_registro
                       ? '-'
                       : DateTime.fromISO(aula.meta.last_registro).toFormat(
@@ -182,7 +182,7 @@ export default function DisciplinaPage() {
                   </td>
                   <td
                     title={`Acertos: ${aula.meta.last_caderno_acertos}`}
-                    className="px-4 py-3 text-gray-600 text-base"
+                    className="px-4 py-3 text-gray-600 text-base max-w-0 desktop:max-w-lg overflow-hidden"
                   >
                     {(aula.meta.last_nota * 100).toLocaleString('br', {
                       minimumFractionDigits: 1,
