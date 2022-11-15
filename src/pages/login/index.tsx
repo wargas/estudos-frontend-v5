@@ -1,40 +1,44 @@
-import { useFormik } from "formik";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { AUTH_TOKEN_KEY } from "@app/constants";
-import querystring from "query-string";
-import Api from "@app/libs/Api";
-import { useMutation } from "react-query";
-import { SpinnerGap } from "phosphor-react";
+import { useFormik } from 'formik'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { AUTH_TOKEN_KEY } from '@app/constants'
+import querystring from 'query-string'
+import Api from '@app/libs/Api'
+import { useMutation } from 'react-query'
 import BeatLoader from 'react-spinners/BeatLoader'
+import { toast } from 'react-toastify'
 
 export default function LoginPage() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   useEffect(() => {
-    localStorage.removeItem(AUTH_TOKEN_KEY);
-  }, []);
+    localStorage.removeItem(AUTH_TOKEN_KEY)
+  }, [])
 
-  const mutation = useMutation(async (values:any) => {
-    const { data } = await Api.post("auth/login", values);
+  const mutation = useMutation(async (values: any) => {
+    const { data } = await Api.post('auth/login', values)
 
-    if (data.token) {
-      localStorage.setItem(AUTH_TOKEN_KEY, data.token);
+    if ('error' in data) {
+      setFieldValue('password', '')
+      toast.error(`Ocorreu um erro: ${data.error}`)
+    }
 
-      const { dest = "/" } = querystring.parse(location.search);
-
-      navigate(`${dest}`);
+    if ('token' in data) {
+      localStorage.setItem(AUTH_TOKEN_KEY, data.token)
+      const { dest = '/' } = querystring.parse(location.search)
+      navigate(`${dest}`)
     }
   })
 
-  const { handleSubmit, values, handleBlur, handleChange, getFieldProps } = useFormik({
+  const { handleSubmit, getFieldProps, setFieldValue, getFieldMeta } = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
-    onSubmit: values => mutation.mutate(values),
-  });
+    onSubmit: (values) => mutation.mutate(values),
+  })
 
+  
   return (
     <div className="h-screen text-base w-full bg-gray-50 flex items-center">
       <form
@@ -48,14 +52,14 @@ export default function LoginPage() {
             </h1>
             <p className="font-light">Bem vindo ao sistema</p>
           </div>
-          <input
-            {...getFieldProps('email')}
-            className="px-3 h-10 focus:outline-none border rounded"
-            type="text"
-            placeholder="Email"
-          />
-        </div>
-        <div className="flex flex-col">
+          <div className="flex flex-col">
+            <input
+              {...getFieldProps('email')}
+              className="px-3 h-10 focus:outline-none border rounded"
+              type="text"
+              placeholder="Email"
+            />
+          </div>
           <input
             {...getFieldProps('password')}
             className="px-3 h-10 focus:outline-none border rounded"
@@ -69,10 +73,14 @@ export default function LoginPage() {
             disabled={mutation.isLoading}
             className="w-full flex justify-center items-center disabled:opacity-50 h-10 bg-indigo-600 text-white rounded uppercase font-bold"
           >
-            {mutation.isLoading ? <BeatLoader color="white" size={5} /> : 'Entrar'}
+            {mutation.isLoading ? (
+              <BeatLoader color="white" size={5} />
+            ) : (
+              'Entrar'
+            )}
           </button>
         </div>
       </form>
     </div>
-  );
+  )
 }

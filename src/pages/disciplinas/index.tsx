@@ -79,7 +79,11 @@ export default function DisciplinasPage() {
             <MdSync />
           </button>
           <button
-            onClick={() => openModal('/form-disciplina')}
+            onClick={() => openModal('/form-disciplina', (res) => {
+              if(res) {
+                query.refetch()
+              }
+            })}
             className="rounded h-10"
           >
             <FaPlus />

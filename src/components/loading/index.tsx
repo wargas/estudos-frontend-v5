@@ -4,5 +4,5 @@ import BeatLoader from 'react-spinners/BeatLoader'
 type Props = {} & IconProps
 
 export default function Loading(props:Props) {
-    return <BeatLoader />
+    return <BeatLoader color="white" />
 }
