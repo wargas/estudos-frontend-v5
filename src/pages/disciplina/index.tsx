@@ -160,7 +160,7 @@ export default function DisciplinaPage() {
                   <td className="px-4 py-3">
                     <Link
                       className="line-clamp-1"
-                      to={`/disciplinas/${params.id}/aula/${aula.id}`}
+                      to={`/disciplinas/${params.id}/aula/${aula.id}/cadernos`}
                     >
                       {aula.name}
                     </Link>

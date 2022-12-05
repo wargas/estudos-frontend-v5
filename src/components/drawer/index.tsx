@@ -3,7 +3,7 @@ import { useModal } from "@app/providers/modal";
 
 export default function Drawer() {
 
-    const { pathname, search } = useLocation();
+    const { pathname } = useLocation();
     const { closeModal } = useModal();
 
     return (

@@ -1,10 +1,10 @@
-import { ButtonHTMLAttributes } from "react"
+import { ButtonHTMLAttributes, ComponentProps } from "react"
 import Loading from "@app/components/loading"
 
 type Props = {
     children?: any
     isLoading?: boolean
-}
+} & ComponentProps<"button">
 
 export default function Button({ children, isLoading, disabled, className, ...rest }: Props & ButtonHTMLAttributes<HTMLButtonElement>) {
     return <button

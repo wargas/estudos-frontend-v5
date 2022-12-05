@@ -10,7 +10,7 @@ import { useAuthStore } from "@app/Store";
 import PageLoading from "@app/components/page-loading";
 import Header from "@app/components/layout/Header";
 import Sidebar from "@app/components/layout/Sidebar";
-
+import {motion} from 'framer-motion'
 
 export default function Layout() {
   const setUser = useAuthStore(({ setUser }) => setUser);
@@ -66,12 +66,15 @@ export default function Layout() {
 
   return (
     <div className=" text-gray-700 bg-gray-100 h-screen text-base desktop:text-lg">
+     
       <Header toggle={toggle} />
       <Sidebar opened={opened} toggle={toggle} />
+      
       <main id="main" style={{scrollbarWidth: 'none'}} className="pl-0 laptop:pl-[280px] desktop:pl-[350px] transition-all pt-16 h-screen overflow-y-auto">
         <PageLoading show={loading} />
         <Outlet />
       </main>
+      <motion.div drag="x" className="absolute z-50 cursor-move left-0 top-0 bottom-0 w-4 bg-transparent hover:bg-black/30"></motion.div>
     </div>
   );
 }
